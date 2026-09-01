@@ -1,16 +1,24 @@
-import React, { useState, lazy, Suspense } from 'react'
+import React, { useState, Suspense } from 'react'
 import { Target, Brain, BarChart3, RefreshCw, BookOpen, ChevronDown, ChevronUp, MessageSquare, Briefcase, Loader2 } from 'lucide-react'
 import ScoreSidebar from './dashboard/ScoreSidebar'
 import ScoreFitTab from './dashboard/OverviewTab'
 import GapsATSTab from './dashboard/SkillsTab'
 
-// Lazy-loaded tab components for code splitting & faster initial page load.
-// ATSBreakdown was listed here too, but SkillsTab imports it statically, so the
-// lazy wrapper did nothing except imply the bundle was smaller than it was.
-// LLMInsights was lazy-imported and never rendered at all — now deleted.
-const CourseRecommendations = lazy(() => import('./CourseRecommendations'))
-const InterviewPrep = lazy(() => import('./InterviewPrep'))
-const AICoach = lazy(() => import('./AICoach'))
+// These were lazy-loaded for code splitting. They are now static imports,
+// because a failed dynamic import inside Suspense has no error boundary to
+// catch it: React unmounts the tree and the tab renders blank with no message.
+// That is exactly what a stale cached index.html produces after a rebuild —
+// the page asks for chunk filenames whose hashes no longer exist, the import
+// rejects, and the AI Coach and Resources tabs go white while the two
+// statically imported tabs keep working.
+//
+// The saving was never real either: these three add ~34 KB to a ~94 KB gzipped
+// bundle, they are the only chunks left, and every user who opens the report
+// loads them within seconds anyway. A tab that cannot go blank is worth more
+// than a slightly smaller first paint.
+import CourseRecommendations from './CourseRecommendations'
+import InterviewPrep from './InterviewPrep'
+import AICoach from './AICoach'
 
 const TABS = [
   { id:'score_fit',  label:'Score & Fit', icon:BarChart3, ariaLabel:'Score and fit analysis tab' },

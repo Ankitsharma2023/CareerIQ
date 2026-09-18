@@ -114,6 +114,10 @@ class SkillEvidenceInfo(BaseModel):
     quantified:   bool = False
     demonstrated: bool = False
     mentions:     list[SkillMentionInfo] = []
+    # The most recent year this skill appears against in Experience, and what
+    # that age is worth. Null when the resume gives no date to reason from.
+    last_used:          int | None = None
+    recency_multiplier: float = 1.0
 
 
 class CalibrationInfo(BaseModel):

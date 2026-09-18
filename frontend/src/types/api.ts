@@ -119,6 +119,9 @@ export interface SkillEvidence {
   quantified: boolean
   demonstrated: boolean
   mentions: SkillMention[]
+  /** Most recent year this skill appears against in Experience, if dated. */
+  last_used?: number | null
+  recency_multiplier?: number
 }
 
 /** Text present in the file that a reader cannot see — white-on-white,

@@ -82,6 +82,10 @@ class SkillEvidence:
     quantified: bool = False
     #: The sentences behind the weight, so the score can be shown its working.
     mentions: list[SkillMention] = field(default_factory=list)
+    #: The most recent year this skill appears against in Experience, and what
+    #: that age is worth. None when the resume gives no date to reason from.
+    last_used: int | None = None
+    recency_multiplier: float = 1.0
 
     @property
     def is_demonstrated(self) -> bool:
@@ -125,9 +129,14 @@ def gather_evidence(
     resume_text: str,
     skills_list: Sequence[str],
     sections: dict[str, str] | None = None,
+    recency: dict | None = None,
 ) -> dict[str, SkillEvidence]:
     """Map each detected skill to the strength of its supporting evidence."""
+    from services.recency import skill_recency
+
     parsed = sections if sections is not None else parse_sections(resume_text)
+    if recency is None:
+        recency = skill_recency(resume_text, skills_list)
     evidence: dict[str, SkillEvidence] = {}
 
     for section_name, section_text in parsed.items():
@@ -144,6 +153,16 @@ def gather_evidence(
             if any(mention.quantified for mention in mentions):
                 entry.quantified = True
                 score = min(MAX_WEIGHT, score + QUANTIFIED_BONUS)
+
+            # Ageing applies to the experience mention only, and to that
+            # section's contribution rather than to the skill's final weight.
+            # Applied afterwards it could push an old job's mention below an
+            # undated project mention of the same skill, which would say the
+            # project is the stronger evidence — it is not.
+            if section_name == "experience" and skill in recency:
+                entry.last_used = recency[skill].last_used
+                entry.recency_multiplier = recency[skill].multiplier
+                score *= recency[skill].multiplier
 
             entry.weight = max(entry.weight, score)
 
@@ -241,6 +260,8 @@ def evidence_payload(
             "quantified": entry.quantified,
             "demonstrated": entry.is_demonstrated,
             "mentions": [m.to_dict() for m in entry.mentions],
+            "last_used": entry.last_used,
+            "recency_multiplier": round(entry.recency_multiplier, 3),
         }
         for entry in evidence.values()
         if wanted is None or entry.skill in wanted

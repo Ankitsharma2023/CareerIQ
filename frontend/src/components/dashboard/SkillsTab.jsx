@@ -27,7 +27,13 @@ export function GapsATSTab({ data }) {
       subtitle={
         entry
           ? entry.demonstrated
-            ? `shown in ${entry.sections.filter(x => x !== 'skills').join(', ') || 'the resume'}`
+            ? [
+                `shown in ${entry.sections.filter(x => x !== 'skills').join(', ') || 'the resume'}`,
+                // Only worth saying when it actually cost something.
+                (entry.recency_multiplier ?? 1) < 1 && entry.last_used
+                  ? `last used ${entry.last_used}`
+                  : null,
+              ].filter(Boolean).join(' · ')
             : 'listed only'
           : 'not found in the resume'
       }

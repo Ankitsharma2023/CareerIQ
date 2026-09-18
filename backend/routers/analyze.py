@@ -295,7 +295,7 @@ async def analyze_resume(
                 signal_noise          = signal,
                 feedback              = feedback,
                 total_skills_detected = len(resume_skills),
-                llm_evaluation        = llm_result,
+                llm_evaluation        = llm_result.public() if llm_result else None,
                 experience_info       = experience_info,
                 section_scores        = section_scores_result,
                 ats_simulation        = ats_sim,

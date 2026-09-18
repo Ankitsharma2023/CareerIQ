@@ -66,7 +66,7 @@ class TestRealSchema:
         assert len(schema["required"]) == len(schema["properties"])
 
     @pytest.mark.parametrize(
-        "field", ["section_scores", "keyword_analysis", "section_feedback"]
+        "field", ["keyword_analysis", "section_feedback"]
     )
     def test_nested_models_are_inlined(self, field):
         schema = to_strict_schema(LLMEvaluation)

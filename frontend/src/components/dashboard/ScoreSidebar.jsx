@@ -6,7 +6,7 @@ import AnalysisHistory from '../AnalysisHistory'
 const scoreColor = v => v >= 75 ? '#22C55E' : v >= 50 ? '#F59E0B' : '#EF4444'
 
 export default function ScoreSidebar({ data, activeTab, onTabChange, onSelectAnalysis }) {
-  const { semantic_match_score, ats_keyword_score, signal_noise, skill_gap_analysis, matching_skills, missing_skills, llm_evaluation: llm } = data
+  const { semantic_match_score, ats_keyword_score, signal_noise, skill_gap_analysis, matching_skills, missing_skills } = data
   const fit = data.fit
 
   const clarity    = signal_noise?.clarity_score ?? 0
@@ -21,20 +21,28 @@ export default function ScoreSidebar({ data, activeTab, onTabChange, onSelectAna
     ((signal_noise?.quantified_sentences > 2 ? 25 : 10) +
      (signal_noise?.weak_phrases_found?.length === 0 ? 25 : 5) +
      (signal_noise?.strong_verbs_found?.length > 3 ? 25 : 10) +
-     (llm?.grammar_issues?.length === 0 ? 25 : 10))
+     ((signal_noise?.passive_voice_count ?? 0) === 0 ? 25 : 10))
   )
   const skillsPct  = matching_skills.length + missing_skills.length > 0
     ? Math.round((matching_skills.length / (matching_skills.length + missing_skills.length)) * 100)
     : 0
   const atsPct     = Math.round(ats_keyword_score)
-  const aiPct      = llm ? Math.round(llm.overall_score) : 0
 
+  // Section scores come from services/section_parser.py. The LLM used to
+  // report its own set beside these; they disagreed, and only one of the two
+  // could be checked.
+  const sections   = data.section_scores ?? null
+  const sectionRow = (label, key, threshold) => ({
+    label,
+    status: (sections?.[key] ?? 0) >= threshold ? 'ok' : 'warn',
+    note:   sections ? `${Math.round(sections[key] ?? 0)}%` : 'N/A',
+  })
   const sectionItems = [
-    { label:'Experience',   status: llm?.section_scores?.experience >= 70 ? 'ok' : 'warn', note: llm ? `${Math.round(llm.section_scores?.experience ?? 0)}%` : 'N/A' },
-    { label:'Skills',       status: llm?.section_scores?.skills >= 70 ? 'ok' : 'warn',      note: llm ? `${Math.round(llm.section_scores?.skills ?? 0)}%` : 'N/A' },
-    { label:'Education',    status: llm?.section_scores?.education >= 60 ? 'ok' : 'warn',   note: llm ? `${Math.round(llm.section_scores?.education ?? 0)}%` : 'N/A' },
-    { label:'Projects',     status: llm?.section_scores?.projects >= 60 ? 'ok' : 'warn',    note: llm ? `${Math.round(llm.section_scores?.projects ?? 0)}%` : 'N/A' },
-    { label:'Summary',      status: llm?.section_scores?.summary >= 60 ? 'ok' : 'warn',     note: llm ? `${Math.round(llm.section_scores?.summary ?? 0)}%` : 'N/A' },
+    sectionRow('Experience', 'experience', 70),
+    sectionRow('Skills',     'skills',     70),
+    sectionRow('Education',  'education',  60),
+    sectionRow('Projects',   'projects',   60),
+    sectionRow('Summary',    'summary',    60),
   ]
 
   return (
@@ -57,18 +65,18 @@ export default function ScoreSidebar({ data, activeTab, onTabChange, onSelectAna
         { label:'Quantified Impact', status: signal_noise?.quantified_sentences > 2 ? 'ok' : 'warn', note:`${signal_noise?.quantified_sentences ?? 0} found` },
         { label:'Weak Phrases',      status: (signal_noise?.weak_phrases_found?.length ?? 0) === 0 ? 'ok' : 'issue', note: (signal_noise?.weak_phrases_found?.length ?? 0) === 0 ? 'None found' : `${signal_noise.weak_phrases_found.length} found` },
         { label:'Strong Verbs',      status: (signal_noise?.strong_verbs_found?.length ?? 0) > 3 ? 'ok' : 'warn', note:`${signal_noise?.strong_verbs_found?.length ?? 0} found` },
-        { label:'Grammar',           status: (llm?.grammar_issues?.length ?? 0) === 0 ? 'ok' : 'warn', note: (llm?.grammar_issues?.length ?? 0) === 0 ? 'No issues' : `${llm.grammar_issues.length} issues` },
+        { label:'Passive Voice',     status: (signal_noise?.passive_voice_count ?? 0) === 0 ? 'ok' : 'warn', note: (signal_noise?.passive_voice_count ?? 0) === 0 ? 'None found' : `${signal_noise.passive_voice_count} sentences` },
       ]} />
       <div className="ev-divider" />
 
-      <AccordionSection label="Sections" pct={aiPct > 0 ? Math.round((sectionItems.filter(s=>s.status==='ok').length/sectionItems.length)*100) : 0} items={sectionItems} />
+      <AccordionSection label="Sections" pct={sections ? Math.round((sectionItems.filter(s=>s.status==='ok').length/sectionItems.length)*100) : 0} items={sectionItems} />
       <div className="ev-divider" />
 
       <AccordionSection label="ATS Essentials" pct={atsPct} items={[
         { label:'Keyword Coverage', status: ats_keyword_score >= 70 ? 'ok' : ats_keyword_score >= 40 ? 'warn' : 'issue', note:`${Math.round(ats_keyword_score)}%` },
         { label:'Semantic Match',   status: semantic_match_score >= 70 ? 'ok' : 'warn', note:`${Math.round(semantic_match_score)}%` },
         { label:'Contact Info',     status:'ok', note:'Detected' },
-        { label:'ATS Compatibility',status: llm?.ats_compatibility >= 70 ? 'ok' : 'warn', note: llm ? `${Math.round(llm.ats_compatibility)}%` : 'N/A' },
+        { label:'ATS Compatibility',status: (data.ats_simulation?.overall_ats_score ?? 0) >= 70 ? 'ok' : 'warn', note: data.ats_simulation ? `${Math.round(data.ats_simulation.overall_ats_score)}%` : 'N/A' },
       ]} />
       <div className="ev-divider" />
 

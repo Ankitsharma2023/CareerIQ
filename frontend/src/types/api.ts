@@ -33,14 +33,6 @@ export interface SignalNoiseResult {
   total_sentences_analyzed: number
 }
 
-export interface SectionScores {
-  experience: number
-  skills: number
-  education: number
-  projects: number
-  summary: number
-}
-
 export interface SectionFeedback {
   experience: string
   skills: string
@@ -62,20 +54,24 @@ export interface ExperienceInfo {
   gap_years: number
 }
 
+/**
+ * The part of the model's judgement the user is shown.
+ *
+ * `overall_score` is not here on purpose: it is eval-only, excluded from the
+ * API response, and the single score a user sees comes from `fit.overall`.
+ * `ats_compatibility`, `readability_score`, `passive_voice_count`,
+ * `section_scores` and `grammar_issues` were removed for the same reason —
+ * each restated a number the deterministic pipeline already reports, and the
+ * two never agreed.
+ */
 export interface LLMEvaluation {
-  overall_score: number
   experience_level: string
   years_detected: string
-  section_scores: SectionScores
   keyword_analysis: KeywordAnalysis
-  grammar_issues: string[]
   cliches_found: string[]
-  readability_score: number
-  passive_voice_count: number
   quantified_achievements: number
   section_feedback: SectionFeedback
   top_improvements: string[]
-  ats_compatibility: number
   job_match_reasoning: string
   interview_questions: string[]
   resume_strengths: string[]
@@ -136,6 +132,7 @@ export interface AnalysisResponse {
   total_skills_detected: number
   llm_evaluation?: LLMEvaluation | null
   experience_info?: ExperienceInfo | null
+  /** Deterministic, from services/section_parser.py — the only section scores. */
   section_scores?: Record<string, number> | null
   ats_simulation?: ATSSimulation | null
   /** Optional because history entries saved before Phase 5 predate it. */

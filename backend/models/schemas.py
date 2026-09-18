@@ -24,14 +24,6 @@ class SignalNoiseResult(BaseModel):
     total_sentences_analyzed: int = 0
 
 
-class SectionScores(BaseModel):
-    experience: float
-    skills:     float
-    education:  float
-    projects:   float
-    summary:    float
-
-
 class KeywordAnalysis(BaseModel):
     present:               list[str]
     missing_critical:      list[str]
@@ -62,26 +54,47 @@ class SectionFeedback(BaseModel):
     summary:    str
 
 
-class LLMEvaluation(BaseModel):
-    overall_score:           float
+class LLMEvaluationPublic(BaseModel):
+    """The part of the model's judgement the user is shown.
+
+    Five fields were removed here because each restated a number the
+    deterministic pipeline already produces, and the two never agreed:
+    ``ats_compatibility`` against ``ATSSimulation.overall_ats_score``,
+    ``readability_score`` and ``passive_voice_count`` against
+    ``SignalNoiseResult``, ``section_scores`` against the response's own
+    ``section_scores``, and ``grammar_issues`` against the weak-phrase pass.
+    Two disagreeing numbers on one screen cannot both be right, and the LLM's
+    was the one with nothing to validate it against.
+    """
     experience_level:        str
     years_detected:          str
-    section_scores:          SectionScores
     keyword_analysis:        KeywordAnalysis
-    grammar_issues:          list[str]
     cliches_found:           list[str]
-    readability_score:       float
-    passive_voice_count:     int
     quantified_achievements: int
     section_feedback:        SectionFeedback
     top_improvements:        list[str]
-    ats_compatibility:       float
     job_match_reasoning:     str
     interview_questions:     list[str]
     resume_strengths:        list[str]
     salary_insight:          str
     competition_level:       str
     fit_verdict:             str
+
+
+class LLMEvaluation(LLMEvaluationPublic):
+    """What the provider is asked to return.
+
+    ``overall_score`` is retained for the evaluation harness only: it is what
+    ranks candidate models by Spearman against the human relevance grades
+    (see ``evals/llm_score.py``). It is deliberately absent from
+    :class:`AnalysisResponse` — the number a user sees comes from
+    ``compute_fit`` and nothing else.
+    """
+    overall_score:           float
+
+    def public(self) -> LLMEvaluationPublic:
+        """Drop the eval-only score before the result leaves the process."""
+        return LLMEvaluationPublic(**self.model_dump(exclude={"overall_score"}))
 
 
 class ATSCheckResult(BaseModel):
@@ -137,7 +150,8 @@ class AnalysisResponse(BaseModel):
     feedback:              str
     total_skills_detected: int
     # AI-powered
-    llm_evaluation:   LLMEvaluation | None = None
+    # The eval-only overall_score is excluded; see LLMEvaluation.
+    llm_evaluation:   LLMEvaluationPublic | None = None
     experience_info:  ExperienceInfo | None = None
     section_scores:   dict[str, float] | None = None
     # New: ATS simulation

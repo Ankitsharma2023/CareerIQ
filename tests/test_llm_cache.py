@@ -1,7 +1,7 @@
 """Cache behaviour for the schema-constrained resume evaluation."""
 import pytest
 from core.config import settings
-from models.schemas import KeywordAnalysis, LLMEvaluation, SectionFeedback, SectionScores
+from models.schemas import KeywordAnalysis, LLMEvaluation, SectionFeedback
 from services import llm_evaluator
 from services.llm_evaluator import CACHE_TTL, _eval_cache, _get_cache_key, llm_master_evaluate
 
@@ -11,22 +11,15 @@ def make_evaluation(score: float = 85) -> LLMEvaluation:
         overall_score=score,
         experience_level="senior",
         years_detected="5 years",
-        section_scores=SectionScores(
-            experience=85, skills=90, education=80, projects=85, summary=80
-        ),
         keyword_analysis=KeywordAnalysis(
             present=["python", "aws"], missing_critical=[], missing_recommended=[]
         ),
-        grammar_issues=[],
         cliches_found=[],
-        readability_score=90,
-        passive_voice_count=0,
         quantified_achievements=3,
         section_feedback=SectionFeedback(
             experience="Good fit", skills="Strong", projects="Solid", summary="Clear"
         ),
         top_improvements=["Add metrics"],
-        ats_compatibility=88,
         job_match_reasoning="Strong match",
         interview_questions=["Tell me about your AWS experience"],
         resume_strengths=["Python expertise"],

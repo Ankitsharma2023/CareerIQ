@@ -23,6 +23,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 
 from evals import metrics  # noqa: E402
 from evals.dataset import EvalCase, load_cases  # noqa: E402
+from evals.llm_score import eval_score  # noqa: E402
 
 
 async def run_model(model: str, cases: list[EvalCase], limit: int) -> dict:
@@ -54,7 +55,7 @@ async def run_model(model: str, cases: list[EvalCase], limit: int) -> dict:
             )
             latencies.append(time.perf_counter() - started)
             conformant += 1
-            scores.append(result.overall_score)
+            scores.append(eval_score(result))
             grades.append(candidate.relevance)
         except Exception as exc:
             failures.append(f"{case.id}/{candidate.id}: {type(exc).__name__}: {exc}"[:160])
@@ -93,7 +94,7 @@ def render(results: list[dict]) -> str:
         "  CONFORM  — share of calls returning schema-valid JSON. Anything below",
         "             100% means the model is unreliable for this workload, no",
         "             matter how good its reasoning benchmarks look.",
-        "  SPEARMAN — how well the model's overall_score tracks the human",
+        "  SPEARMAN — how well the model's own eval-only score tracks the human",
         "             relevance grades. Negative means it disagrees with you.",
         "",
     ]

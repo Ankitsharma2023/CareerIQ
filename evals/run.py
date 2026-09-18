@@ -33,6 +33,7 @@ from services.skill_extractor import extract_skills_from_text, load_skills  # no
 
 from evals import metrics  # noqa: E402
 from evals.dataset import EvalCase, load_cases, summary  # noqa: E402
+from evals.llm_score import eval_score  # noqa: E402
 from evals.parse_recall import DEFAULT_FIXTURES, score_all  # noqa: E402
 
 
@@ -192,7 +193,8 @@ async def evaluate_llm(cases: list[EvalCase]) -> dict:
                 failed += 1
                 continue
             conformant += 1
-            llm_scores.append(result.overall_score)
+            # Eval-only read; the product never sees this number. See evals/llm_score.py.
+            llm_scores.append(eval_score(result))
             true_grades.append(candidate.relevance)
 
     total = conformant + failed

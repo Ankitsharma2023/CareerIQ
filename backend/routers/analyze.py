@@ -19,6 +19,7 @@ from models.schemas import (
 )
 from services.ats_simulator import simulate_ats
 from services.evidence import (
+    evidence_payload,
     evidence_ratio,
     gather_evidence,
     unsupported_skills,
@@ -297,6 +298,11 @@ async def analyze_resume(
                 experience_info       = experience_info,
                 section_scores        = section_scores_result,
                 ats_simulation        = ats_sim,
+                # Only for the skills actually on screen, so the payload does
+                # not carry the working for skills nobody asked about.
+                skill_evidence        = evidence_payload(
+                    evidence, list({*resume_skills, *jd_skills})
+                ),
                 hidden_text           = HiddenTextInfo(**hidden_text) if hidden_text else None,
                 fit                   = FitBreakdown(**fit.to_dict()),
                 contact_info          = contact_info,

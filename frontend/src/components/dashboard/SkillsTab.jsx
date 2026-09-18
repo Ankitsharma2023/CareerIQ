@@ -1,6 +1,7 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Target, CheckCircle, AlertTriangle, TrendingUp, ShieldCheck, FileSearch } from 'lucide-react'
 import SkillBadge from '../SkillBadge'
+import EvidencePanel from '../EvidencePanel'
 import ATSBreakdown from '../ATSBreakdown'
 import KeywordDiff from '../KeywordDiff'
 import Card from '../ui/Card'
@@ -8,6 +9,33 @@ import Badge from '../ui/Badge'
 
 export function GapsATSTab({ data }) {
   const { matching_skills, skill_gap_analysis, signal_noise, ats_simulation } = data
+  const evidence = data.skill_evidence || {}
+  const [selected, setSelected] = useState(null)
+
+  // Clicking the selected skill again closes the panel, so the tab does not
+  // accumulate an open drawer the user cannot dismiss.
+  const choose = skill => setSelected(current => (current === skill ? null : skill))
+  const entry = selected ? evidence[selected.toLowerCase()] || evidence[selected] : null
+  const canExplain = Object.keys(evidence).length > 0
+
+  const panel = selected && (
+    <EvidencePanel
+      title={selected}
+      subtitle={
+        entry
+          ? entry.demonstrated
+            ? `shown in ${entry.sections.filter(x => x !== 'skills').join(', ') || 'the resume'}`
+            : 'listed only'
+          : 'not found in the resume'
+      }
+      mentions={entry?.mentions ?? []}
+      emptyMessage={
+        entry
+          ? 'This skill is claimed but never shown in context. Move it into an experience bullet that says what you built with it.'
+          : 'The job description asks for this and the resume does not mention it.'
+      }
+    />
+  )
 
   return (
     <div style={{ display:'flex', flexDirection:'column', gap:24 }} className="animate-fade-up">
@@ -32,8 +60,12 @@ export function GapsATSTab({ data }) {
               </div>
               {matching_skills.length === 0
                 ? <p style={{ color:'#9CA3AF', fontSize:'0.8rem' }}>No matching skills found.</p>
-                : <div style={{ display:'flex', flexWrap:'wrap', gap:6 }}>{matching_skills.map(s => <SkillBadge key={s} skill={s} variant="match" />)}</div>
+                : <div style={{ display:'flex', flexWrap:'wrap', gap:6 }}>{matching_skills.map(s => (
+                    <SkillBadge key={s} skill={s} variant="match"
+                      onSelect={canExplain ? choose : undefined} selected={selected === s} />
+                  ))}</div>
               }
+              {selected && matching_skills.includes(selected) && panel}
             </Card>
 
             {/* Skill Gap Classification (Critical / Important / Optional) */}
@@ -54,8 +86,13 @@ export function GapsATSTab({ data }) {
                       <span style={{ fontSize:'0.65rem', color:'#9CA3AF' }}>({skills.length})</span>
                     </div>
                     <div style={{ display:'flex', flexWrap:'wrap', gap:5 }}>
-                      {skills.map(s => <SkillBadge key={s} skill={s} variant={level === 'critical' ? 'critical' : level === 'important' ? 'important' : 'optional'} />)}
+                      {skills.map(s => (
+                        <SkillBadge key={s} skill={s}
+                          variant={level === 'critical' ? 'critical' : level === 'important' ? 'important' : 'optional'}
+                          onSelect={canExplain ? choose : undefined} selected={selected === s} />
+                      ))}
                     </div>
+                    {selected && skills.includes(selected) && panel}
                   </div>
                 )
               })}

@@ -79,6 +79,23 @@ export interface LLMEvaluation {
   fit_verdict: string
 }
 
+/** One sentence in the resume that names a skill, as the candidate wrote it. */
+export interface SkillMention {
+  section: string
+  sentence: string
+  quantified: boolean
+}
+
+/** Why a skill scored what it did. `mentions` are verbatim so a user can find
+ *  the line in their own resume and check it. */
+export interface SkillEvidence {
+  weight: number
+  sections: string[]
+  quantified: boolean
+  demonstrated: boolean
+  mentions: SkillMention[]
+}
+
 /** Text present in the file that a reader cannot see — white-on-white,
  *  sub-4pt or off-page. Removed before anything is scored. `inspected: false`
  *  means the document could not be checked, not that it is clean. */
@@ -148,6 +165,7 @@ export interface AnalysisResponse {
   section_scores?: Record<string, number> | null
   ats_simulation?: ATSSimulation | null
   hidden_text?: HiddenTextInfo | null
+  skill_evidence?: Record<string, SkillEvidence> | null
   /** Optional because history entries saved before Phase 5 predate it. */
   fit?: FitBreakdown | null
   contact_info?: Record<string, string> | null

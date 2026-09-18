@@ -95,6 +95,27 @@ class LLMEvaluation(LLMEvaluationPublic):
         return LLMEvaluationPublic(**self.model_dump(exclude={"overall_score"}))
 
 
+class SkillMentionInfo(BaseModel):
+    """One sentence in the resume that names a skill, as the candidate wrote it."""
+    section:    str
+    sentence:   str
+    quantified: bool = False
+
+
+class SkillEvidenceInfo(BaseModel):
+    """Why a skill scored what it did.
+
+    The product's central claim is that evidence beats assertion, which is only
+    checkable if the evidence is shown. `mentions` are the candidate's own
+    sentences, unparaphrased, so the working can be compared against the resume.
+    """
+    weight:       float
+    sections:     list[str] = []
+    quantified:   bool = False
+    demonstrated: bool = False
+    mentions:     list[SkillMentionInfo] = []
+
+
 class HiddenTextInfo(BaseModel):
     """Text present in the file that a reader cannot see.
 
@@ -173,6 +194,8 @@ class AnalysisResponse(BaseModel):
     ats_simulation:   ATSSimulation | None = None
     # Unified fit score — the same function the evaluation harness scores
     fit:              FitBreakdown | None = None
+    # The sentence behind each skill, for "why did I get this score?".
+    skill_evidence:   dict[str, SkillEvidenceInfo] | None = None
     # Text a reader cannot see, removed before scoring.
     hidden_text:      HiddenTextInfo | None = None
     # New: metadata

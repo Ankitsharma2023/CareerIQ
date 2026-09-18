@@ -1,10 +1,11 @@
-import React from 'react'
+import React, { useState } from 'react'
 
 import { CheckCircle, AlertTriangle, FileText, Award, Brain } from 'lucide-react'
 import ScoreRing from '../ScoreRing'
 import Card from '../ui/Card'
 import Badge from '../ui/Badge'
 import ScoreBar from '../ui/ScoreBar'
+import EvidencePanel from '../EvidencePanel'
 
 const scoreColor = v => v >= 75 ? '#22C55E' : v >= 50 ? '#F59E0B' : '#EF4444'
 
@@ -28,6 +29,52 @@ export function ScoreFitTab({ data }) {
   const topImprovements = llm?.top_improvements || []
   const matchReasoning  = llm?.job_match_reasoning || ""
 
+  // Each component of the score can show the lines that produced it. The claim
+  // the product makes is that the number is explainable; this is where it has
+  // to be true.
+  const [openComponent, setOpenComponent] = useState(null)
+  const toggle = name => setOpenComponent(current => (current === name ? null : name))
+  const evidence = data.skill_evidence || {}
+
+  const COMPONENTS = {
+    semantic: {
+      title: 'Semantic Match',
+      subtitle: 'the resume lines closest in meaning to the job description',
+      mentions: top_matches.map(m => ({
+        section: `${Math.round(m.score)}% match`,
+        sentence: m.sentence,
+        quantified: false,
+      })),
+      empty: 'No resume sentence was close enough to the job description to show.',
+    },
+    coverage: {
+      title: 'ATS Keyword Coverage',
+      subtitle: 'the strongest line behind each matched skill',
+      // One line per matched skill — the one that earned the weight. Showing
+      // every mention would bury the answer in repetition of the skills list.
+      mentions: matching_skills
+        .map(skill => {
+          const found = evidence[skill.toLowerCase()] || evidence[skill]
+          const best = found?.mentions?.[0]
+          return best ? { ...best, section: `${skill} · ${best.section}` } : null
+        })
+        .filter(Boolean)
+        .slice(0, 8),
+      empty: 'None of the job\'s skills appear in the resume.',
+    },
+    clarity: {
+      title: 'Resume Clarity',
+      subtitle: 'the phrases holding this score down',
+      mentions: (signal_noise?.weak_phrases_found ?? []).slice(0, 8).map(phrase => ({
+        section: 'weak phrase',
+        sentence: phrase,
+        quantified: false,
+      })),
+      empty: 'No weak phrases found — this score is being held down by sentence length or a shortage of quantified lines rather than by specific wording.',
+    },
+  }
+  const open = openComponent ? COMPONENTS[openComponent] : null
+
   return (
     <div style={{ display:'flex', flexDirection:'column', gap:16 }} className="animate-fade-up">
 
@@ -37,9 +84,16 @@ export function ScoreFitTab({ data }) {
           <ScoreRing score={overall} label="Overall Match" color={overallC} size={120} />
           <div style={{ flex:1, minWidth:200 }}>
             <p style={{ fontSize:'0.7rem', fontWeight:700, color:'#9CA3AF', textTransform:'uppercase', letterSpacing:'0.07em', marginBottom:14 }}>Match Score Breakdown</p>
-            <ScoreBar label="Semantic Match" value={semantic_match_score} gradient="linear-gradient(90deg,#5147E5,#8B7CF6)" />
-            <ScoreBar label="ATS Keyword Coverage" value={ats_keyword_score} gradient="linear-gradient(90deg,#8B7CF6,#A78BFA)" />
-            <ScoreBar label="Resume Clarity" value={clarity} gradient="linear-gradient(90deg,#22C55E,#16A34A)" />
+            <ScoreBar label="Semantic Match" value={semantic_match_score} gradient="linear-gradient(90deg,#5147E5,#8B7CF6)"
+              onSelect={() => toggle('semantic')} selected={openComponent === 'semantic'} />
+            <ScoreBar label="ATS Keyword Coverage" value={ats_keyword_score} gradient="linear-gradient(90deg,#8B7CF6,#A78BFA)"
+              onSelect={() => toggle('coverage')} selected={openComponent === 'coverage'} />
+            <ScoreBar label="Resume Clarity" value={clarity} gradient="linear-gradient(90deg,#22C55E,#16A34A)"
+              onSelect={() => toggle('clarity')} selected={openComponent === 'clarity'} />
+            {open && (
+              <EvidencePanel title={open.title} subtitle={open.subtitle}
+                mentions={open.mentions} emptyMessage={open.empty} />
+            )}
           </div>
           <div style={{ display:'flex', gap:16 }}>
             <ScoreRing score={semantic_match_score} label="Semantic" color="#5147E5" size={96} />

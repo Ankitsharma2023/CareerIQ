@@ -65,3 +65,7 @@ Thumbs.db
 # Generated grading packets (evals/grading_study.py prepare). Contain dataset
 # text and the answer key; regenerate rather than commit.
 study/
+
+# API response cache for scripts/fetch_taxonomy.py; the built taxonomy is
+# committed, this is just the pages it was built from.
+.taxonomy-cache/

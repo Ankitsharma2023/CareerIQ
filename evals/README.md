@@ -260,6 +260,83 @@ are ever changed on the strength of this, the public dataset has to be re-run
 and reported as a second, separate measurement, and the fitted number is not
 evidence about anything.
 
+## Skill taxonomy — and why not ESCO
+
+The upgrade plan specified ESCO, the EU's occupational taxonomy. It was
+measured before being built on, and rejected. Of this project's 178 curated
+skills:
+
+| | count | share |
+|---|---:|---:|
+| exact ESCO match | 26 | 15% |
+| absent from ESCO entirely | 77 | 43% |
+| search hits, no exact match | 75 | 42% |
+
+The 43% absent includes Docker, Kubernetes, Terraform, AWS, Django, FastAPI,
+Kafka, GCP and Elasticsearch. The 42% is the dangerous group, because a linker
+would map them to something:
+
+- `react` → *"react to emergency situations in a live performance"* (93 hits)
+- `infrastructure as code` → *"assign codes to product items"*
+- `distributed systems` → *"change power distribution systems"*
+- `team management` → *"manage geotechnical staff"*
+
+ESCO describes the whole European labour market at the level of "use software
+design patterns". It is not wrong; it is answering a different question.
+
+`scripts/fetch_taxonomy.py` builds the taxonomy from Stack Overflow instead:
+2,044 skills, 1,144 aliases, 67 adjacency lists. The tag-synonym table is the
+part that matters most — a curated alias set maintained by the people who use
+the terms.
+
+### What the swap cost and bought
+
+Measured on the 40 stress candidates carrying hand-written `expected_skills`:
+
+| | precision | recall | F1 |
+|---|---:|---:|---:|
+| curated 178-term list | 0.8634 | 0.9684 | 0.9030 |
+| taxonomy | 0.8226 | 0.9862 | 0.8858 |
+
+Ranking is unchanged — nDCG@5 and Spearman both hold at baseline.
+
+**Read the precision number carefully.** `expected_skills` was enumerated by
+hand against the 178-term vocabulary, so a larger vocabulary is penalised by
+construction for finding real skills the labeller never had occasion to list:
+`github actions`, `observability`, `infrastructure as code`, `ci/cd pipelines`,
+`machine learning`, `caching`. That is the same label-ceiling problem the
+public dataset exposed, in miniature.
+
+But not all of it is a label artefact, and the honest part is this: **a larger
+vocabulary reads job titles and employer names as skill claims.** "Analytics
+Engineer" yields `analytics`; "Rely Analytics" yields it too. That is a real
+regression the 178-term list did not have, it is not fixed here, and it is the
+first thing to look at if this number is revisited.
+
+Four false-positive classes *were* fixed, each found by a failing test rather
+than by inspection:
+
+- **Contact URLs.** `github.com/name` credited GitHub, `linkedin.com/in/name`
+  credited the LinkedIn API, on 4 of 42 resumes. URLs and emails are masked
+  before matching.
+- **The alias `requests` → `python-requests`.** "serving 40M requests a day"
+  credited three backend resumes with an HTTP client library. The ordinary-word
+  filter now applies to aliases, not just tags.
+- **Prose phrases matching compound tags.** "used the python requests library"
+  is python plus a noun. A space variant is no longer generated when the tag's
+  first word is itself a skill.
+- **Degrees.** "Bachelor of Science in Computer Science" yielded
+  `computer-science`.
+
+### Adjacency is not evidence
+
+Stack Overflow's related-tags are co-occurrence: docker sits beside containers
+and docker-compose, and equally beside java and linux. Co-occurrence has no
+direction and does not imply competence, so it is **never** used to credit a
+candidate with a skill they did not write — that would be the scorer making
+exactly the fabrication item 16 forbids the rewriter from making. It is used
+only to say a gap sits next to something the candidate already does.
+
 ## Score calibration
 
 ```bash

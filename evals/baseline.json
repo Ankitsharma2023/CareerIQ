@@ -1,10 +1,10 @@
 {
   "provenance": {
-    "generated_at": "2026-09-18T12:15:14+00:00",
+    "generated_at": "2026-09-18T12:49:41+00:00",
     "git": {
-      "commit": "cdb0cedf3c86cfa490946e2bb2f9a3b75f9d07ce",
+      "commit": "731c3fa0697900c6051a8678e80543a7530aee29",
       "branch": "upgrade-v2",
-      "dirty": false
+      "dirty": true
     },
     "python": "3.10.12",
     "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
@@ -40,15 +40,15 @@
     "grade_0": 9
   },
   "ranking": {
-    "ndcg@5": 0.9984,
-    "ndcg@10": 0.9984,
+    "ndcg@5": 0.9905,
+    "ndcg@10": 0.9905,
     "rbo": 0.9668,
-    "spearman": 0.9609
+    "spearman": 0.9495
   },
   "by_stress": {
     "career_change": 1.0,
     "general": 0.9951,
-    "keyword_stuffing": 1.0,
+    "keyword_stuffing": 0.9289,
     "mangled_extraction": 1.0,
     "near_tie": 1.0,
     "overqualification": 1.0,
@@ -57,7 +57,7 @@
   "equivalence": {
     "pairs_checked": 3,
     "max_gap": 2.72,
-    "mean_gap": 1.15,
+    "mean_gap": 1.41,
     "detail": [
       {
         "case": "platform-vocabulary",
@@ -73,6 +73,19 @@
         "gap": 2.72
       },
       {
+        "case": "ml-near-ties",
+        "stress": "near_tie",
+        "pair": [
+          "nt-production",
+          "nt-balanced"
+        ],
+        "scores": [
+          88.45,
+          87.43
+        ],
+        "gap": 1.02
+      },
+      {
         "case": "frontend-mangled-extraction",
         "stress": "mangled_extraction",
         "pair": [
@@ -84,25 +97,12 @@
           90.08
         ],
         "gap": 0.49
-      },
-      {
-        "case": "ml-near-ties",
-        "stress": "near_tie",
-        "pair": [
-          "nt-production",
-          "nt-balanced"
-        ],
-        "scores": [
-          88.45,
-          88.68
-        ],
-        "gap": 0.23
       }
     ]
   },
   "extraction": {
-    "skill_f1": 0.903,
-    "missing_skill_f1": 0.7379,
+    "skill_f1": 0.8858,
+    "missing_skill_f1": 0.7289,
     "cases_with_skill_labels": 40
   },
   "parsing": {
@@ -232,12 +232,12 @@
       "id": "data-engineer-stuffing",
       "job_title": "Data Engineer",
       "stress": "keyword_stuffing",
-      "ndcg@5": 1.0,
-      "rbo": 1.0,
-      "spearman": 0.9747,
+      "ndcg@5": 0.9289,
+      "rbo": 0.9,
+      "spearman": 0.8721,
       "predicted_order": [
-        "ds-genuine",
         "ds-solid",
+        "ds-genuine",
         "ds-stuffed",
         "ds-junior",
         "ds-nofit"
@@ -299,11 +299,11 @@
       "job_title": "Machine Learning Engineer",
       "stress": "near_tie",
       "ndcg@5": 1.0,
-      "rbo": 0.9,
+      "rbo": 1.0,
       "spearman": 0.9747,
       "predicted_order": [
-        "nt-balanced",
         "nt-production",
+        "nt-balanced",
         "nt-research",
         "nt-analyst",
         "nt-nofit"

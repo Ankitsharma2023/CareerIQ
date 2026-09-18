@@ -140,16 +140,34 @@ def _compiled(skills: tuple[str, ...]) -> list[tuple[str, Pattern]]:
     ]
 
 
+@lru_cache(maxsize=1)
+def _default_vocabulary() -> tuple[str, ...]:
+    return tuple(load_skills())
+
+
 def extract_skills_from_text(text: str, skills_list: Sequence[str]) -> list[str]:
     """Return the sorted set of taxonomy skills present in ``text``.
 
     ``text`` is raw — normalization happens here so callers cannot normalize
     one side of a comparison and not the other.
+
+    When the caller passes the project's own vocabulary and a built taxonomy is
+    present, this delegates to services/taxonomy.py: one Aho-Corasick pass over
+    2,000 terms instead of a regex per skill, with a merged alias table. A
+    caller passing its own short list — which several tests do, deliberately —
+    keeps the original matcher, because "find exactly these skills" is a
+    different question from "find every skill you know about".
     """
     if not text or not skills_list:
         return []
 
     key = tuple(skills_list)
+
+    if key == _default_vocabulary():
+        from services import taxonomy
+
+        if taxonomy.available():
+            return sorted(taxonomy.extract(text))
     haystack = normalize_text(text)
     detected = set()
 

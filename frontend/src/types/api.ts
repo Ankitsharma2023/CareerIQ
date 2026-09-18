@@ -79,6 +79,16 @@ export interface LLMEvaluation {
   fit_verdict: string
 }
 
+/** Points gained by moving a listed skill into an experience bullet.
+ *  Computed by re-running the scoring function, so the gain is exact. */
+export interface WhatIfSuggestion {
+  skill: string
+  current_weight: number
+  projected_weight: number
+  gain: number
+  required_by_jd: boolean
+}
+
 /** One sentence in the resume that names a skill, as the candidate wrote it. */
 export interface SkillMention {
   section: string
@@ -170,6 +180,7 @@ export interface AnalysisResponse {
   ats_simulation?: ATSSimulation | null
   hidden_text?: HiddenTextInfo | null
   skill_evidence?: Record<string, SkillEvidence> | null
+  what_if?: WhatIfSuggestion[]
   /** Optional because history entries saved before Phase 5 predate it. */
   fit?: FitBreakdown | null
   contact_info?: Record<string, string> | null

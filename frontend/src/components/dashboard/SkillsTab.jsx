@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Target, CheckCircle, AlertTriangle, TrendingUp, ShieldCheck, FileSearch, ShieldAlert } from 'lucide-react'
+import { Target, CheckCircle, AlertTriangle, TrendingUp, ShieldCheck, FileSearch, ShieldAlert, ArrowUpRight } from 'lucide-react'
 import SkillBadge from '../SkillBadge'
 import EvidencePanel from '../EvidencePanel'
 import ATSBreakdown from '../ATSBreakdown'
@@ -11,6 +11,7 @@ export function GapsATSTab({ data }) {
   const { matching_skills, skill_gap_analysis, signal_noise, ats_simulation } = data
   const evidence = data.skill_evidence || {}
   const mustHaves = data.missing_must_haves ?? []
+  const whatIf = data.what_if ?? []
   const priorities = data.jd_skill_priorities || {}
   const [selected, setSelected] = useState(null)
 
@@ -67,6 +68,45 @@ export function GapsATSTab({ data }) {
             ))}
           </div>
           {selected && mustHaves.includes(selected) && panel}
+        </Card>
+      )}
+
+      {/* What a rewrite is actually worth. The product tells people that
+          showing a skill beats listing it; this says how much, for this
+          resume, so they know which bullet to spend the evening on. */}
+      {whatIf.length > 0 && (
+        <Card padding={18}>
+          <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:8 }}>
+            <div style={{ width:28, height:28, background:'#EEF0FE', border:'1px solid #D8DCFC', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center' }}>
+              <ArrowUpRight size={13} color="#5147E5" aria-hidden="true" />
+            </div>
+            <span style={{ fontWeight:700, fontSize:'0.875rem', color:'#1A1D2E' }}>
+              Listed, not shown — what each is worth
+            </span>
+          </div>
+          <p style={{ fontSize:'0.72rem', color:'#6B7280', margin:'0 0 12px', lineHeight:1.55 }}>
+            These appear only in your skills list. Moving one into an experience
+            bullet that says what you built with it would raise your score by the
+            amount shown. <strong>Only do this where the experience is real</strong> —
+            the figure assumes you have done the work and simply have not said so.
+          </p>
+          <div style={{ display:'flex', flexDirection:'column', gap:6 }}>
+            {whatIf.map(item => (
+              <div key={item.skill} style={{ display:'flex', alignItems:'center', gap:10, padding:'8px 11px', background:'#F8F9FC', border:'1px solid #F0F1F5', borderRadius:8 }}>
+                <span style={{ fontSize:'0.8rem', fontWeight:600, color:'#1A1D2E', textTransform:'capitalize' }}>
+                  {item.skill}
+                </span>
+                {item.required_by_jd && (
+                  <span style={{ fontSize:'0.6rem', fontWeight:700, color:'#B91C1C', background:'#FEF2F2', border:'1px solid #FECACA', borderRadius:99, padding:'1px 6px', textTransform:'uppercase', letterSpacing:'0.05em' }}>
+                    required
+                  </span>
+                )}
+                <span style={{ marginLeft:'auto', fontSize:'0.82rem', fontWeight:800, color:'#16A34A', fontVariantNumeric:'tabular-nums' }}>
+                  +{item.gain.toFixed(1)}
+                </span>
+              </div>
+            ))}
+          </div>
         </Card>
       )}
 

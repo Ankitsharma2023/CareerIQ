@@ -116,6 +116,19 @@ class SkillEvidenceInfo(BaseModel):
     mentions:     list[SkillMentionInfo] = []
 
 
+class WhatIfSuggestion(BaseModel):
+    """Points gained by moving a listed skill into an experience bullet.
+
+    Computed by re-running the scoring function, not estimated — so the number
+    quoted is the number the score will read afterwards.
+    """
+    skill:            str
+    current_weight:   float
+    projected_weight: float
+    gain:             float
+    required_by_jd:   bool = False
+
+
 class HiddenTextInfo(BaseModel):
     """Text present in the file that a reader cannot see.
 
@@ -199,6 +212,8 @@ class AnalysisResponse(BaseModel):
     ats_simulation:   ATSSimulation | None = None
     # Unified fit score — the same function the evaluation harness scores
     fit:              FitBreakdown | None = None
+    # "What would this be worth?" for each skill that is listed but not shown.
+    what_if:          list[WhatIfSuggestion] = []
     # The sentence behind each skill, for "why did I get this score?".
     skill_evidence:   dict[str, SkillEvidenceInfo] | None = None
     # Text a reader cannot see, removed before scoring.

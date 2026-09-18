@@ -39,6 +39,7 @@ from services.signal_noise_analyzer import analyze_signal_to_noise
 from services.similarity import calculate_similarity
 from services.skill_extractor import extract_skills_from_text, load_skills
 from services.skill_gap_analyzer import classify_skill_gaps, missing_must_haves
+from services.what_if import project_gains
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -289,6 +290,24 @@ async def analyze_resume(
                 unsupported=unsupported_skills(evidence),
             )
 
+            # Cheap enough to compute for every analysis: no model call, a few
+            # hundred microseconds of arithmetic through the same scorer.
+            what_if = await _run_sync(
+                lambda: project_gains(
+                    evidence,
+                    jd_skills,
+                    {
+                        "semantic_score": sim["final_score"],
+                        "clarity_score": signal.get("clarity_score", 0.0),
+                        "detected_years": (experience_info.detected_years if experience_info else 0),
+                        "required_years": (experience_info.required_years if experience_info else 0),
+                        "jd_text": jd,
+                        "unsupported": unsupported_skills(evidence),
+                    },
+                    priorities,
+                )
+            )
+
             elapsed = round(time.perf_counter() - t0, 2)
             logger.info(f"Analysis complete in {elapsed}s | skills={len(resume_skills)} | score={sim['final_score']}")
 
@@ -302,6 +321,7 @@ async def analyze_resume(
                 top_matches           = [TopMatch(sentence=s, score=sc) for s, sc in sim["top_matches"]],
                 skill_gap_analysis    = gap,
                 missing_must_haves    = must_haves,
+                what_if               = [w.to_dict() for w in what_if],
                 jd_skill_priorities   = priorities,
                 signal_noise          = signal,
                 total_skills_detected = len(resume_skills),

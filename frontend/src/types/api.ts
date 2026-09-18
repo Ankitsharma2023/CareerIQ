@@ -62,7 +62,8 @@ export interface ExperienceInfo {
  * `ats_compatibility`, `readability_score`, `passive_voice_count`,
  * `section_scores` and `grammar_issues` were removed for the same reason —
  * each restated a number the deterministic pipeline already reports, and the
- * two never agreed.
+ * two never agreed. `salary_insight` and `competition_level` went with them:
+ * nothing in the system knows either, so both were invented.
  */
 export interface LLMEvaluation {
   experience_level: string
@@ -75,8 +76,6 @@ export interface LLMEvaluation {
   job_match_reasoning: string
   interview_questions: string[]
   resume_strengths: string[]
-  salary_insight: string
-  competition_level: string
   fit_verdict: string
 }
 

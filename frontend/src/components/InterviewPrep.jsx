@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { MessageSquare, ChevronDown, ChevronUp, Lightbulb, TrendingUp, DollarSign, Users, Star, Zap } from 'lucide-react'
+import { MessageSquare, ChevronDown, ChevronUp, Lightbulb, TrendingUp, Star, Zap } from 'lucide-react'
 
 const ANSWER_TIPS = [
   "Use the STAR method: Situation, Task, Action, Result.",
@@ -81,22 +81,16 @@ export default function InterviewPrep({ llm }) {
 
   const questions  = llm.interview_questions || []
   const strengths  = llm.resume_strengths    || []
-  const salary     = llm.salary_insight
-  const competition = llm.competition_level
+  // A pay range and a count of rival applicants used to be shown here. The
+  // model was asked to guess both; nothing in the system knows either.
   const verdict    = llm.fit_verdict
-
-  const compStyle = {
-    low:    { color:'#16A34A', bg:'#F0FDF4', border:'#BBF7D0', label:'Low Competition' },
-    medium: { color:'#D97706', bg:'#FFFBEB', border:'#FDE68A', label:'Medium Competition' },
-    high:   { color:'#DC2626', bg:'#FEF2F2', border:'#FECACA', label:'High Competition' },
-  }[competition] || { color:'#6B7280', bg:'#F5F6FA', border:'#E8EAF0', label: competition }
 
   return (
     <div style={{ display:'flex', flexDirection:'column', gap:16 }}>
 
       {/* Header */}
       <div className="ev-card" style={{ padding:20 }}>
-        <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom: (salary || competition || verdict) ? 16 : 0 }}>
+        <div style={{ display:'flex', alignItems:'center', gap:10, marginBottom: verdict ? 16 : 0 }}>
           <div style={{ width:36, height:36, background:'linear-gradient(135deg,#5147E5,#8B7CF6)', borderRadius:10, display:'flex', alignItems:'center', justifyContent:'center' }}>
             <MessageSquare size={16} color="#fff" />
           </div>
@@ -106,28 +100,13 @@ export default function InterviewPrep({ llm }) {
           </div>
         </div>
 
-        {/* Quick insight pills */}
-        {(salary || competition || verdict) && (
-          <div style={{ display:'grid', gridTemplateColumns:'repeat(3,1fr)', gap:10 }}>
-            {salary && (
-              <InsightCard
-                icon={DollarSign} label="Salary Insight" value={salary}
-                color="#16A34A" bg="#F0FDF4" border="#BBF7D0"
-              />
-            )}
-            {competition && (
-              <InsightCard
-                icon={Users} label="Competition"
-                value={compStyle.label}
-                color={compStyle.color} bg={compStyle.bg} border={compStyle.border}
-              />
-            )}
-            {verdict && verdict !== 'unknown' && (
-              <InsightCard
-                icon={Zap} label="AI Fit Verdict" value={verdict}
-                color="#5147E5" bg="#EEF0FE" border="#D8DCFC"
-              />
-            )}
+        {/* Quick insight pill */}
+        {verdict && verdict !== 'unknown' && (
+          <div style={{ display:'grid', gridTemplateColumns:'minmax(0,1fr)', gap:10 }}>
+            <InsightCard
+              icon={Zap} label="AI Fit Verdict" value={verdict}
+              color="#5147E5" bg="#EEF0FE" border="#D8DCFC"
+            />
           </div>
         )}
       </div>

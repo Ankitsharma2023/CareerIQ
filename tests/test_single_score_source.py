@@ -17,6 +17,9 @@ from models.schemas import AnalysisResponse, LLMEvaluation, LLMEvaluationPublic
 
 REPO = pathlib.Path(__file__).resolve().parent.parent
 
+# Item 3: fields the model was asked to invent, with no data source behind them.
+GUESSED = ["salary_insight", "competition_level"]
+
 DUPLICATED = [
     "overall_score",
     "ats_compatibility",
@@ -30,6 +33,22 @@ DUPLICATED = [
 @pytest.mark.parametrize("field", DUPLICATED)
 def test_field_is_not_in_the_public_llm_view(field):
     assert field not in LLMEvaluationPublic.model_fields
+
+
+@pytest.mark.parametrize("field", GUESSED)
+def test_guessed_fields_are_gone_everywhere(field):
+    """No pay range, no count of rival applicants — the system knows neither."""
+    assert field not in LLMEvaluation.model_fields
+    assert field not in LLMEvaluationPublic.model_fields
+
+    prompt = (REPO / "backend/services/llm_evaluator.py").read_text(encoding="utf-8")
+    assert field not in prompt
+
+    types = (REPO / "frontend/src/types/api.ts").read_text(encoding="utf-8")
+    assert f"{field}: " not in types
+
+    prep = (REPO / "frontend/src/components/InterviewPrep.jsx").read_text(encoding="utf-8")
+    assert f"llm.{field}" not in prep
 
 
 def test_the_eval_only_score_survives_on_the_provider_schema():

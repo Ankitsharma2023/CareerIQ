@@ -76,8 +76,6 @@ class LLMEvaluationPublic(BaseModel):
     job_match_reasoning:     str
     interview_questions:     list[str]
     resume_strengths:        list[str]
-    salary_insight:          str
-    competition_level:       str
     fit_verdict:             str
 
 

@@ -56,7 +56,7 @@ function CollapsibleInterviewSection({ llm }) {
           </div>
           <div>
             <h4 style={{ fontWeight:700, fontSize:'0.9rem', color:'#1A1D2E', margin:0 }}>Interview Questions & Prep Guide</h4>
-            <p style={{ fontSize:'0.72rem', color:'#9CA3AF', margin:0 }}>Tailored technical questions, STAR tips, and salary insights</p>
+            <p style={{ fontSize:'0.72rem', color:'#9CA3AF', margin:0 }}>Tailored technical questions and STAR answer tips</p>
           </div>
         </div>
         {open

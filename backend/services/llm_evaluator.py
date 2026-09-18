@@ -97,7 +97,6 @@ Scoring guidance:
 - keyword_analysis.missing_critical is only for requirements stated explicitly
   in the job description.
 - interview_questions should be questions this specific job description invites.
-- salary_insight should be a brief range for this role and seniority level.
 - years_detected is a short string such as "3 years" or "unknown".
 """
 

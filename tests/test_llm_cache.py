@@ -23,8 +23,6 @@ def make_evaluation(score: float = 85) -> LLMEvaluation:
         job_match_reasoning="Strong match",
         interview_questions=["Tell me about your AWS experience"],
         resume_strengths=["Python expertise"],
-        salary_insight="$120k-$150k",
-        competition_level="medium",
         fit_verdict="strong_fit",
     )
 

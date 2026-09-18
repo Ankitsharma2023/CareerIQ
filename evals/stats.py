@@ -11,6 +11,7 @@ has no reason to believe it.
 """
 from __future__ import annotations
 
+import math
 from dataclasses import dataclass
 
 import numpy as np
@@ -143,6 +144,25 @@ def pairwise_accuracy(scores, labels, groups=None) -> tuple[float, int]:
         total += int(comparable.sum())
 
     return (correct / total if total else float("nan")), total
+
+
+def wilson_interval(successes: int, total: int, z: float = 1.96) -> tuple[float, float]:
+    """95% confidence interval for a proportion, Wilson's score method.
+
+    Not the textbook normal approximation: that one produces intervals running
+    below 0 or above 1 on small or lopsided samples, which is exactly the shape
+    of a thin score band. Wilson stays inside [0, 1] and behaves at the edges,
+    which is why it is the interval a calibration table should use.
+    """
+    if total == 0:
+        return (0.0, 1.0)
+    phat = successes / total
+    denominator = 1 + z * z / total
+    centre = (phat + z * z / (2 * total)) / denominator
+    spread = (
+        z * math.sqrt(phat * (1 - phat) / total + z * z / (4 * total * total)) / denominator
+    )
+    return (max(0.0, centre - spread), min(1.0, centre + spread))
 
 
 # ── Resampling ────────────────────────────────────────────────────────────────

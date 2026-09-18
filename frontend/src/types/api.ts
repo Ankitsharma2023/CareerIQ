@@ -79,6 +79,21 @@ export interface LLMEvaluation {
   fit_verdict: string
 }
 
+/** What happened to independently labelled resumes scoring in this band.
+ *  `informative: false` means the band's interval overlaps the overall rate —
+ *  the band predicts nothing, and the UI must not imply otherwise. */
+export interface CalibrationInfo {
+  band_low: number
+  band_high: number
+  good_fit_rate: number
+  ci_low: number
+  ci_high: number
+  sample_size: number
+  base_rate: number
+  informative: boolean
+  documents: number
+}
+
 /** Points gained by moving a listed skill into an experience bullet.
  *  Computed by re-running the scoring function, so the gain is exact. */
 export interface WhatIfSuggestion {
@@ -181,6 +196,7 @@ export interface AnalysisResponse {
   hidden_text?: HiddenTextInfo | null
   skill_evidence?: Record<string, SkillEvidence> | null
   what_if?: WhatIfSuggestion[]
+  calibration?: CalibrationInfo | null
   /** Optional because history entries saved before Phase 5 predate it. */
   fit?: FitBreakdown | null
   contact_info?: Record<string, string> | null

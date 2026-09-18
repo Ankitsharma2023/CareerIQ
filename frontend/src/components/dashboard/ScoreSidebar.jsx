@@ -5,6 +5,42 @@ import AnalysisHistory from '../AnalysisHistory'
 
 const scoreColor = v => v >= 75 ? '#22C55E' : v >= 50 ? '#F59E0B' : '#EF4444'
 
+const pct = v => `${Math.round(v * 100)}%`
+
+/**
+ * What this score has been observed to mean.
+ *
+ * Most bands are not distinguishable from the rate across all resumes, and
+ * this says so plainly rather than quoting the band rate as though it
+ * predicted something. Printing "26% were a good fit" beside a base rate of
+ * 26% would read as a finding and is not one.
+ */
+function CalibrationNote({ calibration: c }) {
+  const band = `${c.band_low}-${c.band_high - 1}`
+
+  if (!c.informative) {
+    return (
+      <p style={{ fontSize:'0.66rem', color:'#9CA3AF', marginTop:8, lineHeight:1.5 }}>
+        Among {c.documents.toLocaleString()} independently graded resumes, this score
+        band was rated a good fit {pct(c.good_fit_rate)} of the time — not
+        distinguishable from the {pct(c.base_rate)} overall. Treat the number as a
+        guide to what to fix, not a prediction.
+      </p>
+    )
+  }
+
+  return (
+    <p style={{ fontSize:'0.66rem', color:'#6B7280', marginTop:8, lineHeight:1.5 }}>
+      Resumes scoring {band} were rated a good fit{' '}
+      <strong style={{ color: c.good_fit_rate > c.base_rate ? '#16A34A' : '#B45309' }}>
+        {pct(c.good_fit_rate)}
+      </strong>{' '}
+      of the time, against {pct(c.base_rate)} overall
+      {' '}({pct(c.ci_low)}–{pct(c.ci_high)}, n={c.sample_size.toLocaleString()}).
+    </p>
+  )
+}
+
 export default function ScoreSidebar({ data, activeTab, onTabChange, onSelectAnalysis }) {
   const { semantic_match_score, ats_keyword_score, signal_noise, skill_gap_analysis, matching_skills, missing_skills } = data
   const fit = data.fit
@@ -55,6 +91,7 @@ export default function ScoreSidebar({ data, activeTab, onTabChange, onSelectAna
           <span style={{ fontSize:'1.2rem', color:'#9CA3AF', fontWeight:600 }}>/100</span>
         </div>
         <p style={{ fontSize:'0.72rem', color:'#9CA3AF', marginTop:2 }}>{totalGaps} gaps to close</p>
+        {data.calibration && <CalibrationNote calibration={data.calibration} />}
       </div>
 
       <div className="ev-divider" />

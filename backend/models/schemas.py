@@ -116,6 +116,24 @@ class SkillEvidenceInfo(BaseModel):
     mentions:     list[SkillMentionInfo] = []
 
 
+class CalibrationInfo(BaseModel):
+    """What happened to independently labelled resumes that scored in this band.
+
+    ``informative`` is false when the band's confidence interval overlaps the
+    rate across all resumes — that is, when the band predicts nothing. Most
+    bands are in that state, and saying so is the point of shipping this.
+    """
+    band_low:       int
+    band_high:      int
+    good_fit_rate:  float
+    ci_low:         float
+    ci_high:        float
+    sample_size:    int
+    base_rate:      float
+    informative:    bool
+    documents:      int
+
+
 class WhatIfSuggestion(BaseModel):
     """Points gained by moving a listed skill into an experience bullet.
 
@@ -212,6 +230,9 @@ class AnalysisResponse(BaseModel):
     ats_simulation:   ATSSimulation | None = None
     # Unified fit score — the same function the evaluation harness scores
     fit:              FitBreakdown | None = None
+    # What happened to labelled resumes scoring in this band, where the data
+    # supports saying anything at all.
+    calibration:      CalibrationInfo | None = None
     # "What would this be worth?" for each skill that is listed but not shown.
     what_if:          list[WhatIfSuggestion] = []
     # The sentence behind each skill, for "why did I get this score?".

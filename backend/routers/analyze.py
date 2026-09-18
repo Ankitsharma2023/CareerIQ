@@ -18,6 +18,7 @@ from models.schemas import (
     TopMatch,
 )
 from services.ats_simulator import simulate_ats
+from services.calibration import describe as describe_calibration
 from services.evidence import (
     evidence_payload,
     evidence_ratio,
@@ -322,6 +323,7 @@ async def analyze_resume(
                 skill_gap_analysis    = gap,
                 missing_must_haves    = must_haves,
                 what_if               = [w.to_dict() for w in what_if],
+                calibration           = describe_calibration(fit.overall),
                 jd_skill_priorities   = priorities,
                 signal_noise          = signal,
                 total_skills_detected = len(resume_skills),

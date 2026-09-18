@@ -260,6 +260,45 @@ are ever changed on the strength of this, the public dataset has to be re-run
 and reported as a second, separate measurement, and the fitted number is not
 evidence about anything.
 
+## Score calibration
+
+```bash
+python evals/calibration.py --checkpoint run.jsonl --out backend/data/calibration.json
+```
+
+Turns the score into a statement about outcomes, using the public split's
+independent labels. 1,759 documents, 26.0% rated a good fit overall.
+
+| Band | n | Good fit | 95% CI | Says something? |
+|---|---:|---:|---|---|
+| 10–19 | 134 | 18.7% | 13.0–26.1% | no |
+| 20–29 | 618 | 23.9% | 20.8–27.5% | no |
+| 30–39 | 460 | 25.9% | 22.1–30.1% | no |
+| **40–49** | 290 | **33.8%** | 28.6–39.4% | **yes** |
+| 50–59 | 158 | 26.6% | 20.3–34.0% | no |
+| 60–69 | 83 | 25.3% | 17.2–35.6% | no |
+| 70–79 | 16 | 31.2% | 14.2–55.6% | no |
+
+**One band of seven is distinguishable from the base rate, and it is not the
+highest one.** The relationship is not monotonic: 40–49 outperforms 60–69. That
+is the rho = 0.099 result seen from another angle, and it is what a user would
+experience — improving a resume from the 20s into the 60s buys no measurable
+change in how a human grades it.
+
+Two further things the table makes visible:
+
+- **The observed range is 12.5 to 74.2.** The product displays the score out of
+  100 and has never produced above 75 on real documents. The top quarter of the
+  scale is decorative.
+- **Most of the mass sits between 20 and 40** — 1,078 of 1,759 documents. The
+  score is not using the range it displays.
+
+The UI ships this honestly. An informative band gets a sentence with its
+interval and sample size; a band that is not distinguishable says so and tells
+the user to treat the number as a guide to what to fix rather than a
+prediction. Quoting "24% were a good fit" beside a 26% base rate with no
+interval would read as a finding and is not one.
+
 ## Human grading study
 
 ```bash

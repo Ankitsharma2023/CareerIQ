@@ -1,0 +1,115 @@
+{
+  "provenance": {
+    "generated_at": "2026-09-18T12:20:16+00:00",
+    "git": {
+      "commit": "1f02df790bd580b5ad151853e6c40a88175a12d7",
+      "branch": "upgrade-v2",
+      "dirty": true
+    },
+    "python": "3.10.12",
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+    "packages": {
+      "fastembed": "0.8.0",
+      "onnxruntime": "1.23.2",
+      "numpy": "2.2.6",
+      "pdfplumber": "0.11.10",
+      "pypdf": "6.19.0",
+      "tokenizers": "0.23.2"
+    },
+    "models": {
+      "embedding": "BAAI/bge-small-en-v1.5",
+      "llm_chain": [
+        "nvidia/nemotron-3-super-120b-a12b:free",
+        "nvidia/nemotron-3-nano-30b-a3b:free",
+        "nvidia/nemotron-3-ultra-550b-a55b:free"
+      ],
+      "structured_output_mode": "auto"
+    },
+    "datasets": {
+      "seed.jsonl": "f26a30d42faa504f",
+      "stress_a.jsonl": "27eb72465913fead",
+      "stress_b.jsonl": "12f1014104b89982"
+    }
+  },
+  "base_rate": 0.2604,
+  "documents": 1759,
+  "observed_range": [
+    12.5,
+    74.2
+  ],
+  "band_width": 10,
+  "min_band_size": 30,
+  "informative_bands": 1,
+  "bands": [
+    {
+      "low": 10,
+      "high": 20,
+      "n": 134,
+      "good_fit_rate": 0.1866,
+      "ci_low": 0.1297,
+      "ci_high": 0.2609,
+      "informative": false,
+      "direction": "below"
+    },
+    {
+      "low": 20,
+      "high": 30,
+      "n": 618,
+      "good_fit_rate": 0.2395,
+      "ci_low": 0.2075,
+      "ci_high": 0.2747,
+      "informative": false,
+      "direction": "below"
+    },
+    {
+      "low": 30,
+      "high": 40,
+      "n": 460,
+      "good_fit_rate": 0.2587,
+      "ci_low": 0.2208,
+      "ci_high": 0.3006,
+      "informative": false,
+      "direction": "below"
+    },
+    {
+      "low": 40,
+      "high": 50,
+      "n": 290,
+      "good_fit_rate": 0.3379,
+      "ci_low": 0.2859,
+      "ci_high": 0.3942,
+      "informative": true,
+      "direction": "above"
+    },
+    {
+      "low": 50,
+      "high": 60,
+      "n": 158,
+      "good_fit_rate": 0.2658,
+      "ci_low": 0.2031,
+      "ci_high": 0.3397,
+      "informative": false,
+      "direction": "above"
+    },
+    {
+      "low": 60,
+      "high": 70,
+      "n": 83,
+      "good_fit_rate": 0.253,
+      "ci_low": 0.1719,
+      "ci_high": 0.356,
+      "informative": false,
+      "direction": "below"
+    },
+    {
+      "low": 70,
+      "high": 80,
+      "n": 16,
+      "good_fit_rate": 0.3125,
+      "ci_low": 0.1416,
+      "ci_high": 0.556,
+      "informative": false,
+      "direction": "above"
+    }
+  ]
+}

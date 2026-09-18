@@ -90,3 +90,54 @@ jobs:
 
       - name: Build
         run: npm run build
+
+  evaluation:
+    name: evaluation gate (metrics must not drop)
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+
+    # Same reasoning as the backend job: a stable cache path for the 65MB
+    # embedding model, and one that is not a temp directory.
+    env:
+      MODEL_CACHE_DIR: ${{ github.workspace }}/.model-cache
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          enable-cache: true
+
+      - name: Cache the embedding model
+        uses: actions/cache@v4
+        with:
+          path: ${{ github.workspace }}/.model-cache
+          key: fastembed-bge-small-en-v1.5
+
+      - name: Install dependencies
+        run: uv pip install --system -r pyproject.toml --extra dev
+
+      # Compares the harness output against evals/baseline.json and fails on a
+      # drop beyond the per-metric tolerance, or a breach of an absolute floor
+      # or ceiling. A change that is meant to move these numbers re-cuts the
+      # baseline with `python evals/gate.py --update` in the same commit, which
+      # makes the movement reviewable in the diff instead of invisible.
+      #
+      # Verified to fail rather than merely exist: setting the component
+      # weights to [0.95, 0.00, 0.05] drops nDCG@5 to 0.9760 and pushes the
+      # equivalence gap to 5.74, and the gate reports all four violations.
+      - name: Evaluation gate
+        run: python evals/gate.py
+
+      # The invariance properties: concealed text changes nothing, abbreviating
+      # a tool name costs less than the gate, and moving a skill into an
+      # experience bullet never lowers the score. Run separately from the
+      # backend suite so a failure here reads as "a guarantee broke" rather
+      # than "a test broke".
+      - name: Invariance properties
+        run: pytest -q tests/test_invariance.py

@@ -120,6 +120,21 @@ class SkillEvidenceInfo(BaseModel):
     recency_multiplier: float = 1.0
 
 
+class SkillAgentInfo(BaseModel):
+    """What the extraction agent claimed, and how much of it stood up.
+
+    ``fabrication_rate`` is the share of claimed skills whose supporting quote
+    could not be found in the resume. It is measurable without a human reading
+    anything, which makes it the number worth comparing models on.
+    """
+    called:           bool = False
+    failed:           bool = False
+    verified_count:   int = 0
+    rejected_count:   int = 0
+    fabrication_rate: float = 0.0
+    rejected:         list[dict] = []
+
+
 class CalibrationInfo(BaseModel):
     """What happened to independently labelled resumes that scored in this band.
 
@@ -234,6 +249,8 @@ class AnalysisResponse(BaseModel):
     ats_simulation:   ATSSimulation | None = None
     # Unified fit score — the same function the evaluation harness scores
     fit:              FitBreakdown | None = None
+    # The extraction agent's claims and how many survived quote verification.
+    skill_agent:      SkillAgentInfo | None = None
     # What happened to labelled resumes scoring in this band, where the data
     # supports saying anything at all.
     calibration:      CalibrationInfo | None = None

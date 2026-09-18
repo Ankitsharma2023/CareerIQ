@@ -38,6 +38,7 @@ from services.scoring import compute_fit
 from services.section_parser import parse_sections, score_sections
 from services.signal_noise_analyzer import analyze_signal_to_noise
 from services.similarity import calculate_similarity
+from services.skill_agent import extract_with_agent
 from services.skill_extractor import extract_skills_from_text, load_skills
 from services.skill_gap_analyzer import classify_skill_gaps, missing_must_haves
 from services.what_if import project_gains
@@ -254,10 +255,17 @@ async def analyze_resume(
             # The LLM call is awaited directly — it is network-bound, so it no
             # longer occupies a thread from the executor.  The two CPU-bound
             # helpers still go through the pool.
-            llm_raw, exp_raw, section_raw = await asyncio.gather(
+            # Two agents, one round trip each, run together: the evaluator
+            # judges fit, the extractor names skills and must quote for them.
+            # Separate calls rather than one prompt doing both, because the
+            # extraction can be verified in code and the judgement cannot —
+            # mixing them would put an unverifiable claim in the same response
+            # as a verifiable one and invite trusting both equally.
+            llm_raw, exp_raw, section_raw, agent_raw = await asyncio.gather(
                 llm_master_evaluate(resume_raw, jd, contact_info),
                 _run_exp(),
                 _run_sections(),
+                extract_with_agent(resume_raw, contact_info),
                 return_exceptions=True,
             )
 
@@ -277,6 +285,22 @@ async def analyze_resume(
                 section_scores_result = section_raw
             elif isinstance(section_raw, Exception):
                 logger.warning("Section scoring failed: %s", section_raw)
+
+            agent_result = None
+            if isinstance(agent_raw, Exception):
+                logger.warning("Skill agent failed: %s", agent_raw)
+            elif agent_raw is not None and agent_raw.called and agent_raw.verified:
+                agent_result = agent_raw
+                # Union, not replacement. A model that misses a skill the
+                # taxonomy would have found must not cost the candidate that
+                # skill, and a verified skill the taxonomy does not know about
+                # is the whole reason for asking a model at all.
+                agent_only = sorted(set(agent_raw.verified) - set(resume_skills))
+                if agent_only:
+                    logger.info("Skill agent added %d skill(s): %s", len(agent_only), agent_only)
+                    resume_skills = sorted({*resume_skills, *agent_raw.verified})
+                    matching = get_matching_skills(resume_skills, jd_skills)
+                    missing = get_missing_skills(resume_skills, jd_skills)
 
             # One scoring function, shared with the evaluation harness, so the
             # number measured offline is the number the user is shown.
@@ -323,6 +347,7 @@ async def analyze_resume(
                 skill_gap_analysis    = gap,
                 missing_must_haves    = must_haves,
                 what_if               = [w.to_dict() for w in what_if],
+                skill_agent           = agent_result.to_dict() if agent_result else None,
                 calibration           = describe_calibration(fit.overall),
                 jd_skill_priorities   = priorities,
                 signal_noise          = signal,

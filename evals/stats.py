@@ -41,18 +41,32 @@ class Interval:
 
 
 def _ranks(values: np.ndarray) -> np.ndarray:
-    """Average ranks, so ties do not silently bias the correlation."""
-    order = np.argsort(values, kind="mergesort")
-    ranked = np.empty(len(values), dtype=np.float64)
-    ranked[order] = np.arange(len(values), dtype=np.float64)
+    """Average ranks, so ties do not silently bias the correlation.
 
+    Fully vectorised, because the bootstrap and the permutation tests call this
+    on the order of 100,000 times on arrays of ~1,800 elements. A per-element
+    Python loop here is the difference between a report that runs and one that
+    does not.
+    """
+    n = len(values)
+    if n == 0:
+        return np.empty(0, dtype=np.float64)
+
+    order = np.argsort(values, kind="mergesort")
     sorted_values = values[order]
-    start = 0
-    for index in range(1, len(values) + 1):
-        if index == len(values) or sorted_values[index] != sorted_values[start]:
-            if index - start > 1:
-                ranked[order[start:index]] = np.mean(np.arange(start, index))
-            start = index
+
+    # Mark where each run of equal values begins, number the runs, then give
+    # every member of a run the mean of the positions that run occupies.
+    starts_run = np.empty(n, dtype=bool)
+    starts_run[0] = True
+    np.not_equal(sorted_values[1:], sorted_values[:-1], out=starts_run[1:])
+
+    run_of = np.cumsum(starts_run) - 1
+    positions = np.arange(n, dtype=np.float64)
+    mean_position = np.bincount(run_of, weights=positions) / np.bincount(run_of)
+
+    ranked = np.empty(n, dtype=np.float64)
+    ranked[order] = mean_position[run_of]
     return ranked
 
 

@@ -1,0 +1,167 @@
+{
+  "dataset": {
+    "name": "cnamuangtoun/resume-job-description-fit",
+    "split": "test.csv",
+    "revision": "08978e21714984bb417547d2c0f9b477f5298163",
+    "rows": 1759,
+    "subsampled": false,
+    "jobs": 70,
+    "label_counts": {
+      "0": 857,
+      "1": 444,
+      "2": 458
+    }
+  },
+  "scorers": {
+    "tfidf": {
+      "pairwise_accuracy_within_job": 0.5356,
+      "pairs_compared": 20501,
+      "spearman": {
+        "point": 0.1335,
+        "ci_low": 0.0876,
+        "ci_high": 0.1796,
+        "resamples": 10000,
+        "seed": 20260918
+      },
+      "roc_auc_macro_ovr": 0.5083,
+      "roc_auc_per_class": {
+        "0": 0.4197,
+        "1": 0.5474,
+        "2": 0.5577
+      },
+      "roc_auc_good_fit_vs_rest": 0.5577
+    },
+    "embedding": {
+      "pairwise_accuracy_within_job": 0.5501,
+      "pairs_compared": 20501,
+      "spearman": {
+        "point": 0.1045,
+        "ci_low": 0.0594,
+        "ci_high": 0.1516,
+        "resamples": 10000,
+        "seed": 20260918
+      },
+      "roc_auc_macro_ovr": 0.5074,
+      "roc_auc_per_class": {
+        "0": 0.4294,
+        "1": 0.5624,
+        "2": 0.5304
+      },
+      "roc_auc_good_fit_vs_rest": 0.5304
+    },
+    "coverage": {
+      "pairwise_accuracy_within_job": 0.5244,
+      "pairs_compared": 20501,
+      "spearman": {
+        "point": 0.0374,
+        "ci_low": -0.009,
+        "ci_high": 0.0845,
+        "resamples": 10000,
+        "seed": 20260918
+      },
+      "roc_auc_macro_ovr": 0.5016,
+      "roc_auc_per_class": {
+        "0": 0.4836,
+        "1": 0.4961,
+        "2": 0.525
+      },
+      "roc_auc_good_fit_vs_rest": 0.525
+    },
+    "careeriq": {
+      "pairwise_accuracy_within_job": 0.5239,
+      "pairs_compared": 20501,
+      "spearman": {
+        "point": 0.0988,
+        "ci_low": 0.0531,
+        "ci_high": 0.1453,
+        "resamples": 10000,
+        "seed": 20260918
+      },
+      "roc_auc_macro_ovr": 0.5053,
+      "roc_auc_per_class": {
+        "0": 0.4478,
+        "1": 0.5119,
+        "2": 0.5561
+      },
+      "roc_auc_good_fit_vs_rest": 0.5561
+    }
+  },
+  "comparisons": {
+    "careeriq_vs_tfidf": {
+      "difference": -0.0347,
+      "p_value": 0.42086,
+      "resamples": 10000,
+      "seed": 20260918
+    },
+    "careeriq_vs_embedding": {
+      "difference": -0.0057,
+      "p_value": 0.88351,
+      "resamples": 10000,
+      "seed": 20260918
+    },
+    "careeriq_vs_coverage": {
+      "difference": 0.0614,
+      "p_value": 0.0267,
+      "resamples": 10000,
+      "seed": 20260918
+    }
+  },
+  "exploratory_post_hoc": {
+    "tfidf": {
+      "per_job_median_pairwise": 0.6079,
+      "per_job_mean_pairwise": 0.6089,
+      "jobs_measured": 49,
+      "jobs_above_0.6": 25,
+      "jobs_below_0.4": 4,
+      "good_vs_no_fit_only_pairwise": 0.534,
+      "good_vs_no_fit_pairs": 8565,
+      "mean_score_by_label": {
+        "0": 5.9,
+        "1": 6.58,
+        "2": 6.73
+      }
+    },
+    "embedding": {
+      "per_job_median_pairwise": 0.5993,
+      "per_job_mean_pairwise": 0.6284,
+      "jobs_measured": 49,
+      "jobs_above_0.6": 24,
+      "jobs_below_0.4": 3,
+      "good_vs_no_fit_only_pairwise": 0.55,
+      "good_vs_no_fit_pairs": 8565,
+      "mean_score_by_label": {
+        "0": 60.56,
+        "1": 62.11,
+        "2": 61.72
+      }
+    },
+    "coverage": {
+      "per_job_median_pairwise": 0.5343,
+      "per_job_mean_pairwise": 0.5578,
+      "jobs_measured": 49,
+      "jobs_above_0.6": 15,
+      "jobs_below_0.4": 4,
+      "good_vs_no_fit_only_pairwise": 0.5476,
+      "good_vs_no_fit_pairs": 8565,
+      "mean_score_by_label": {
+        "0": 17.67,
+        "1": 17.4,
+        "2": 20.05
+      }
+    },
+    "careeriq": {
+      "per_job_median_pairwise": 0.5967,
+      "per_job_mean_pairwise": 0.6003,
+      "jobs_measured": 49,
+      "jobs_above_0.6": 23,
+      "jobs_below_0.4": 5,
+      "good_vs_no_fit_only_pairwise": 0.5589,
+      "good_vs_no_fit_pairs": 8565,
+      "mean_score_by_label": {
+        "0": 34.66,
+        "1": 35.76,
+        "2": 37.04
+      }
+    }
+  }
+}

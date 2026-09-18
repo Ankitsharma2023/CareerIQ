@@ -100,6 +100,100 @@ The honest conclusion is the one that shaped Phase 2: the instrument needs
 external ground truth — a public dataset and human graders — because no amount
 of additional self-labelled stress cases can restore its power.
 
+## Public dataset — the result
+
+```bash
+python evals/public_dataset.py --checkpoint run.jsonl        # ~25 min, resumable
+python evals/public_dataset.py --checkpoint run.jsonl --summarize-only
+```
+
+Metrics fixed in advance in `PREREGISTRATION.md`, committed before the first
+scorer ran. Full output in `public_dataset_result.json`.
+
+`cnamuangtoun/resume-job-description-fit`, test split, all 1,759 rows across 70
+job descriptions, revision `08978e217149`. 20,501 within-job label-differing
+pairs.
+
+| Scorer | Pairwise | Spearman | 95% CI | Macro AUC |
+|---|---:|---:|---:|---:|
+| TF-IDF cosine | 0.5356 | 0.1335 | [0.0876, 0.1796] | 0.5083 |
+| Embedding | 0.5501 | 0.1045 | [0.0594, 0.1516] | 0.5074 |
+| Coverage alone | 0.5244 | 0.0374 | [-0.0090, 0.0845] | 0.5016 |
+| **CareerIQ** | **0.5239** | **0.0988** | [0.0531, 0.1453] | 0.5053 |
+
+**This is a negative result, and it is the pre-registered one.** Both primary
+thresholds are missed: pairwise accuracy 0.5239 against a 0.60 bar, where 0.50
+is chance; Spearman 0.0988 against a 0.30 bar. The confidence interval excludes
+zero, so the association is real rather than noise — it is just very small.
+
+Three things follow, and they should be reported together because any one of
+them alone is misleading.
+
+**1. CareerIQ does not beat the 30-line TF-IDF baseline.** Paired permutation
+test on Spearman, 10,000 resamples: difference −0.0347, p = 0.42. Not
+significant in either direction. Everything the pipeline does beyond term
+overlap — embeddings, evidence weighting, level fit, clarity — buys nothing
+measurable against these labels.
+
+**2. It does beat coverage alone**, +0.0614, p = 0.027. So the machinery on top
+of keyword coverage is doing *something*. That is the one positive finding here,
+and it is a modest one.
+
+**3. Every scorer is near chance, including the literature baseline.** TF-IDF
+manages 0.5356. This is not a CareerIQ-specific failure, which cuts both ways:
+the pipeline is not uniquely bad, and it also has no demonstrated advantage over
+the simplest thing anyone would try.
+
+### Why the score barely moves
+
+The clearest number is the mean score per label (post-hoc, below): CareerIQ
+gives 34.7 to `No Fit`, 35.8 to `Potential Fit`, 37.0 to `Good Fit`. The
+ordering is right. The range is 2.4 points out of 100. A user moving from a
+resume a human calls "no fit" to one a human calls "good fit" sees the number go
+from 35 to 37.
+
+The embedding scorer is not even monotonic — 60.6 / 62.1 / 61.7, with
+`Potential Fit` scoring above `Good Fit`.
+
+### Exploratory, post-hoc
+
+Added after seeing the pre-registered result, and labelled as such in the code
+and the output. It does not replace anything above.
+
+| Scorer | Per-job median pairwise | Good vs No Fit only | Mean by label |
+|---|---:|---:|---|
+| TF-IDF | 0.6079 | 0.5340 | 5.9 / 6.6 / 6.7 |
+| Embedding | 0.5993 | 0.5500 | 60.6 / 62.1 / 61.7 |
+| Coverage | 0.5343 | 0.5476 | 17.7 / 17.4 / 20.1 |
+| CareerIQ | 0.5967 | 0.5589 | 34.7 / 35.8 / 37.0 |
+
+Two observations worth following up rather than concluding from:
+
+- **The per-job median (0.5967) is well above the pooled figure (0.5239).**
+  Pooling weights by pair count, so a job with 89 rows contributes 3,916 pairs
+  and one with 5 contributes 10. Of 49 jobs with at least 10 pairs, 23 score
+  above 0.6 and 5 below 0.4. The pipeline does better on a typical job than on a
+  typical comparison, and a few large groups it handles badly dominate the
+  headline. Which average matters depends on what is being claimed; the
+  pre-registered one stands as primary because it was chosen blind.
+- **Dropping the contested middle class barely helps** — 0.5239 to 0.5589. The
+  `Potential Fit` label is not where the difficulty lives.
+
+### What this does not license
+
+It does not license re-tuning weights until this number improves and then
+reporting the improvement. The pre-registration rules that out explicitly: any
+change to `compute_fit` made after seeing these figures invalidates them and
+requires a second, separately reported measurement. The stress-set numbers
+cannot rescue this either — they are 0.9984 because their labels were written
+by the person who tuned the system, and that is precisely the gap this
+experiment existed to expose.
+
+The honest one-line summary for the paper: *on 1,759 independently labelled
+resume–job pairs, the system's score correlates with human judgement at
+rho = 0.099 (95% CI 0.053–0.145), statistically distinguishable from zero and
+not distinguishable from a TF-IDF baseline.*
+
 ## Hidden-text attack
 
 ```bash

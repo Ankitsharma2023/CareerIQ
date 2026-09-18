@@ -88,6 +88,12 @@ jobs:
       - name: Type-check
         run: npx tsc --noEmit
 
+      # Vitest + Testing Library. The SSE buffer in services/api.ts is the
+      # single point every analysis passes through — the whole report arrives
+      # as one event — and it had no tests at all.
+      - name: Tests
+        run: npm test
+
       - name: Build
         run: npm run build
 

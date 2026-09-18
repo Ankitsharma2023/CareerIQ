@@ -16,6 +16,7 @@ import GapsATSTab from './dashboard/SkillsTab'
 // bundle, they are the only chunks left, and every user who opens the report
 // loads them within seconds anyway. A tab that cannot go blank is worth more
 // than a slightly smaller first paint.
+import ErrorBoundary from './ErrorBoundary'
 import InterviewPrep from './InterviewPrep'
 import AICoach from './AICoach'
 
@@ -185,10 +186,22 @@ export default function ResultsDashboard({ data, onReset, onSelectAnalysis }) {
           style={{ flex:1, minWidth:0, padding:'24px 24px 48px' }}
         >
           <Suspense fallback={<TabFallback />}>
+            {/* One boundary per tab, not one at the root. The analysis is a
+                file upload, a model load and up to thirty seconds of work, and
+                the whole result arrives in a single event — losing all of it
+                to a formatting bug in a section the user may never open is the
+                failure this prevents. Per-tab means the score, the gaps and
+                the evidence stay on screen when one of them throws. */}
             <div key={activeTab}>
-              {activeTab === 'score_fit' && <ScoreFitTab data={data} />}
-              {activeTab === 'gaps_ats'   && <GapsATSTab data={data} />}
-              {activeTab === 'ai_coach'   && <AICoachTab data={data} />}
+              {activeTab === 'score_fit' && (
+                <ErrorBoundary label="Score & Fit"><ScoreFitTab data={data} /></ErrorBoundary>
+              )}
+              {activeTab === 'gaps_ats' && (
+                <ErrorBoundary label="Gaps & ATS"><GapsATSTab data={data} /></ErrorBoundary>
+              )}
+              {activeTab === 'ai_coach' && (
+                <ErrorBoundary label="AI Coach"><AICoachTab data={data} /></ErrorBoundary>
+              )}
             </div>
           </Suspense>
         </div>

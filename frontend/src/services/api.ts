@@ -157,31 +157,42 @@ export function analyzeResumeStream(
     const decoder = new TextDecoder()
     let buffer = ''
 
+    const emit = (part: string) => {
+      const trimmed = part.trim()
+      if (!trimmed.startsWith('data: ')) return
+
+      let payload: AnalysisStreamEvent
+      try {
+        payload = JSON.parse(trimmed.slice(6)) as AnalysisStreamEvent
+      } catch (err) {
+        // One malformed frame must not cost the report that follows it.
+        console.error('Malformed SSE payload', err)
+        return
+      }
+
+      if (payload.event === 'progress') onProgress?.(payload.progress, payload.message)
+      else if (payload.event === 'complete') onComplete?.(payload.result)
+      else if (payload.event === 'error') onError?.(payload.message)
+    }
+
     try {
       for (;;) {
         const { done: finished, value } = await reader.read()
-        if (finished) break
+        if (finished) {
+          // A last frame that arrived without its trailing blank line would
+          // otherwise sit in the buffer and be discarded — losing the entire
+          // report after the server had already done the work. JSON.parse
+          // rejects a truncated frame, so a genuinely incomplete tail is still
+          // dropped rather than half-read.
+          if (buffer.trim()) emit(buffer)
+          break
+        }
 
         buffer += decoder.decode(value, { stream: true })
         const parts = buffer.split('\n\n')
         buffer = parts.pop() ?? ''
 
-        for (const part of parts) {
-          const trimmed = part.trim()
-          if (!trimmed.startsWith('data: ')) continue
-
-          let payload: AnalysisStreamEvent
-          try {
-            payload = JSON.parse(trimmed.slice(6)) as AnalysisStreamEvent
-          } catch (err) {
-            console.error('Malformed SSE payload', err)
-            continue
-          }
-
-          if (payload.event === 'progress') onProgress?.(payload.progress, payload.message)
-          else if (payload.event === 'complete') onComplete?.(payload.result)
-          else if (payload.event === 'error') onError?.(payload.message)
-        }
+        for (const part of parts) emit(part)
       }
     } catch (err) {
       if ((err as Error).name !== 'AbortError') throw err

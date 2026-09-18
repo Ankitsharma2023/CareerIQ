@@ -1,0 +1,310 @@
+{
+  "dataset": {
+    "job_descriptions": 9,
+    "candidates": 42,
+    "grade_3": 12,
+    "grade_2": 10,
+    "grade_1": 11,
+    "grade_0": 9
+  },
+  "ranking": {
+    "ndcg@5": 0.9984,
+    "ndcg@10": 0.9984,
+    "rbo": 0.9668,
+    "spearman": 0.9609
+  },
+  "by_stress": {
+    "career_change": 1.0,
+    "general": 0.9951,
+    "keyword_stuffing": 1.0,
+    "mangled_extraction": 1.0,
+    "near_tie": 1.0,
+    "overqualification": 1.0,
+    "vocabulary": 1.0
+  },
+  "equivalence": {
+    "pairs_checked": 3,
+    "max_gap": 2.72,
+    "mean_gap": 1.15,
+    "detail": [
+      {
+        "case": "platform-vocabulary",
+        "stress": "vocabulary",
+        "pair": [
+          "pv-abbrev",
+          "pv-spelled"
+        ],
+        "scores": [
+          83.04,
+          85.76
+        ],
+        "gap": 2.72
+      },
+      {
+        "case": "frontend-mangled-extraction",
+        "stress": "mangled_extraction",
+        "pair": [
+          "me-clean",
+          "me-mangled"
+        ],
+        "scores": [
+          90.57,
+          90.08
+        ],
+        "gap": 0.49
+      },
+      {
+        "case": "ml-near-ties",
+        "stress": "near_tie",
+        "pair": [
+          "nt-production",
+          "nt-balanced"
+        ],
+        "scores": [
+          88.45,
+          88.68
+        ],
+        "gap": 0.23
+      }
+    ]
+  },
+  "extraction": {
+    "skill_f1": 0.903,
+    "missing_skill_f1": 0.7379,
+    "cases_with_skill_labels": 40
+  },
+  "parsing": {
+    "overall_recall": 0.8333333333333334,
+    "by_layout": {
+      "single-column": 0.6666666666666666,
+      "two-column": 1.0,
+      "table-heavy": 1.0
+    },
+    "by_field": {
+      "name": 1.0,
+      "email": 0.75,
+      "phone": 1.0,
+      "linkedin": 0.5,
+      "github": 1.0
+    },
+    "worst": [
+      {
+        "id": "contact-in-footer",
+        "recall": 0.3333333333333333,
+        "lost": [
+          "email",
+          "linkedin"
+        ]
+      },
+      {
+        "id": "clean-single-column",
+        "recall": 1.0,
+        "lost": []
+      },
+      {
+        "id": "two-column-interleaved",
+        "recall": 1.0,
+        "lost": []
+      },
+      {
+        "id": "table-header",
+        "recall": 1.0,
+        "lost": []
+      }
+    ]
+  },
+  "per_case": [
+    {
+      "id": "backend-python-fastapi",
+      "job_title": "Senior Backend Engineer (Python)",
+      "stress": "general",
+      "ndcg@5": 1.0,
+      "rbo": 1.0,
+      "spearman": 1.0,
+      "predicted_order": [
+        "bp-strong",
+        "bp-good",
+        "bp-stretch",
+        "bp-nofit"
+      ],
+      "ideal_order": [
+        "bp-strong",
+        "bp-good",
+        "bp-stretch",
+        "bp-nofit"
+      ]
+    },
+    {
+      "id": "ml-engineer",
+      "job_title": "Machine Learning Engineer",
+      "stress": "general",
+      "ndcg@5": 0.9854,
+      "rbo": 0.973,
+      "spearman": 0.8,
+      "predicted_order": [
+        "ml-strong",
+        "ml-good",
+        "ml-nofit",
+        "ml-stretch"
+      ],
+      "ideal_order": [
+        "ml-strong",
+        "ml-good",
+        "ml-stretch",
+        "ml-nofit"
+      ]
+    },
+    {
+      "id": "frontend-react",
+      "job_title": "Frontend Engineer (React)",
+      "stress": "general",
+      "ndcg@5": 1.0,
+      "rbo": 1.0,
+      "spearman": 1.0,
+      "predicted_order": [
+        "fe-strong",
+        "fe-good",
+        "fe-stretch",
+        "fe-nofit"
+      ],
+      "ideal_order": [
+        "fe-strong",
+        "fe-good",
+        "fe-stretch",
+        "fe-nofit"
+      ]
+    },
+    {
+      "id": "platform-vocabulary",
+      "job_title": "Platform Engineer",
+      "stress": "vocabulary",
+      "ndcg@5": 1.0,
+      "rbo": 0.9,
+      "spearman": 0.9747,
+      "predicted_order": [
+        "pv-spelled",
+        "pv-abbrev",
+        "pv-partial",
+        "pv-adjacent",
+        "pv-nofit"
+      ],
+      "ideal_order": [
+        "pv-abbrev",
+        "pv-spelled",
+        "pv-partial",
+        "pv-adjacent",
+        "pv-nofit"
+      ]
+    },
+    {
+      "id": "data-engineer-stuffing",
+      "job_title": "Data Engineer",
+      "stress": "keyword_stuffing",
+      "ndcg@5": 1.0,
+      "rbo": 1.0,
+      "spearman": 0.9747,
+      "predicted_order": [
+        "ds-genuine",
+        "ds-solid",
+        "ds-stuffed",
+        "ds-junior",
+        "ds-nofit"
+      ],
+      "ideal_order": [
+        "ds-genuine",
+        "ds-solid",
+        "ds-stuffed",
+        "ds-junior",
+        "ds-nofit"
+      ]
+    },
+    {
+      "id": "backend-career-change",
+      "job_title": "Backend Engineer",
+      "stress": "career_change",
+      "ndcg@5": 1.0,
+      "rbo": 0.973,
+      "spearman": 0.9747,
+      "predicted_order": [
+        "cc-traditional",
+        "cc-changer",
+        "cc-bootcamp",
+        "cc-misleading-title",
+        "cc-nofit"
+      ],
+      "ideal_order": [
+        "cc-traditional",
+        "cc-changer",
+        "cc-misleading-title",
+        "cc-bootcamp",
+        "cc-nofit"
+      ]
+    },
+    {
+      "id": "junior-overqualification",
+      "job_title": "Junior Frontend Developer",
+      "stress": "overqualification",
+      "ndcg@5": 1.0,
+      "rbo": 0.955,
+      "spearman": 0.9747,
+      "predicted_order": [
+        "jo-right-fit",
+        "jo-mid",
+        "jo-graduate",
+        "jo-principal",
+        "jo-nofit"
+      ],
+      "ideal_order": [
+        "jo-right-fit",
+        "jo-graduate",
+        "jo-mid",
+        "jo-principal",
+        "jo-nofit"
+      ]
+    },
+    {
+      "id": "ml-near-ties",
+      "job_title": "Machine Learning Engineer",
+      "stress": "near_tie",
+      "ndcg@5": 1.0,
+      "rbo": 0.9,
+      "spearman": 0.9747,
+      "predicted_order": [
+        "nt-balanced",
+        "nt-production",
+        "nt-research",
+        "nt-analyst",
+        "nt-nofit"
+      ],
+      "ideal_order": [
+        "nt-production",
+        "nt-balanced",
+        "nt-research",
+        "nt-analyst",
+        "nt-nofit"
+      ]
+    },
+    {
+      "id": "frontend-mangled-extraction",
+      "job_title": "Senior Frontend Engineer",
+      "stress": "mangled_extraction",
+      "ndcg@5": 1.0,
+      "rbo": 1.0,
+      "spearman": 0.9747,
+      "predicted_order": [
+        "me-clean",
+        "me-mangled",
+        "me-tables",
+        "me-weak",
+        "me-nofit"
+      ],
+      "ideal_order": [
+        "me-clean",
+        "me-mangled",
+        "me-tables",
+        "me-weak",
+        "me-nofit"
+      ]
+    }
+  ]
+}

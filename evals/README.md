@@ -58,28 +58,47 @@ nDCG but obvious here.
 
 ## Current baseline (deterministic pipeline, no LLM)
 
+Committed as `evals/baseline.json`, regenerated after the Phase 1 cleanup.
+Re-cut it whenever the numbers below stop matching a fresh run, and say in the
+commit what moved.
+
 ```
-ndcg@5   0.9775      keyword_stuffing     0.8326  <-- weakest
-rbo      0.9507      overqualification    0.9648
-spearman 0.9033      everything else      1.0000
+ndcg@5   0.9984      everything except "general"   1.0000
+ndcg@10  0.9984      general                       0.9951  <-- weakest
+rbo      0.9668
+spearman 0.9609
 
-equivalence   worst gap 12.53   (pv-abbrev 68.9 vs pv-spelled 81.4)
-skill_f1 0.9077      missing_skill_f1 0.7663
-parser recall 0.8333 (single-column 0.67)
+equivalence   worst gap 2.72   (pv-abbrev 83.0 vs pv-spelled 85.8)
+skill_f1 0.9030      missing_skill_f1 0.7379
+parser recall 0.8333 (single-column 0.67; linkedin 0.50, email 0.75)
 ```
 
-### What this already tells us
+### What this tells us now
 
-1. **Keyword stuffing wins.** `ds-stuffed` — 48 listed technologies, no
-   evidence of using any — ranks **first**, above the engineer who actually
-   built the pipelines. This is the clearest defect in the system.
-2. **Experience level is ignored.** `jo-principal` ranks **second** for a role
-   explicitly advertised at 0–2 years.
-3. **Vocabulary costs 12.5 points.** Identical substance, different spelling.
-   This is what the Phase 5 taxonomy work exists to fix.
-4. **Extraction mangling costs almost nothing** (0.6 gap) — the embedding model
-   is more robust to column interleaving than expected. Useful: it lowers the
-   priority of layout-aware parsing relative to the other three.
+1. **The benchmark is saturated.** Six of the seven stress families score a
+   perfect 1.0000 and the seventh scores 0.9951. Keyword stuffing, career
+   change, overqualification, near ties and mangled extraction are all solved
+   *as posed here*. That is not a claim that the system handles them in the
+   world — it is a statement that these 42 self-labelled candidates can no
+   longer tell a good change from a bad one.
+2. **So ranking metrics have almost no power left.** A change that improves
+   the product cannot show up in a number already at 1.0. Neither can a
+   regression, until it is large enough to flip an order. Adding more cases of
+   the same kind does not fix this: they would be labelled by the same person
+   who tuned the system.
+3. **Vocabulary sensitivity is nearly closed but not closed.** Writing
+   `K8s`/`TF`/`Postgres` instead of the full words still costs 2.72 points of
+   a possible 100, down from 12.53. The residual is small enough that the
+   invariance gate sits at 5 with a documented ratchet to 3 once it closes.
+4. **Skill extraction is where the headroom is.** `missing_skill_f1` at 0.7379
+   means roughly a quarter of the reported gaps are wrong — the number a user
+   acts on directly, and the one no ranking metric reflects.
+5. **The parser is the other weak point.** 0.67 recall on single-column
+   layouts, with LinkedIn found half the time. Item 9 rebuilds this path.
+
+The honest conclusion is the one that shaped Phase 2: the instrument needs
+external ground truth — a public dataset and human graders — because no amount
+of additional self-labelled stress cases can restore its power.
 
 ## Grades are provisional — review them
 
@@ -127,12 +146,16 @@ have nothing to discriminate — `tests/test_eval_metrics.py` enforces this.
 
 ## Workflow
 
-1. Run `python evals/run.py --json > baseline.json` **before** changing anything.
+1. `python evals/run.py --json > before.json` **before** changing anything.
 2. Make the change.
-3. Re-run and diff. If the number did not move, the change did not work —
-   find out why before continuing.
+3. Re-run and diff against `before.json`. If the number did not move, either
+   the change did nothing or the benchmark cannot see it — find out which
+   before continuing, because at current saturation the second is likely.
+4. When a change is meant to move the baseline, regenerate `evals/baseline.json`
+   in the same commit.
 
-Phase 5's exit criterion is **+10 nDCG points over the Phase 0 baseline**.
-
-With the stress cases in place there is now real headroom: 0.9775 overall,
-0.8326 on keyword stuffing, and a 12.53-point equivalence gap to close.
+The old exit criterion — "+10 nDCG points over the Phase 0 baseline" — has been
+met and then some, and is no longer a useful target: nDCG@5 is 0.9984 and there
+are 0.0016 points left to win. Phase 2 replaces it with criteria that can still
+discriminate: agreement with human graders, performance on a public dataset,
+and the invariance gates.

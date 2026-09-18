@@ -34,6 +34,7 @@ import pdfplumber  # noqa: E402
 
 from evals.dataset import load_cases  # noqa: E402
 from evals.pdf_builder import ATTACK_MODES, resume_pdf  # noqa: E402
+from evals.provenance import provenance  # noqa: E402
 from evals.tfidf import TfidfSpace  # noqa: E402
 
 from services.evidence import (  # noqa: E402  isort:skip
@@ -182,7 +183,7 @@ def run(limit: int | None = None) -> dict:
         } if rows else {},
         "leaked_documents": sum(1 for r in rows if r["hidden_recovered"]),
     }
-    return {"summary": summary, "rows": rows}
+    return {"provenance": provenance(), "summary": summary, "rows": rows}
 
 
 def render(report: dict) -> str:

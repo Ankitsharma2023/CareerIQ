@@ -1,4 +1,36 @@
 {
+  "provenance": {
+    "generated_at": "2026-09-18T12:15:14+00:00",
+    "git": {
+      "commit": "cdb0cedf3c86cfa490946e2bb2f9a3b75f9d07ce",
+      "branch": "upgrade-v2",
+      "dirty": false
+    },
+    "python": "3.10.12",
+    "platform": "Linux-6.8.0-138-generic-x86_64-with-glibc2.35",
+    "packages": {
+      "fastembed": "0.8.0",
+      "onnxruntime": "1.23.2",
+      "numpy": "2.2.6",
+      "pdfplumber": "0.11.10",
+      "pypdf": "6.19.0",
+      "tokenizers": "0.23.2"
+    },
+    "models": {
+      "embedding": "BAAI/bge-small-en-v1.5",
+      "llm_chain": [
+        "nvidia/nemotron-3-super-120b-a12b:free",
+        "nvidia/nemotron-3-nano-30b-a3b:free",
+        "nvidia/nemotron-3-ultra-550b-a55b:free"
+      ],
+      "structured_output_mode": "auto"
+    },
+    "datasets": {
+      "seed.jsonl": "f26a30d42faa504f",
+      "stress_a.jsonl": "27eb72465913fead",
+      "stress_b.jsonl": "12f1014104b89982"
+    }
+  },
   "dataset": {
     "job_descriptions": 9,
     "candidates": 42,

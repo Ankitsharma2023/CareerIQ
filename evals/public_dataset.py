@@ -28,6 +28,7 @@ sys.path.insert(0, str(Path(__file__).parent.parent))
 import numpy as np  # noqa: E402
 
 from evals import stats  # noqa: E402
+from evals.provenance import provenance  # noqa: E402
 from evals.tfidf import TfidfSpace  # noqa: E402
 
 from services.evidence import (  # noqa: E402  isort:skip
@@ -274,6 +275,7 @@ def summarize(records: list[dict], revision: str, subsampled: bool) -> dict:
         }
 
     return {
+        "provenance": provenance(),
         "dataset": {
             "name": DATASET,
             "split": SPLIT,

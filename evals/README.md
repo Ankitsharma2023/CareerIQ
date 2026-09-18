@@ -399,6 +399,30 @@ Relevance grades: **3** strong fit · **2** good fit · **1** stretch · **0** n
 Every case needs at least one grade-3 and one grade-0, or the ranking metrics
 have nothing to discriminate — `tests/test_eval_metrics.py` enforces this.
 
+## Provenance
+
+Every harness stamps its output with what produced it: the commit and whether
+the tree was dirty, the embedding model, the LLM chain, digests of each
+`data/*.jsonl`, and the versions of the libraries that can move a score
+(fastembed, onnxruntime, numpy, pdfplumber, pypdf, tokenizers).
+
+```
+  PROVENANCE
+    commit      e0ad72f5358c
+    embedding   BAAI/bge-small-en-v1.5
+    packages    fastembed 0.8.0, numpy 2.2.6, onnxruntime 1.23.2, ...
+    data        seed.jsonl:f26a30d4, stress_a.jsonl:27eb7246, ...
+```
+
+The dataset digests are the part worth understanding. The labels in
+`data/*.jsonl` are the ground truth everything here rests on, and this README
+asks you to change them where you disagree. A digest makes that edit visible:
+a number measured against `stress_a.jsonl:27eb7246` is not comparable to one
+measured after the file changed, and without the digest nothing would say so.
+
+A run from a dirty working tree is labelled `(DIRTY TREE)`, because the commit
+then does not describe the code that produced the number.
+
 ## Workflow
 
 1. `python evals/run.py --json > before.json` **before** changing anything.

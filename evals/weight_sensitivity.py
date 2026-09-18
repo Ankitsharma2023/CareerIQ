@@ -35,6 +35,7 @@ import numpy as np  # noqa: E402
 
 from evals import metrics, stats  # noqa: E402
 from evals.dataset import load_cases  # noqa: E402
+from evals.provenance import provenance  # noqa: E402
 from evals.public_dataset import LABEL_ORDER  # noqa: E402
 
 from services import scoring  # noqa: E402  isort:skip
@@ -233,6 +234,7 @@ def run(checkpoint: Path | None, cache: Path | None = None) -> dict:
 
     shipped = (scoring.WEIGHT_SEMANTIC, scoring.WEIGHT_COVERAGE, scoring.WEIGHT_CLARITY)
     return {
+        "provenance": provenance(),
         "shipped_weights": list(shipped),
         "grid_step": STEP,
         "points": len(points),

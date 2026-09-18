@@ -36,6 +36,8 @@ from evals import metrics  # noqa: E402
 from evals.dataset import EvalCase, load_cases, summary  # noqa: E402
 from evals.llm_score import eval_score  # noqa: E402
 from evals.parse_recall import DEFAULT_FIXTURES, score_all  # noqa: E402
+from evals.provenance import provenance  # noqa: E402
+from evals.provenance import render as render_provenance
 
 
 def score_candidates(case: EvalCase, skills: list[str]) -> list[dict]:
@@ -149,6 +151,7 @@ def evaluate(cases: list[EvalCase]) -> dict:
         })
 
     return {
+        "provenance": provenance(),
         "dataset": summary(cases),
         "ranking": {
             "ndcg@5": round(metrics.mean(ndcg_5), 4),
@@ -271,6 +274,9 @@ def render(report: dict) -> str:
         add(f"    {case['id']:<26} ndcg@5={case['ndcg@5']:.3f}")
         add(f"      predicted {case['predicted_order']}")
         add(f"      ideal     {case['ideal_order']}")
+
+    if "provenance" in report:
+        lines += render_provenance(report["provenance"])
 
     add("")
     return "\n".join(lines)

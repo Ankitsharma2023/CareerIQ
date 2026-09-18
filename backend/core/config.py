@@ -153,6 +153,11 @@ class Settings(BaseSettings):
     rate_limit: str = "5/minute"
     max_file_size_mb: int = 5
     max_jd_length: int = 8000
+    # Pasted resume text, for the coaching endpoints. A two-page resume is
+    # roughly 4,500 characters, so this is ten times any real one — it is not
+    # a product limit, it is the ceiling on how much text five regex passes
+    # can be handed before redaction stops being cheap.
+    max_resume_text_length: int = 50_000
 
     # ── Behaviour ─────────────────────────────────────────────────────────
     warm_up_embeddings: bool = True

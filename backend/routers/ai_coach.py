@@ -19,10 +19,14 @@ class CoachingRequest(BaseModel):
     """
 
     mode: str = Field(description=f"One of: {', '.join(COACHING_MODES)}")
-    weak_phrases: list[str] = []
-    missing_skills: list[str] = []
-    job_description: str = ""
-    resume_text: str = ""
+    weak_phrases: list[str] = Field(default=[], max_length=50)
+    missing_skills: list[str] = Field(default=[], max_length=100)
+    # Bounded because redaction runs five regex passes over resume_text before
+    # the prompt is built. Unbounded, a single large paste made those passes
+    # arbitrarily long — and an oversized body should be refused at the edge
+    # with a 422 rather than absorbed and worked on.
+    job_description: str = Field(default="", max_length=settings.max_jd_length)
+    resume_text: str = Field(default="", max_length=settings.max_resume_text_length)
 
 
 class CoachingResponse(BaseModel):

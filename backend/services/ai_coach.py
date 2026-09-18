@@ -47,6 +47,13 @@ async def rewrite_bullets(weak_phrases: list[str], resume_text: str, job_descrip
     if not weak_phrases:
         return "No weak phrases detected — your bullet points already use strong action language."
 
+    # Five regex passes over the whole document, run on a worker thread. The
+    # text is redacted before it is truncated, not after: slicing first can cut
+    # an email address in half and send the surviving fragment upstream.
+    # Running it inline held the event loop for the duration — the same defect
+    # already fixed in /analyze, in a handler that shares the same process.
+    redacted = await asyncio.to_thread(redact_for_prompt, resume_text)
+
     prompt = f"""You are an elite resume coach who has helped thousands of candidates land engineering roles.
 
 WEAK PHRASES found in the resume: {", ".join(weak_phrases[:8])}
@@ -55,7 +62,7 @@ TARGET JOB DESCRIPTION:
 {job_description[:600]}
 
 RESUME EXCERPT (for context):
-{redact_for_prompt(resume_text)[:900]}
+{redacted[:900]}
 
 Rewrite exactly 4 improved bullet points. Rules:
 - Start each with a strong past-tense action verb (Engineered, Architected, Spearheaded, Optimized)

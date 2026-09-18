@@ -95,6 +95,25 @@ class LLMEvaluation(LLMEvaluationPublic):
         return LLMEvaluationPublic(**self.model_dump(exclude={"overall_score"}))
 
 
+class HiddenTextInfo(BaseModel):
+    """Text present in the file that a reader cannot see.
+
+    White-on-white, sub-4pt or off-page characters are dropped before anything
+    is scored, so none of it reaches the skill extractor, the embeddings or the
+    ATS simulation. This is the record of what was removed.
+    """
+    detected:           bool = False
+    # False when the document could not be inspected character by character
+    # (the pypdf fallback). No findings then means "not looked at", not "clean".
+    inspected:          bool = True
+    hidden_char_count:  int = 0
+    visible_char_count: int = 0
+    reasons:            dict[str, int] = {}
+    samples:            list[str] = []
+    injection_phrases:  list[str] = []
+    hidden_text:        str = ""
+
+
 class ATSCheckResult(BaseModel):
     score:    float
     note:     str
@@ -154,6 +173,8 @@ class AnalysisResponse(BaseModel):
     ats_simulation:   ATSSimulation | None = None
     # Unified fit score — the same function the evaluation harness scores
     fit:              FitBreakdown | None = None
+    # Text a reader cannot see, removed before scoring.
+    hidden_text:      HiddenTextInfo | None = None
     # New: metadata
     contact_info:     dict[str, str] | None = None
     word_count:       int | None = None

@@ -13,6 +13,7 @@ from models.schemas import (
     AnalysisResponse,
     ExperienceInfo,
     FitBreakdown,
+    HiddenTextInfo,
     LLMEvaluation,
     TopMatch,
 )
@@ -149,6 +150,7 @@ async def analyze_resume(
             resume_raw   = parse_result["raw_text"]
             contact_info = parse_result.get("contact_info", {})
             word_count   = parse_result.get("word_count", 0)
+            hidden_text  = parse_result.get("hidden_text") or {}
 
             if word_count < 30:
                 yield f"data: {json.dumps({'event': 'error', 'message': 'Resume appears to contain too little text. Is it a scanned image PDF?'})}\n\n"
@@ -295,6 +297,7 @@ async def analyze_resume(
                 experience_info       = experience_info,
                 section_scores        = section_scores_result,
                 ats_simulation        = ats_sim,
+                hidden_text           = HiddenTextInfo(**hidden_text) if hidden_text else None,
                 fit                   = FitBreakdown(**fit.to_dict()),
                 contact_info          = contact_info,
                 word_count            = word_count,

@@ -100,6 +100,48 @@ The honest conclusion is the one that shaped Phase 2: the instrument needs
 external ground truth — a public dataset and human graders — because no amount
 of additional self-labelled stress cases can restore its power.
 
+## Hidden-text attack
+
+```bash
+python evals/hidden_text_attack.py
+python evals/hidden_text_attack.py --json > attack.json
+```
+
+Takes every candidate in the stress set graded 1 or 0 — the ones an inflated
+score would wrongly promote — and rebuilds their resume as a PDF with the job
+description's own skill list pasted in where a reader cannot see it. Three
+variants: white on white, 0.5pt, and positioned below the page edge. The
+measurement is **score inflation**, the attacked resume's score minus the same
+resume's without the hidden block. Zero is the only good answer.
+
+60 attacked documents (20 candidates x 3 modes):
+
+| Scorer | Mean inflation | Worst | Documents moved |
+|---|---:|---:|---:|
+| TF-IDF cosine | +11.51 | +21.89 | 60 / 60 |
+| Embedding similarity | +3.04 | +7.65 | 57 / 60 |
+| CareerIQ, all extractable text | +26.77 | +54.92 | 60 / 60 |
+| **CareerIQ, visible text only** | **+0.00** | **+0.00** | **0 / 60** |
+
+Reading the table: the pipeline was the *most* exploitable of the three before
+the filter, not the least. That is a consequence of doing more with the text —
+keyword coverage, evidence weighting and skill extraction all read the hidden
+block and all agreed it was real experience, so their contributions compounded.
+A candidate graded "not a fit" gained up to 54.92 points of 100. Afterwards no
+hidden term reaches the scored input in any of the 60 documents.
+
+The three modes score identically because the payload is the same string in
+each; what differs is only how it is concealed from a human, and extraction
+recovers it either way. That is the point worth making about the attack: it
+costs nothing to vary, so a detector that catches one variant catches nothing.
+
+The baselines are included because "our system resists this" means little
+without them. TF-IDF is the standard non-neural baseline in the resume-matching
+literature; it moves less than the full pipeline only because it does less. The
+embedding model is the most robust of the three unfiltered — a hidden skill list
+is a bag of nouns with no sentence structure, and the encoder discounts it —
+but +7.65 at worst is still a candidate moving up a ranking for free.
+
 ## Grades are provisional — review them
 
 Every grade in the stress files is **my proposed judgement, not ground truth**.

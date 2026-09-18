@@ -5,6 +5,8 @@ import re
 from core.config import settings
 from utils.text_cleaner import clean_text
 
+from services.hidden_text import HiddenTextReport, extract_visible_text
+
 logger = logging.getLogger(__name__)
 
 # Try pdfplumber first (better for multi-column resumes), fallback to pypdf
@@ -34,18 +36,19 @@ except ImportError:
 # with a different message.
 
 
-def _extract_pdf_pdfplumber(file_path: str) -> str:
-    """Extract text from PDF using pdfplumber (handles columns / tables better)."""
-    text_parts = []
+def _extract_pdf_pdfplumber(file_path: str) -> tuple[str, HiddenTextReport]:
+    """Extract the *visible* text from a PDF, and report what was dropped.
+
+    pdfplumber is used rather than pypdf because it exposes per-character
+    colour, size and position, which is what separates text a reader can see
+    from text only a parser can. See services/hidden_text.py.
+    """
     try:
         with pdfplumber.open(file_path) as pdf:
-            for page in pdf.pages:
-                page_text = page.extract_text(x_tolerance=3, y_tolerance=3)
-                if page_text:
-                    text_parts.append(page_text)
+            return extract_visible_text(pdf)
     except Exception:
         logger.exception("pdfplumber failed to read %s; falling back to pypdf", file_path)
-    return "\n".join(text_parts)
+        return "", HiddenTextReport(inspected=False)
 
 
 def _extract_pdf_pypdf(file_path: str) -> str:
@@ -62,14 +65,25 @@ def _extract_pdf_pypdf(file_path: str) -> str:
     return text
 
 
-def extract_text_from_pdf(file_path: str) -> str:
-    """Try pdfplumber; fall back to pypdf."""
-    text = ""
+def extract_pdf(file_path: str) -> tuple[str, HiddenTextReport]:
+    """Try pdfplumber; fall back to pypdf. Returns visible text and a report.
+
+    The pypdf fallback cannot see character attributes, so when it runs the
+    report is marked ``inspected=False``. A caller must not read that as a
+    clean document — it means the document was never looked at.
+    """
     if _HAS_PDFPLUMBER:
-        text = _extract_pdf_pdfplumber(file_path)
-    if not text.strip() and _HAS_PYPDF:
-        text = _extract_pdf_pypdf(file_path)
-    return text
+        text, report = _extract_pdf_pdfplumber(file_path)
+        if text.strip():
+            return text, report
+    if _HAS_PYPDF:
+        return _extract_pdf_pypdf(file_path), HiddenTextReport(inspected=False)
+    return "", HiddenTextReport(inspected=False)
+
+
+def extract_text_from_pdf(file_path: str) -> str:
+    """Visible text only, for callers that do not need the report."""
+    return extract_pdf(file_path)[0]
 
 
 def extract_text_from_docx(file_path: str) -> str:
@@ -132,8 +146,9 @@ def parse_resume(file_path: str) -> dict:
 
     ext = file_path.rsplit(".", 1)[-1].lower()
 
+    hidden = HiddenTextReport(inspected=False)
     if ext == "pdf":
-        raw_text = extract_text_from_pdf(file_path)
+        raw_text, hidden = extract_pdf(file_path)
     elif ext == "docx":
         raw_text = extract_text_from_docx(file_path)
     else:
@@ -151,4 +166,7 @@ def parse_resume(file_path: str) -> dict:
         "contact_info": contact_info,
         "word_count":  len(cleaned.split()),
         "char_count":  len(raw_text),
+        # Everything downstream scores raw_text, which now contains only what a
+        # reader can see. This is the record of what was removed.
+        "hidden_text": hidden.to_dict(),
     }

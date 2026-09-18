@@ -155,7 +155,11 @@ class TestPdfExtraction:
         assert "Ada Lovelace" in extract_text_from_pdf(pdf_file)
 
     def test_falls_back_to_pypdf_when_pdfplumber_returns_nothing(self, pdf_file, monkeypatch):
-        monkeypatch.setattr(parser, "_extract_pdf_pdfplumber", lambda _p: "")
+        from services.hidden_text import HiddenTextReport
+
+        monkeypatch.setattr(
+            parser, "_extract_pdf_pdfplumber", lambda _p: ("", HiddenTextReport(inspected=False))
+        )
         assert "Ada Lovelace" in extract_text_from_pdf(pdf_file)
 
     def test_a_corrupt_pdf_yields_empty_text_rather_than_raising(self, tmp_path: Path):
@@ -217,7 +221,9 @@ class TestParseResume:
 
     def test_an_image_only_pdf_says_so(self, tmp_path: Path, monkeypatch):
         """The common real failure: a scanned resume with no text layer."""
-        monkeypatch.setattr(parser, "extract_text_from_pdf", lambda _p: "   ")
+        from services.hidden_text import HiddenTextReport
+
+        monkeypatch.setattr(parser, "extract_pdf", lambda _p: ("   ", HiddenTextReport()))
         path = tmp_path / "scan.pdf"
         path.write_bytes(MINIMAL_PDF)
         with pytest.raises(ValueError, match="image-based"):
@@ -229,7 +235,7 @@ class TestParseResume:
         def _boom(_path):
             raise AssertionError("an oversized file must be refused before parsing")
 
-        monkeypatch.setattr(parser, "extract_text_from_pdf", _boom)
+        monkeypatch.setattr(parser, "extract_pdf", _boom)
         path = tmp_path / "big.pdf"
         path.write_bytes(b"x" * (2 * 1024 * 1024))
         with pytest.raises(ValueError, match="exceeds limit"):

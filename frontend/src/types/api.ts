@@ -79,6 +79,20 @@ export interface LLMEvaluation {
   fit_verdict: string
 }
 
+/** Text present in the file that a reader cannot see — white-on-white,
+ *  sub-4pt or off-page. Removed before anything is scored. `inspected: false`
+ *  means the document could not be checked, not that it is clean. */
+export interface HiddenTextInfo {
+  detected: boolean
+  inspected: boolean
+  hidden_char_count: number
+  visible_char_count: number
+  reasons: Record<string, number>
+  samples: string[]
+  injection_phrases: string[]
+  hidden_text: string
+}
+
 export interface ATSCheck {
   score: number
   note: string
@@ -133,6 +147,7 @@ export interface AnalysisResponse {
   /** Deterministic, from services/section_parser.py — the only section scores. */
   section_scores?: Record<string, number> | null
   ats_simulation?: ATSSimulation | null
+  hidden_text?: HiddenTextInfo | null
   /** Optional because history entries saved before Phase 5 predate it. */
   fit?: FitBreakdown | null
   contact_info?: Record<string, string> | null

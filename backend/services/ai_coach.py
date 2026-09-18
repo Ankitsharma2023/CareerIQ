@@ -12,6 +12,8 @@ from core import llm
 from core.config import settings
 from core.redact import redact_for_prompt
 
+from services.fabrication_guard import describe, find_fabrications
+
 logger = logging.getLogger(__name__)
 
 UNAVAILABLE = "Could not generate this right now. Check the API key in backend/.env and try again."
@@ -53,8 +55,69 @@ async def rewrite_bullets(weak_phrases: list[str], resume_text: str, job_descrip
     # Running it inline held the event loop for the duration — the same defect
     # already fixed in /analyze, in a handler that shares the same process.
     redacted = await asyncio.to_thread(redact_for_prompt, resume_text)
+    excerpt = redacted[:900]
 
-    prompt = f"""You are an elite resume coach who has helped thousands of candidates land engineering roles.
+    prompt = _rewrite_prompt(weak_phrases, excerpt, job_description)
+    content = await _safe_text(prompt, max_tokens=450)
+    if content == UNAVAILABLE:
+        return content
+
+    # The prompt asks the model not to invent metrics. This is the part that
+    # checks, because an instruction is a request and not a guarantee — and a
+    # fabricated number in a resume is a question the candidate cannot answer
+    # in the interview it earns them.
+    from services.skill_extractor import load_skills
+
+    skills = await asyncio.to_thread(load_skills)
+    fabrications = await asyncio.to_thread(find_fabrications, excerpt, content, skills)
+    if not fabrications:
+        return content
+
+    logger.warning(
+        "Bullet rewrite invented %d thing(s); retrying once: %s",
+        len(fabrications),
+        describe(fabrications),
+    )
+    retry = await _safe_text(
+        _rewrite_prompt(weak_phrases, excerpt, job_description, correction=describe(fabrications)),
+        max_tokens=450,
+    )
+    if retry == UNAVAILABLE:
+        return UNAVAILABLE
+
+    if not await asyncio.to_thread(find_fabrications, excerpt, retry, skills):
+        return retry
+
+    # Two attempts, both inventing. Returning the better-looking of two
+    # fabrications would be the worst available outcome: the user cannot tell
+    # which numbers are theirs, and the whole point of the feature is that they
+    # can paste the result into a resume.
+    logger.error("Bullet rewrite invented content twice; returning nothing")
+    return (
+        "Could not rewrite these without inventing details that are not in your "
+        "resume — the model kept adding metrics you did not claim. Add the real "
+        "numbers to the bullets yourself (scale, impact, duration) and try again; "
+        "with something concrete to work from it has no reason to invent."
+    )
+
+
+def _rewrite_prompt(
+    weak_phrases: list[str],
+    excerpt: str,
+    job_description: str,
+    correction: str = "",
+) -> str:
+    correction_block = ""
+    if correction:
+        correction_block = (
+            "\n\nYour previous attempt was rejected because it introduced "
+            f"{correction}. Every number, tool and name in your answer must "
+            "already appear in the resume excerpt above. If a bullet has no "
+            "metric, make it specific about what was built and leave the "
+            "quantity out."
+        )
+
+    return f"""You are an elite resume coach who has helped thousands of candidates land engineering roles.
 
 WEAK PHRASES found in the resume: {", ".join(weak_phrases[:8])}
 
@@ -62,12 +125,12 @@ TARGET JOB DESCRIPTION:
 {job_description[:600]}
 
 RESUME EXCERPT (for context):
-{redacted[:900]}
+{excerpt}
 
 Rewrite exactly 4 improved bullet points. Rules:
 - Start each with a strong past-tense action verb (Engineered, Architected, Spearheaded, Optimized)
-- Include specific numbers, percentages or impact wherever the source supports it
-- Do not invent metrics that are not implied by the resume excerpt
+- Use only numbers that already appear in the resume excerpt. Do not invent metrics.
+- Do not introduce tools, technologies or employers the excerpt does not mention
 - Align language to the job description keywords
 - Each bullet at most 20 words
 
@@ -77,9 +140,7 @@ Format:
 • [Rewritten bullet 3]
 • [Rewritten bullet 4]
 
-Then one line: **Key change:** [what made these stronger]"""
-
-    return await _safe_text(prompt, max_tokens=450)
+Then one line: **Key change:** [what made these stronger]{correction_block}"""
 
 
 # ── Cover letter ──────────────────────────────────────────────────────────────

@@ -260,6 +260,59 @@ are ever changed on the strength of this, the public dataset has to be re-run
 and reported as a second, separate measurement, and the fitted number is not
 evidence about anything.
 
+## Human grading study
+
+```bash
+python evals/grading_study.py prepare --checkpoint run.jsonl --out study/
+# three people fill in grades_a/b/c.csv
+python evals/grading_study.py score --dir study/
+```
+
+**Status: built, waiting on three graders.** This is the one item in the plan
+that cannot be written — it needs people to read resumes. Everything around
+them is here and tested, so the remaining step is finding them.
+
+Why it is worth the week it costs. The public split gave rho = 0.099, but those
+labels arrive with no rubric, no record of who wrote them and no measure of how
+much the labellers agreed with each other. A correlation against labels of
+unknown reliability has an unknown ceiling: if the labels are themselves noisy,
+a low correlation may be measuring the noise rather than the system. Grading a
+sample locally, with a stated rubric and a measured agreement figure, is what
+puts a number on that ceiling.
+
+`prepare` writes 50 pairs sampled from the public split, stratified by CareerIQ
+score decile so the study spans the range rather than clustering where the
+system puts most resumes. Each grader gets the same pairs in a different order,
+from a different seed, so drift in strictness over a session does not line up
+across graders and get measured as agreement. The packets contain the resume,
+the job description and an empty grade column — no score, no dataset label.
+`_key.csv` holds those and is not shared.
+
+`score` reports:
+
+- **Krippendorff's alpha, ordinal** — not Fleiss' kappa, because a 0 graded
+  against a 3 should count as worse disagreement than a 0 against a 1, and
+  because alpha tolerates a grader skipping a pair. Convention: 0.80+ reliable,
+  0.667–0.80 tentative only, below that too noisy to conclude from.
+- **Exact and within-one-grade agreement**, because those are the numbers a
+  reader can check by eye.
+- **CareerIQ vs the mean human grade**, Spearman with a bootstrap CI.
+- **The human ceiling** — each grader against the mean of the other two. This
+  is the number that makes the rest interpretable. If three people agree with
+  each other at 0.6, a system scoring 0.5 is doing well; the same 0.5 against a
+  ceiling of 0.95 is not. Reporting the system's correlation without it is the
+  usual way this measurement gets overstated.
+- **A cross-check against the public dataset's own labels.** If the graders
+  disagree with those labels about as much as CareerIQ does, the labels are the
+  noisy part and the rho = 0.099 result understates the system. If the graders
+  agree with them and CareerIQ does not, it does not.
+
+The scoring path is tested end to end against simulated graders whose agreement
+is known by construction — including the cases that matter when real people are
+involved: a blank grade is an abstention rather than a zero, a pair graded once
+is excluded rather than counted as perfect agreement, two returned packets are
+enough and one is refused.
+
 ## Hidden-text attack
 
 ```bash

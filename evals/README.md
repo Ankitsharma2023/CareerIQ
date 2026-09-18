@@ -194,6 +194,72 @@ resume–job pairs, the system's score correlates with human judgement at
 rho = 0.099 (95% CI 0.053–0.145), statistically distinguishable from zero and
 not distinguishable from a TF-IDF baseline.*
 
+## Component weight sensitivity
+
+```bash
+python evals/weight_sensitivity.py --checkpoint run.jsonl \
+    --component-cache components.json
+```
+
+`compute_fit` blends semantic 0.45 / coverage 0.40 / clarity 0.15, and those
+numbers were chosen by judgement. The sweep walks all 231 triples on a 0.05
+simplex and re-scores everything at each one. It is exact rather than
+approximate: components are computed once per candidate and `compute_fit`
+itself is then called with the module constants rebound, so no copy of the
+blending formula lives in the sweep and it cannot drift from the product.
+
+Full grid in `weight_sensitivity_result.json`.
+
+| | Shipped | Best achievable | Worst | Spread |
+|---|---:|---:|---:|---:|
+| Stress nDCG@5 | 0.9984 | 1.0000 | 0.9760 | 0.024 |
+| Public Spearman | 0.0988 | 0.1198 | 0.0445 | 0.075 |
+| Public pairwise | 0.5239 | 0.5411 | 0.5113 | 0.030 |
+
+Three things come out of this, and the third is the one that matters.
+
+**1. The stress set cannot distinguish weightings.** Every triple in the grid
+scores between 0.976 and 1.000 on nDCG@5 — including `[0.0, 1.0, 0.0]`, pure
+keyword coverage with the embeddings switched off entirely, which scores 0.999.
+A benchmark on which deleting the semantic component costs nothing cannot be
+used to justify keeping it. This is the saturation problem stated as sharply as
+it can be stated.
+
+**2. No weighting rescues the public dataset.** The best triple anywhere in the
+grid reaches Spearman 0.1198 and pairwise 0.5411, against pre-registered bars of
+0.30 and 0.60. The gap is not a tuning problem. Roughly two thirds of the
+distance from chance to the target would still be missing after picking the
+single best weighting in hindsight.
+
+**3. The two datasets disagree about which way to tune.**
+
+| Weights | Stress nDCG@5 | Public Spearman |
+|---|---:|---:|
+| `[0.45, 0.40, 0.15]` shipped | 0.9984 | 0.0988 |
+| `[0.35, 0.65, 0.00]` stress-optimal | **1.0000** | 0.0875 |
+| `[0.95, 0.00, 0.05]` public-optimal | 0.9791 | **0.1198** |
+
+The hand-labelled set wants coverage-heavy weights. The independently labelled
+set wants almost pure semantic similarity, with coverage at zero. Each optimum
+is worse than shipped on the other dataset. Tuning against the stress set would
+have moved the weights *away* from what third-party labels prefer — which is
+the concrete form of the problem with grading your own homework, and a better
+argument for external ground truth than any amount of saying so.
+
+Both optima also drive clarity to ~0. It survives in the shipped blend on the
+reasoning in `services/scoring.py` (writing quality should not decide a
+comparison between two candidates who both match the role), not because either
+benchmark asks for it.
+
+### This is analysis, not tuning
+
+Adopting `[0.95, 0.00, 0.05]` because the table above says it scores best would
+be exactly the move `PREREGISTRATION.md` rules out: weights fitted to the test
+split, reported as a result on that split. The weights are unchanged. If they
+are ever changed on the strength of this, the public dataset has to be re-run
+and reported as a second, separate measurement, and the fitted number is not
+evidence about anything.
+
 ## Hidden-text attack
 
 ```bash

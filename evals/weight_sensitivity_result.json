@@ -1,0 +1,4171 @@
+{
+  "shipped_weights": [
+    0.45,
+    0.4,
+    0.15
+  ],
+  "grid_step": 0.05,
+  "points": 231,
+  "stress": [
+    {
+      "weights": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "ndcg@5": 0.99,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        0.05,
+        0.95
+      ],
+      "ndcg@5": 0.99,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        0.1,
+        0.9
+      ],
+      "ndcg@5": 0.99,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        0.15,
+        0.85
+      ],
+      "ndcg@5": 0.9928,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        0.2,
+        0.8
+      ],
+      "ndcg@5": 0.9928,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        0.25,
+        0.75
+      ],
+      "ndcg@5": 0.9928,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        0.3,
+        0.7
+      ],
+      "ndcg@5": 0.9943,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        0.35,
+        0.65
+      ],
+      "ndcg@5": 0.9951,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        0.4,
+        0.6
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        0.45,
+        0.55
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        0.5,
+        0.5
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        0.55,
+        0.45
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        0.6,
+        0.4
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        0.65,
+        0.35
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        0.7,
+        0.3
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        0.75,
+        0.25
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        0.8,
+        0.2
+      ],
+      "ndcg@5": 0.9963,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        0.85,
+        0.15
+      ],
+      "ndcg@5": 0.9963,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        0.9,
+        0.1
+      ],
+      "ndcg@5": 0.9963,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        0.95,
+        0.05
+      ],
+      "ndcg@5": 0.9963,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "ndcg@5": 0.9986,
+      "worst_equivalence_gap": 0.0
+    },
+    {
+      "weights": [
+        0.05,
+        0.0,
+        0.95
+      ],
+      "ndcg@5": 0.9821,
+      "worst_equivalence_gap": 0.3
+    },
+    {
+      "weights": [
+        0.05,
+        0.05,
+        0.9
+      ],
+      "ndcg@5": 0.99,
+      "worst_equivalence_gap": 0.31
+    },
+    {
+      "weights": [
+        0.05,
+        0.1,
+        0.85
+      ],
+      "ndcg@5": 0.99,
+      "worst_equivalence_gap": 0.3
+    },
+    {
+      "weights": [
+        0.05,
+        0.15,
+        0.8
+      ],
+      "ndcg@5": 0.99,
+      "worst_equivalence_gap": 0.3
+    },
+    {
+      "weights": [
+        0.05,
+        0.2,
+        0.75
+      ],
+      "ndcg@5": 0.9928,
+      "worst_equivalence_gap": 0.3
+    },
+    {
+      "weights": [
+        0.05,
+        0.25,
+        0.7
+      ],
+      "ndcg@5": 0.9943,
+      "worst_equivalence_gap": 0.3
+    },
+    {
+      "weights": [
+        0.05,
+        0.3,
+        0.65
+      ],
+      "ndcg@5": 0.9943,
+      "worst_equivalence_gap": 0.3
+    },
+    {
+      "weights": [
+        0.05,
+        0.35,
+        0.6
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.3
+    },
+    {
+      "weights": [
+        0.05,
+        0.4,
+        0.55
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.31
+    },
+    {
+      "weights": [
+        0.05,
+        0.45,
+        0.5
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.3
+    },
+    {
+      "weights": [
+        0.05,
+        0.5,
+        0.45
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.31
+    },
+    {
+      "weights": [
+        0.05,
+        0.55,
+        0.4
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.3
+    },
+    {
+      "weights": [
+        0.05,
+        0.6,
+        0.35
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 0.3
+    },
+    {
+      "weights": [
+        0.05,
+        0.65,
+        0.3
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 0.3
+    },
+    {
+      "weights": [
+        0.05,
+        0.7,
+        0.25
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 0.3
+    },
+    {
+      "weights": [
+        0.05,
+        0.75,
+        0.2
+      ],
+      "ndcg@5": 0.9963,
+      "worst_equivalence_gap": 0.3
+    },
+    {
+      "weights": [
+        0.05,
+        0.8,
+        0.15
+      ],
+      "ndcg@5": 0.9963,
+      "worst_equivalence_gap": 0.3
+    },
+    {
+      "weights": [
+        0.05,
+        0.85,
+        0.1
+      ],
+      "ndcg@5": 0.9963,
+      "worst_equivalence_gap": 0.3
+    },
+    {
+      "weights": [
+        0.05,
+        0.9,
+        0.05
+      ],
+      "ndcg@5": 0.9963,
+      "worst_equivalence_gap": 0.3
+    },
+    {
+      "weights": [
+        0.05,
+        0.95,
+        0.0
+      ],
+      "ndcg@5": 0.9986,
+      "worst_equivalence_gap": 0.31
+    },
+    {
+      "weights": [
+        0.1,
+        0.0,
+        0.9
+      ],
+      "ndcg@5": 0.9821,
+      "worst_equivalence_gap": 0.6
+    },
+    {
+      "weights": [
+        0.1,
+        0.05,
+        0.85
+      ],
+      "ndcg@5": 0.99,
+      "worst_equivalence_gap": 0.61
+    },
+    {
+      "weights": [
+        0.1,
+        0.1,
+        0.8
+      ],
+      "ndcg@5": 0.99,
+      "worst_equivalence_gap": 0.6
+    },
+    {
+      "weights": [
+        0.1,
+        0.15,
+        0.75
+      ],
+      "ndcg@5": 0.99,
+      "worst_equivalence_gap": 0.6
+    },
+    {
+      "weights": [
+        0.1,
+        0.2,
+        0.7
+      ],
+      "ndcg@5": 0.9928,
+      "worst_equivalence_gap": 0.61
+    },
+    {
+      "weights": [
+        0.1,
+        0.25,
+        0.65
+      ],
+      "ndcg@5": 0.9943,
+      "worst_equivalence_gap": 0.6
+    },
+    {
+      "weights": [
+        0.1,
+        0.3,
+        0.6
+      ],
+      "ndcg@5": 0.9952,
+      "worst_equivalence_gap": 0.61
+    },
+    {
+      "weights": [
+        0.1,
+        0.35,
+        0.55
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.6
+    },
+    {
+      "weights": [
+        0.1,
+        0.4,
+        0.5
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.61
+    },
+    {
+      "weights": [
+        0.1,
+        0.45,
+        0.45
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.6
+    },
+    {
+      "weights": [
+        0.1,
+        0.5,
+        0.4
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.61
+    },
+    {
+      "weights": [
+        0.1,
+        0.55,
+        0.35
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.6
+    },
+    {
+      "weights": [
+        0.1,
+        0.6,
+        0.3
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 0.6
+    },
+    {
+      "weights": [
+        0.1,
+        0.65,
+        0.25
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 0.6
+    },
+    {
+      "weights": [
+        0.1,
+        0.7,
+        0.2
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 0.6
+    },
+    {
+      "weights": [
+        0.1,
+        0.75,
+        0.15
+      ],
+      "ndcg@5": 0.9963,
+      "worst_equivalence_gap": 0.61
+    },
+    {
+      "weights": [
+        0.1,
+        0.8,
+        0.1
+      ],
+      "ndcg@5": 0.9963,
+      "worst_equivalence_gap": 0.6
+    },
+    {
+      "weights": [
+        0.1,
+        0.85,
+        0.05
+      ],
+      "ndcg@5": 0.997,
+      "worst_equivalence_gap": 0.61
+    },
+    {
+      "weights": [
+        0.1,
+        0.9,
+        0.0
+      ],
+      "ndcg@5": 0.9986,
+      "worst_equivalence_gap": 0.6
+    },
+    {
+      "weights": [
+        0.15,
+        0.0,
+        0.85
+      ],
+      "ndcg@5": 0.9821,
+      "worst_equivalence_gap": 0.9
+    },
+    {
+      "weights": [
+        0.15,
+        0.05,
+        0.8
+      ],
+      "ndcg@5": 0.99,
+      "worst_equivalence_gap": 0.91
+    },
+    {
+      "weights": [
+        0.15,
+        0.1,
+        0.75
+      ],
+      "ndcg@5": 0.99,
+      "worst_equivalence_gap": 0.91
+    },
+    {
+      "weights": [
+        0.15,
+        0.15,
+        0.7
+      ],
+      "ndcg@5": 0.99,
+      "worst_equivalence_gap": 0.91
+    },
+    {
+      "weights": [
+        0.15,
+        0.2,
+        0.65
+      ],
+      "ndcg@5": 0.9952,
+      "worst_equivalence_gap": 0.91
+    },
+    {
+      "weights": [
+        0.15,
+        0.25,
+        0.6
+      ],
+      "ndcg@5": 0.9952,
+      "worst_equivalence_gap": 0.9
+    },
+    {
+      "weights": [
+        0.15,
+        0.3,
+        0.55
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.91
+    },
+    {
+      "weights": [
+        0.15,
+        0.35,
+        0.5
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.9
+    },
+    {
+      "weights": [
+        0.15,
+        0.4,
+        0.45
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.91
+    },
+    {
+      "weights": [
+        0.15,
+        0.45,
+        0.4
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.9
+    },
+    {
+      "weights": [
+        0.15,
+        0.5,
+        0.35
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 0.91
+    },
+    {
+      "weights": [
+        0.15,
+        0.55,
+        0.3
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 0.91
+    },
+    {
+      "weights": [
+        0.15,
+        0.6,
+        0.25
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 0.91
+    },
+    {
+      "weights": [
+        0.15,
+        0.65,
+        0.2
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 0.91
+    },
+    {
+      "weights": [
+        0.15,
+        0.7,
+        0.15
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 0.9
+    },
+    {
+      "weights": [
+        0.15,
+        0.75,
+        0.1
+      ],
+      "ndcg@5": 0.997,
+      "worst_equivalence_gap": 0.91
+    },
+    {
+      "weights": [
+        0.15,
+        0.8,
+        0.05
+      ],
+      "ndcg@5": 0.997,
+      "worst_equivalence_gap": 0.9
+    },
+    {
+      "weights": [
+        0.15,
+        0.85,
+        0.0
+      ],
+      "ndcg@5": 0.9986,
+      "worst_equivalence_gap": 0.91
+    },
+    {
+      "weights": [
+        0.2,
+        0.0,
+        0.8
+      ],
+      "ndcg@5": 0.9821,
+      "worst_equivalence_gap": 1.21
+    },
+    {
+      "weights": [
+        0.2,
+        0.05,
+        0.75
+      ],
+      "ndcg@5": 0.99,
+      "worst_equivalence_gap": 1.21
+    },
+    {
+      "weights": [
+        0.2,
+        0.1,
+        0.7
+      ],
+      "ndcg@5": 0.99,
+      "worst_equivalence_gap": 1.21
+    },
+    {
+      "weights": [
+        0.2,
+        0.15,
+        0.65
+      ],
+      "ndcg@5": 0.9924,
+      "worst_equivalence_gap": 1.21
+    },
+    {
+      "weights": [
+        0.2,
+        0.2,
+        0.6
+      ],
+      "ndcg@5": 0.9952,
+      "worst_equivalence_gap": 1.21
+    },
+    {
+      "weights": [
+        0.2,
+        0.25,
+        0.55
+      ],
+      "ndcg@5": 0.9952,
+      "worst_equivalence_gap": 1.2
+    },
+    {
+      "weights": [
+        0.2,
+        0.3,
+        0.5
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 1.21
+    },
+    {
+      "weights": [
+        0.2,
+        0.35,
+        0.45
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 1.2
+    },
+    {
+      "weights": [
+        0.2,
+        0.4,
+        0.4
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 1.21
+    },
+    {
+      "weights": [
+        0.2,
+        0.45,
+        0.35
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 1.21
+    },
+    {
+      "weights": [
+        0.2,
+        0.5,
+        0.3
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 1.21
+    },
+    {
+      "weights": [
+        0.2,
+        0.55,
+        0.25
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 1.21
+    },
+    {
+      "weights": [
+        0.2,
+        0.6,
+        0.2
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 1.21
+    },
+    {
+      "weights": [
+        0.2,
+        0.65,
+        0.15
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 1.21
+    },
+    {
+      "weights": [
+        0.2,
+        0.7,
+        0.1
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 1.21
+    },
+    {
+      "weights": [
+        0.2,
+        0.75,
+        0.05
+      ],
+      "ndcg@5": 0.997,
+      "worst_equivalence_gap": 1.21
+    },
+    {
+      "weights": [
+        0.2,
+        0.8,
+        0.0
+      ],
+      "ndcg@5": 0.9986,
+      "worst_equivalence_gap": 1.2
+    },
+    {
+      "weights": [
+        0.25,
+        0.0,
+        0.75
+      ],
+      "ndcg@5": 0.9821,
+      "worst_equivalence_gap": 1.51
+    },
+    {
+      "weights": [
+        0.25,
+        0.05,
+        0.7
+      ],
+      "ndcg@5": 0.99,
+      "worst_equivalence_gap": 1.51
+    },
+    {
+      "weights": [
+        0.25,
+        0.1,
+        0.65
+      ],
+      "ndcg@5": 0.9924,
+      "worst_equivalence_gap": 1.51
+    },
+    {
+      "weights": [
+        0.25,
+        0.15,
+        0.6
+      ],
+      "ndcg@5": 0.9924,
+      "worst_equivalence_gap": 1.51
+    },
+    {
+      "weights": [
+        0.25,
+        0.2,
+        0.55
+      ],
+      "ndcg@5": 0.9952,
+      "worst_equivalence_gap": 1.51
+    },
+    {
+      "weights": [
+        0.25,
+        0.25,
+        0.5
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 1.51
+    },
+    {
+      "weights": [
+        0.25,
+        0.3,
+        0.45
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 1.51
+    },
+    {
+      "weights": [
+        0.25,
+        0.35,
+        0.4
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 1.51
+    },
+    {
+      "weights": [
+        0.25,
+        0.4,
+        0.35
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 1.51
+    },
+    {
+      "weights": [
+        0.25,
+        0.45,
+        0.3
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 1.51
+    },
+    {
+      "weights": [
+        0.25,
+        0.5,
+        0.25
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 1.51
+    },
+    {
+      "weights": [
+        0.25,
+        0.55,
+        0.2
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 1.51
+    },
+    {
+      "weights": [
+        0.25,
+        0.6,
+        0.15
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 1.51
+    },
+    {
+      "weights": [
+        0.25,
+        0.65,
+        0.1
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 1.51
+    },
+    {
+      "weights": [
+        0.25,
+        0.7,
+        0.05
+      ],
+      "ndcg@5": 0.997,
+      "worst_equivalence_gap": 1.51
+    },
+    {
+      "weights": [
+        0.25,
+        0.75,
+        0.0
+      ],
+      "ndcg@5": 0.9986,
+      "worst_equivalence_gap": 1.51
+    },
+    {
+      "weights": [
+        0.3,
+        0.0,
+        0.7
+      ],
+      "ndcg@5": 0.9821,
+      "worst_equivalence_gap": 1.81
+    },
+    {
+      "weights": [
+        0.3,
+        0.05,
+        0.65
+      ],
+      "ndcg@5": 0.9915,
+      "worst_equivalence_gap": 1.81
+    },
+    {
+      "weights": [
+        0.3,
+        0.1,
+        0.6
+      ],
+      "ndcg@5": 0.9924,
+      "worst_equivalence_gap": 1.81
+    },
+    {
+      "weights": [
+        0.3,
+        0.15,
+        0.55
+      ],
+      "ndcg@5": 0.9924,
+      "worst_equivalence_gap": 1.82
+    },
+    {
+      "weights": [
+        0.3,
+        0.2,
+        0.5
+      ],
+      "ndcg@5": 0.9924,
+      "worst_equivalence_gap": 1.81
+    },
+    {
+      "weights": [
+        0.3,
+        0.25,
+        0.45
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 1.82
+    },
+    {
+      "weights": [
+        0.3,
+        0.3,
+        0.4
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 1.81
+    },
+    {
+      "weights": [
+        0.3,
+        0.35,
+        0.35
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 1.81
+    },
+    {
+      "weights": [
+        0.3,
+        0.4,
+        0.3
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 1.81
+    },
+    {
+      "weights": [
+        0.3,
+        0.45,
+        0.25
+      ],
+      "ndcg@5": 0.9976,
+      "worst_equivalence_gap": 1.81
+    },
+    {
+      "weights": [
+        0.3,
+        0.5,
+        0.2
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 1.81
+    },
+    {
+      "weights": [
+        0.3,
+        0.55,
+        0.15
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 1.81
+    },
+    {
+      "weights": [
+        0.3,
+        0.6,
+        0.1
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 1.81
+    },
+    {
+      "weights": [
+        0.3,
+        0.65,
+        0.05
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 1.81
+    },
+    {
+      "weights": [
+        0.3,
+        0.7,
+        0.0
+      ],
+      "ndcg@5": 0.9986,
+      "worst_equivalence_gap": 1.82
+    },
+    {
+      "weights": [
+        0.35,
+        0.0,
+        0.65
+      ],
+      "ndcg@5": 0.9836,
+      "worst_equivalence_gap": 2.11
+    },
+    {
+      "weights": [
+        0.35,
+        0.05,
+        0.6
+      ],
+      "ndcg@5": 0.9924,
+      "worst_equivalence_gap": 2.12
+    },
+    {
+      "weights": [
+        0.35,
+        0.1,
+        0.55
+      ],
+      "ndcg@5": 0.9924,
+      "worst_equivalence_gap": 2.11
+    },
+    {
+      "weights": [
+        0.35,
+        0.15,
+        0.5
+      ],
+      "ndcg@5": 0.9924,
+      "worst_equivalence_gap": 2.12
+    },
+    {
+      "weights": [
+        0.35,
+        0.2,
+        0.45
+      ],
+      "ndcg@5": 0.9924,
+      "worst_equivalence_gap": 2.11
+    },
+    {
+      "weights": [
+        0.35,
+        0.25,
+        0.4
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 2.12
+    },
+    {
+      "weights": [
+        0.35,
+        0.3,
+        0.35
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 2.11
+    },
+    {
+      "weights": [
+        0.35,
+        0.35,
+        0.3
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 2.12
+    },
+    {
+      "weights": [
+        0.35,
+        0.4,
+        0.25
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 2.11
+    },
+    {
+      "weights": [
+        0.35,
+        0.45,
+        0.2
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 2.11
+    },
+    {
+      "weights": [
+        0.35,
+        0.5,
+        0.15
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 2.12
+    },
+    {
+      "weights": [
+        0.35,
+        0.55,
+        0.1
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 2.11
+    },
+    {
+      "weights": [
+        0.35,
+        0.6,
+        0.05
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 2.12
+    },
+    {
+      "weights": [
+        0.35,
+        0.65,
+        0.0
+      ],
+      "ndcg@5": 1.0,
+      "worst_equivalence_gap": 2.11
+    },
+    {
+      "weights": [
+        0.4,
+        0.0,
+        0.6
+      ],
+      "ndcg@5": 0.9845,
+      "worst_equivalence_gap": 2.41
+    },
+    {
+      "weights": [
+        0.4,
+        0.05,
+        0.55
+      ],
+      "ndcg@5": 0.9924,
+      "worst_equivalence_gap": 2.42
+    },
+    {
+      "weights": [
+        0.4,
+        0.1,
+        0.5
+      ],
+      "ndcg@5": 0.9924,
+      "worst_equivalence_gap": 2.41
+    },
+    {
+      "weights": [
+        0.4,
+        0.15,
+        0.45
+      ],
+      "ndcg@5": 0.9924,
+      "worst_equivalence_gap": 2.42
+    },
+    {
+      "weights": [
+        0.4,
+        0.2,
+        0.4
+      ],
+      "ndcg@5": 0.9932,
+      "worst_equivalence_gap": 2.41
+    },
+    {
+      "weights": [
+        0.4,
+        0.25,
+        0.35
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 2.42
+    },
+    {
+      "weights": [
+        0.4,
+        0.3,
+        0.3
+      ],
+      "ndcg@5": 0.996,
+      "worst_equivalence_gap": 2.41
+    },
+    {
+      "weights": [
+        0.4,
+        0.35,
+        0.25
+      ],
+      "ndcg@5": 0.9968,
+      "worst_equivalence_gap": 2.42
+    },
+    {
+      "weights": [
+        0.4,
+        0.4,
+        0.2
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 2.42
+    },
+    {
+      "weights": [
+        0.4,
+        0.45,
+        0.15
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 2.41
+    },
+    {
+      "weights": [
+        0.4,
+        0.5,
+        0.1
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 2.42
+    },
+    {
+      "weights": [
+        0.4,
+        0.55,
+        0.05
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 2.41
+    },
+    {
+      "weights": [
+        0.4,
+        0.6,
+        0.0
+      ],
+      "ndcg@5": 1.0,
+      "worst_equivalence_gap": 2.42
+    },
+    {
+      "weights": [
+        0.45,
+        0.0,
+        0.55
+      ],
+      "ndcg@5": 0.9845,
+      "worst_equivalence_gap": 2.71
+    },
+    {
+      "weights": [
+        0.45,
+        0.05,
+        0.5
+      ],
+      "ndcg@5": 0.9924,
+      "worst_equivalence_gap": 2.72
+    },
+    {
+      "weights": [
+        0.45,
+        0.1,
+        0.45
+      ],
+      "ndcg@5": 0.9924,
+      "worst_equivalence_gap": 2.71
+    },
+    {
+      "weights": [
+        0.45,
+        0.15,
+        0.4
+      ],
+      "ndcg@5": 0.9924,
+      "worst_equivalence_gap": 2.72
+    },
+    {
+      "weights": [
+        0.45,
+        0.2,
+        0.35
+      ],
+      "ndcg@5": 0.9932,
+      "worst_equivalence_gap": 2.72
+    },
+    {
+      "weights": [
+        0.45,
+        0.25,
+        0.3
+      ],
+      "ndcg@5": 0.9968,
+      "worst_equivalence_gap": 2.72
+    },
+    {
+      "weights": [
+        0.45,
+        0.3,
+        0.25
+      ],
+      "ndcg@5": 0.9968,
+      "worst_equivalence_gap": 2.72
+    },
+    {
+      "weights": [
+        0.45,
+        0.35,
+        0.2
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 2.72
+    },
+    {
+      "weights": [
+        0.45,
+        0.4,
+        0.15
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 2.72
+    },
+    {
+      "weights": [
+        0.45,
+        0.45,
+        0.1
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 2.71
+    },
+    {
+      "weights": [
+        0.45,
+        0.5,
+        0.05
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 2.72
+    },
+    {
+      "weights": [
+        0.45,
+        0.55,
+        0.0
+      ],
+      "ndcg@5": 1.0,
+      "worst_equivalence_gap": 2.71
+    },
+    {
+      "weights": [
+        0.5,
+        0.0,
+        0.5
+      ],
+      "ndcg@5": 0.9845,
+      "worst_equivalence_gap": 3.03
+    },
+    {
+      "weights": [
+        0.5,
+        0.05,
+        0.45
+      ],
+      "ndcg@5": 0.9924,
+      "worst_equivalence_gap": 3.02
+    },
+    {
+      "weights": [
+        0.5,
+        0.1,
+        0.4
+      ],
+      "ndcg@5": 0.9924,
+      "worst_equivalence_gap": 3.02
+    },
+    {
+      "weights": [
+        0.5,
+        0.15,
+        0.35
+      ],
+      "ndcg@5": 0.994,
+      "worst_equivalence_gap": 3.02
+    },
+    {
+      "weights": [
+        0.5,
+        0.2,
+        0.3
+      ],
+      "ndcg@5": 0.994,
+      "worst_equivalence_gap": 3.02
+    },
+    {
+      "weights": [
+        0.5,
+        0.25,
+        0.25
+      ],
+      "ndcg@5": 0.9968,
+      "worst_equivalence_gap": 3.02
+    },
+    {
+      "weights": [
+        0.5,
+        0.3,
+        0.2
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 3.02
+    },
+    {
+      "weights": [
+        0.5,
+        0.35,
+        0.15
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 3.02
+    },
+    {
+      "weights": [
+        0.5,
+        0.4,
+        0.1
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 3.02
+    },
+    {
+      "weights": [
+        0.5,
+        0.45,
+        0.05
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 3.02
+    },
+    {
+      "weights": [
+        0.5,
+        0.5,
+        0.0
+      ],
+      "ndcg@5": 1.0,
+      "worst_equivalence_gap": 3.02
+    },
+    {
+      "weights": [
+        0.55,
+        0.0,
+        0.45
+      ],
+      "ndcg@5": 0.9845,
+      "worst_equivalence_gap": 3.33
+    },
+    {
+      "weights": [
+        0.55,
+        0.05,
+        0.4
+      ],
+      "ndcg@5": 0.9932,
+      "worst_equivalence_gap": 3.32
+    },
+    {
+      "weights": [
+        0.55,
+        0.1,
+        0.35
+      ],
+      "ndcg@5": 0.9932,
+      "worst_equivalence_gap": 3.32
+    },
+    {
+      "weights": [
+        0.55,
+        0.15,
+        0.3
+      ],
+      "ndcg@5": 0.994,
+      "worst_equivalence_gap": 3.32
+    },
+    {
+      "weights": [
+        0.55,
+        0.2,
+        0.25
+      ],
+      "ndcg@5": 0.994,
+      "worst_equivalence_gap": 3.32
+    },
+    {
+      "weights": [
+        0.55,
+        0.25,
+        0.2
+      ],
+      "ndcg@5": 0.994,
+      "worst_equivalence_gap": 3.32
+    },
+    {
+      "weights": [
+        0.55,
+        0.3,
+        0.15
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 3.32
+    },
+    {
+      "weights": [
+        0.55,
+        0.35,
+        0.1
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 3.33
+    },
+    {
+      "weights": [
+        0.55,
+        0.4,
+        0.05
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 3.32
+    },
+    {
+      "weights": [
+        0.55,
+        0.45,
+        -0.0
+      ],
+      "ndcg@5": 1.0,
+      "worst_equivalence_gap": 3.33
+    },
+    {
+      "weights": [
+        0.6,
+        0.0,
+        0.4
+      ],
+      "ndcg@5": 0.9853,
+      "worst_equivalence_gap": 3.63
+    },
+    {
+      "weights": [
+        0.6,
+        0.05,
+        0.35
+      ],
+      "ndcg@5": 0.9932,
+      "worst_equivalence_gap": 3.62
+    },
+    {
+      "weights": [
+        0.6,
+        0.1,
+        0.3
+      ],
+      "ndcg@5": 0.994,
+      "worst_equivalence_gap": 3.62
+    },
+    {
+      "weights": [
+        0.6,
+        0.15,
+        0.25
+      ],
+      "ndcg@5": 0.994,
+      "worst_equivalence_gap": 3.62
+    },
+    {
+      "weights": [
+        0.6,
+        0.2,
+        0.2
+      ],
+      "ndcg@5": 0.994,
+      "worst_equivalence_gap": 3.62
+    },
+    {
+      "weights": [
+        0.6,
+        0.25,
+        0.15
+      ],
+      "ndcg@5": 0.9956,
+      "worst_equivalence_gap": 3.63
+    },
+    {
+      "weights": [
+        0.6,
+        0.3,
+        0.1
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 3.62
+    },
+    {
+      "weights": [
+        0.6,
+        0.35,
+        0.05
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 3.63
+    },
+    {
+      "weights": [
+        0.6,
+        0.4,
+        0.0
+      ],
+      "ndcg@5": 1.0,
+      "worst_equivalence_gap": 3.62
+    },
+    {
+      "weights": [
+        0.65,
+        0.0,
+        0.35
+      ],
+      "ndcg@5": 0.9853,
+      "worst_equivalence_gap": 3.93
+    },
+    {
+      "weights": [
+        0.65,
+        0.05,
+        0.3
+      ],
+      "ndcg@5": 0.9932,
+      "worst_equivalence_gap": 3.92
+    },
+    {
+      "weights": [
+        0.65,
+        0.1,
+        0.25
+      ],
+      "ndcg@5": 0.994,
+      "worst_equivalence_gap": 3.93
+    },
+    {
+      "weights": [
+        0.65,
+        0.15,
+        0.2
+      ],
+      "ndcg@5": 0.994,
+      "worst_equivalence_gap": 3.93
+    },
+    {
+      "weights": [
+        0.65,
+        0.2,
+        0.15
+      ],
+      "ndcg@5": 0.9956,
+      "worst_equivalence_gap": 3.92
+    },
+    {
+      "weights": [
+        0.65,
+        0.25,
+        0.1
+      ],
+      "ndcg@5": 0.9956,
+      "worst_equivalence_gap": 3.93
+    },
+    {
+      "weights": [
+        0.65,
+        0.3,
+        0.05
+      ],
+      "ndcg@5": 0.9984,
+      "worst_equivalence_gap": 3.92
+    },
+    {
+      "weights": [
+        0.65,
+        0.35,
+        0.0
+      ],
+      "ndcg@5": 0.9969,
+      "worst_equivalence_gap": 3.93
+    },
+    {
+      "weights": [
+        0.7,
+        0.0,
+        0.3
+      ],
+      "ndcg@5": 0.9853,
+      "worst_equivalence_gap": 4.23
+    },
+    {
+      "weights": [
+        0.7,
+        0.05,
+        0.25
+      ],
+      "ndcg@5": 0.9853,
+      "worst_equivalence_gap": 4.23
+    },
+    {
+      "weights": [
+        0.7,
+        0.1,
+        0.2
+      ],
+      "ndcg@5": 0.994,
+      "worst_equivalence_gap": 4.23
+    },
+    {
+      "weights": [
+        0.7,
+        0.15,
+        0.15
+      ],
+      "ndcg@5": 0.994,
+      "worst_equivalence_gap": 4.23
+    },
+    {
+      "weights": [
+        0.7,
+        0.2,
+        0.1
+      ],
+      "ndcg@5": 0.9956,
+      "worst_equivalence_gap": 4.23
+    },
+    {
+      "weights": [
+        0.7,
+        0.25,
+        0.05
+      ],
+      "ndcg@5": 0.9925,
+      "worst_equivalence_gap": 4.23
+    },
+    {
+      "weights": [
+        0.7,
+        0.3,
+        0.0
+      ],
+      "ndcg@5": 0.9969,
+      "worst_equivalence_gap": 4.22
+    },
+    {
+      "weights": [
+        0.75,
+        0.0,
+        0.25
+      ],
+      "ndcg@5": 0.9853,
+      "worst_equivalence_gap": 4.53
+    },
+    {
+      "weights": [
+        0.75,
+        0.05,
+        0.2
+      ],
+      "ndcg@5": 0.9861,
+      "worst_equivalence_gap": 4.53
+    },
+    {
+      "weights": [
+        0.75,
+        0.1,
+        0.15
+      ],
+      "ndcg@5": 0.994,
+      "worst_equivalence_gap": 4.53
+    },
+    {
+      "weights": [
+        0.75,
+        0.15,
+        0.1
+      ],
+      "ndcg@5": 0.9956,
+      "worst_equivalence_gap": 4.53
+    },
+    {
+      "weights": [
+        0.75,
+        0.2,
+        0.05
+      ],
+      "ndcg@5": 0.9893,
+      "worst_equivalence_gap": 4.53
+    },
+    {
+      "weights": [
+        0.75,
+        0.25,
+        0.0
+      ],
+      "ndcg@5": 0.9909,
+      "worst_equivalence_gap": 4.53
+    },
+    {
+      "weights": [
+        0.8,
+        0.0,
+        0.2
+      ],
+      "ndcg@5": 0.9853,
+      "worst_equivalence_gap": 4.83
+    },
+    {
+      "weights": [
+        0.8,
+        0.05,
+        0.15
+      ],
+      "ndcg@5": 0.9861,
+      "worst_equivalence_gap": 4.83
+    },
+    {
+      "weights": [
+        0.8,
+        0.1,
+        0.1
+      ],
+      "ndcg@5": 0.9893,
+      "worst_equivalence_gap": 4.83
+    },
+    {
+      "weights": [
+        0.8,
+        0.15,
+        0.05
+      ],
+      "ndcg@5": 0.9893,
+      "worst_equivalence_gap": 4.83
+    },
+    {
+      "weights": [
+        0.8,
+        0.2,
+        -0.0
+      ],
+      "ndcg@5": 0.9909,
+      "worst_equivalence_gap": 4.84
+    },
+    {
+      "weights": [
+        0.85,
+        0.0,
+        0.15
+      ],
+      "ndcg@5": 0.9777,
+      "worst_equivalence_gap": 5.14
+    },
+    {
+      "weights": [
+        0.85,
+        0.05,
+        0.1
+      ],
+      "ndcg@5": 0.9783,
+      "worst_equivalence_gap": 5.13
+    },
+    {
+      "weights": [
+        0.85,
+        0.1,
+        0.05
+      ],
+      "ndcg@5": 0.9893,
+      "worst_equivalence_gap": 5.14
+    },
+    {
+      "weights": [
+        0.85,
+        0.15,
+        0.0
+      ],
+      "ndcg@5": 0.9909,
+      "worst_equivalence_gap": 5.13
+    },
+    {
+      "weights": [
+        0.9,
+        0.0,
+        0.1
+      ],
+      "ndcg@5": 0.976,
+      "worst_equivalence_gap": 5.44
+    },
+    {
+      "weights": [
+        0.9,
+        0.05,
+        0.05
+      ],
+      "ndcg@5": 0.9791,
+      "worst_equivalence_gap": 5.43
+    },
+    {
+      "weights": [
+        0.9,
+        0.1,
+        -0.0
+      ],
+      "ndcg@5": 0.9886,
+      "worst_equivalence_gap": 5.44
+    },
+    {
+      "weights": [
+        0.95,
+        0.0,
+        0.05
+      ],
+      "ndcg@5": 0.9791,
+      "worst_equivalence_gap": 5.74
+    },
+    {
+      "weights": [
+        0.95,
+        0.05,
+        0.0
+      ],
+      "ndcg@5": 0.9807,
+      "worst_equivalence_gap": 5.73
+    },
+    {
+      "weights": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "ndcg@5": 0.9807,
+      "worst_equivalence_gap": 6.04
+    }
+  ],
+  "public": [
+    {
+      "weights": [
+        0.0,
+        0.0,
+        1.0
+      ],
+      "spearman": 0.0692,
+      "pairwise": 0.5377
+    },
+    {
+      "weights": [
+        0.0,
+        0.05,
+        0.95
+      ],
+      "spearman": 0.0695,
+      "pairwise": 0.5373
+    },
+    {
+      "weights": [
+        0.0,
+        0.1,
+        0.9
+      ],
+      "spearman": 0.0694,
+      "pairwise": 0.5367
+    },
+    {
+      "weights": [
+        0.0,
+        0.15,
+        0.85
+      ],
+      "spearman": 0.0705,
+      "pairwise": 0.5362
+    },
+    {
+      "weights": [
+        0.0,
+        0.2,
+        0.8
+      ],
+      "spearman": 0.0699,
+      "pairwise": 0.5344
+    },
+    {
+      "weights": [
+        0.0,
+        0.25,
+        0.75
+      ],
+      "spearman": 0.0693,
+      "pairwise": 0.533
+    },
+    {
+      "weights": [
+        0.0,
+        0.3,
+        0.7
+      ],
+      "spearman": 0.0683,
+      "pairwise": 0.5314
+    },
+    {
+      "weights": [
+        0.0,
+        0.35,
+        0.65
+      ],
+      "spearman": 0.0676,
+      "pairwise": 0.5308
+    },
+    {
+      "weights": [
+        0.0,
+        0.4,
+        0.6
+      ],
+      "spearman": 0.0669,
+      "pairwise": 0.5306
+    },
+    {
+      "weights": [
+        0.0,
+        0.45,
+        0.55
+      ],
+      "spearman": 0.0649,
+      "pairwise": 0.5274
+    },
+    {
+      "weights": [
+        0.0,
+        0.5,
+        0.5
+      ],
+      "spearman": 0.0641,
+      "pairwise": 0.5268
+    },
+    {
+      "weights": [
+        0.0,
+        0.55,
+        0.45
+      ],
+      "spearman": 0.0627,
+      "pairwise": 0.5259
+    },
+    {
+      "weights": [
+        0.0,
+        0.6,
+        0.4
+      ],
+      "spearman": 0.0613,
+      "pairwise": 0.5241
+    },
+    {
+      "weights": [
+        0.0,
+        0.65,
+        0.35
+      ],
+      "spearman": 0.0599,
+      "pairwise": 0.5235
+    },
+    {
+      "weights": [
+        0.0,
+        0.7,
+        0.3
+      ],
+      "spearman": 0.0599,
+      "pairwise": 0.5235
+    },
+    {
+      "weights": [
+        0.0,
+        0.75,
+        0.25
+      ],
+      "spearman": 0.0592,
+      "pairwise": 0.5221
+    },
+    {
+      "weights": [
+        0.0,
+        0.8,
+        0.2
+      ],
+      "spearman": 0.0582,
+      "pairwise": 0.5217
+    },
+    {
+      "weights": [
+        0.0,
+        0.85,
+        0.15
+      ],
+      "spearman": 0.0571,
+      "pairwise": 0.5195
+    },
+    {
+      "weights": [
+        0.0,
+        0.9,
+        0.1
+      ],
+      "spearman": 0.0563,
+      "pairwise": 0.5191
+    },
+    {
+      "weights": [
+        0.0,
+        0.95,
+        0.05
+      ],
+      "spearman": 0.0551,
+      "pairwise": 0.5181
+    },
+    {
+      "weights": [
+        0.0,
+        1.0,
+        0.0
+      ],
+      "spearman": 0.0445,
+      "pairwise": 0.5113
+    },
+    {
+      "weights": [
+        0.05,
+        0.0,
+        0.95
+      ],
+      "spearman": 0.0727,
+      "pairwise": 0.5397
+    },
+    {
+      "weights": [
+        0.05,
+        0.05,
+        0.9
+      ],
+      "spearman": 0.0723,
+      "pairwise": 0.539
+    },
+    {
+      "weights": [
+        0.05,
+        0.1,
+        0.85
+      ],
+      "spearman": 0.0723,
+      "pairwise": 0.5384
+    },
+    {
+      "weights": [
+        0.05,
+        0.15,
+        0.8
+      ],
+      "spearman": 0.0727,
+      "pairwise": 0.5376
+    },
+    {
+      "weights": [
+        0.05,
+        0.2,
+        0.75
+      ],
+      "spearman": 0.0722,
+      "pairwise": 0.536
+    },
+    {
+      "weights": [
+        0.05,
+        0.25,
+        0.7
+      ],
+      "spearman": 0.0718,
+      "pairwise": 0.5343
+    },
+    {
+      "weights": [
+        0.05,
+        0.3,
+        0.65
+      ],
+      "spearman": 0.0713,
+      "pairwise": 0.5337
+    },
+    {
+      "weights": [
+        0.05,
+        0.35,
+        0.6
+      ],
+      "spearman": 0.071,
+      "pairwise": 0.5332
+    },
+    {
+      "weights": [
+        0.05,
+        0.4,
+        0.55
+      ],
+      "spearman": 0.07,
+      "pairwise": 0.5318
+    },
+    {
+      "weights": [
+        0.05,
+        0.45,
+        0.5
+      ],
+      "spearman": 0.0689,
+      "pairwise": 0.5299
+    },
+    {
+      "weights": [
+        0.05,
+        0.5,
+        0.45
+      ],
+      "spearman": 0.0679,
+      "pairwise": 0.5288
+    },
+    {
+      "weights": [
+        0.05,
+        0.55,
+        0.4
+      ],
+      "spearman": 0.0669,
+      "pairwise": 0.5277
+    },
+    {
+      "weights": [
+        0.05,
+        0.6,
+        0.35
+      ],
+      "spearman": 0.0662,
+      "pairwise": 0.528
+    },
+    {
+      "weights": [
+        0.05,
+        0.65,
+        0.3
+      ],
+      "spearman": 0.0654,
+      "pairwise": 0.5269
+    },
+    {
+      "weights": [
+        0.05,
+        0.7,
+        0.25
+      ],
+      "spearman": 0.065,
+      "pairwise": 0.5267
+    },
+    {
+      "weights": [
+        0.05,
+        0.75,
+        0.2
+      ],
+      "spearman": 0.065,
+      "pairwise": 0.5264
+    },
+    {
+      "weights": [
+        0.05,
+        0.8,
+        0.15
+      ],
+      "spearman": 0.0653,
+      "pairwise": 0.5249
+    },
+    {
+      "weights": [
+        0.05,
+        0.85,
+        0.1
+      ],
+      "spearman": 0.0664,
+      "pairwise": 0.5257
+    },
+    {
+      "weights": [
+        0.05,
+        0.9,
+        0.05
+      ],
+      "spearman": 0.0684,
+      "pairwise": 0.5247
+    },
+    {
+      "weights": [
+        0.05,
+        0.95,
+        0.0
+      ],
+      "spearman": 0.0711,
+      "pairwise": 0.5262
+    },
+    {
+      "weights": [
+        0.1,
+        0.0,
+        0.9
+      ],
+      "spearman": 0.0753,
+      "pairwise": 0.5396
+    },
+    {
+      "weights": [
+        0.1,
+        0.05,
+        0.85
+      ],
+      "spearman": 0.075,
+      "pairwise": 0.5389
+    },
+    {
+      "weights": [
+        0.1,
+        0.1,
+        0.8
+      ],
+      "spearman": 0.075,
+      "pairwise": 0.5382
+    },
+    {
+      "weights": [
+        0.1,
+        0.15,
+        0.75
+      ],
+      "spearman": 0.0748,
+      "pairwise": 0.5373
+    },
+    {
+      "weights": [
+        0.1,
+        0.2,
+        0.7
+      ],
+      "spearman": 0.074,
+      "pairwise": 0.5355
+    },
+    {
+      "weights": [
+        0.1,
+        0.25,
+        0.65
+      ],
+      "spearman": 0.0733,
+      "pairwise": 0.5344
+    },
+    {
+      "weights": [
+        0.1,
+        0.3,
+        0.6
+      ],
+      "spearman": 0.0731,
+      "pairwise": 0.534
+    },
+    {
+      "weights": [
+        0.1,
+        0.35,
+        0.55
+      ],
+      "spearman": 0.0727,
+      "pairwise": 0.5335
+    },
+    {
+      "weights": [
+        0.1,
+        0.4,
+        0.5
+      ],
+      "spearman": 0.072,
+      "pairwise": 0.5316
+    },
+    {
+      "weights": [
+        0.1,
+        0.45,
+        0.45
+      ],
+      "spearman": 0.0707,
+      "pairwise": 0.53
+    },
+    {
+      "weights": [
+        0.1,
+        0.5,
+        0.4
+      ],
+      "spearman": 0.0702,
+      "pairwise": 0.5284
+    },
+    {
+      "weights": [
+        0.1,
+        0.55,
+        0.35
+      ],
+      "spearman": 0.0701,
+      "pairwise": 0.5276
+    },
+    {
+      "weights": [
+        0.1,
+        0.6,
+        0.3
+      ],
+      "spearman": 0.0697,
+      "pairwise": 0.5268
+    },
+    {
+      "weights": [
+        0.1,
+        0.65,
+        0.25
+      ],
+      "spearman": 0.0696,
+      "pairwise": 0.5271
+    },
+    {
+      "weights": [
+        0.1,
+        0.7,
+        0.2
+      ],
+      "spearman": 0.0698,
+      "pairwise": 0.528
+    },
+    {
+      "weights": [
+        0.1,
+        0.75,
+        0.15
+      ],
+      "spearman": 0.0703,
+      "pairwise": 0.5262
+    },
+    {
+      "weights": [
+        0.1,
+        0.8,
+        0.1
+      ],
+      "spearman": 0.0709,
+      "pairwise": 0.5246
+    },
+    {
+      "weights": [
+        0.1,
+        0.85,
+        0.05
+      ],
+      "spearman": 0.072,
+      "pairwise": 0.5259
+    },
+    {
+      "weights": [
+        0.1,
+        0.9,
+        0.0
+      ],
+      "spearman": 0.0724,
+      "pairwise": 0.5262
+    },
+    {
+      "weights": [
+        0.15,
+        0.0,
+        0.85
+      ],
+      "spearman": 0.0785,
+      "pairwise": 0.54
+    },
+    {
+      "weights": [
+        0.15,
+        0.05,
+        0.8
+      ],
+      "spearman": 0.0786,
+      "pairwise": 0.5401
+    },
+    {
+      "weights": [
+        0.15,
+        0.1,
+        0.75
+      ],
+      "spearman": 0.0785,
+      "pairwise": 0.5389
+    },
+    {
+      "weights": [
+        0.15,
+        0.15,
+        0.7
+      ],
+      "spearman": 0.0784,
+      "pairwise": 0.5382
+    },
+    {
+      "weights": [
+        0.15,
+        0.2,
+        0.65
+      ],
+      "spearman": 0.0773,
+      "pairwise": 0.5356
+    },
+    {
+      "weights": [
+        0.15,
+        0.25,
+        0.6
+      ],
+      "spearman": 0.0769,
+      "pairwise": 0.5342
+    },
+    {
+      "weights": [
+        0.15,
+        0.3,
+        0.55
+      ],
+      "spearman": 0.0767,
+      "pairwise": 0.5326
+    },
+    {
+      "weights": [
+        0.15,
+        0.35,
+        0.5
+      ],
+      "spearman": 0.0761,
+      "pairwise": 0.5314
+    },
+    {
+      "weights": [
+        0.15,
+        0.4,
+        0.45
+      ],
+      "spearman": 0.0755,
+      "pairwise": 0.5289
+    },
+    {
+      "weights": [
+        0.15,
+        0.45,
+        0.4
+      ],
+      "spearman": 0.0746,
+      "pairwise": 0.5269
+    },
+    {
+      "weights": [
+        0.15,
+        0.5,
+        0.35
+      ],
+      "spearman": 0.0744,
+      "pairwise": 0.527
+    },
+    {
+      "weights": [
+        0.15,
+        0.55,
+        0.3
+      ],
+      "spearman": 0.0742,
+      "pairwise": 0.5281
+    },
+    {
+      "weights": [
+        0.15,
+        0.6,
+        0.25
+      ],
+      "spearman": 0.0739,
+      "pairwise": 0.5283
+    },
+    {
+      "weights": [
+        0.15,
+        0.65,
+        0.2
+      ],
+      "spearman": 0.0739,
+      "pairwise": 0.5273
+    },
+    {
+      "weights": [
+        0.15,
+        0.7,
+        0.15
+      ],
+      "spearman": 0.074,
+      "pairwise": 0.5256
+    },
+    {
+      "weights": [
+        0.15,
+        0.75,
+        0.1
+      ],
+      "spearman": 0.0745,
+      "pairwise": 0.5268
+    },
+    {
+      "weights": [
+        0.15,
+        0.8,
+        0.05
+      ],
+      "spearman": 0.0751,
+      "pairwise": 0.5261
+    },
+    {
+      "weights": [
+        0.15,
+        0.85,
+        0.0
+      ],
+      "spearman": 0.0744,
+      "pairwise": 0.5256
+    },
+    {
+      "weights": [
+        0.2,
+        0.0,
+        0.8
+      ],
+      "spearman": 0.0821,
+      "pairwise": 0.5411
+    },
+    {
+      "weights": [
+        0.2,
+        0.05,
+        0.75
+      ],
+      "spearman": 0.0824,
+      "pairwise": 0.5397
+    },
+    {
+      "weights": [
+        0.2,
+        0.1,
+        0.7
+      ],
+      "spearman": 0.0822,
+      "pairwise": 0.5377
+    },
+    {
+      "weights": [
+        0.2,
+        0.15,
+        0.65
+      ],
+      "spearman": 0.0819,
+      "pairwise": 0.5356
+    },
+    {
+      "weights": [
+        0.2,
+        0.2,
+        0.6
+      ],
+      "spearman": 0.0811,
+      "pairwise": 0.5337
+    },
+    {
+      "weights": [
+        0.2,
+        0.25,
+        0.55
+      ],
+      "spearman": 0.0811,
+      "pairwise": 0.5332
+    },
+    {
+      "weights": [
+        0.2,
+        0.3,
+        0.5
+      ],
+      "spearman": 0.0807,
+      "pairwise": 0.5324
+    },
+    {
+      "weights": [
+        0.2,
+        0.35,
+        0.45
+      ],
+      "spearman": 0.0798,
+      "pairwise": 0.5312
+    },
+    {
+      "weights": [
+        0.2,
+        0.4,
+        0.4
+      ],
+      "spearman": 0.0793,
+      "pairwise": 0.5301
+    },
+    {
+      "weights": [
+        0.2,
+        0.45,
+        0.35
+      ],
+      "spearman": 0.0789,
+      "pairwise": 0.5289
+    },
+    {
+      "weights": [
+        0.2,
+        0.5,
+        0.3
+      ],
+      "spearman": 0.0783,
+      "pairwise": 0.5288
+    },
+    {
+      "weights": [
+        0.2,
+        0.55,
+        0.25
+      ],
+      "spearman": 0.0779,
+      "pairwise": 0.5278
+    },
+    {
+      "weights": [
+        0.2,
+        0.6,
+        0.2
+      ],
+      "spearman": 0.0776,
+      "pairwise": 0.5264
+    },
+    {
+      "weights": [
+        0.2,
+        0.65,
+        0.15
+      ],
+      "spearman": 0.0779,
+      "pairwise": 0.5271
+    },
+    {
+      "weights": [
+        0.2,
+        0.7,
+        0.1
+      ],
+      "spearman": 0.0782,
+      "pairwise": 0.5265
+    },
+    {
+      "weights": [
+        0.2,
+        0.75,
+        0.05
+      ],
+      "spearman": 0.0785,
+      "pairwise": 0.5264
+    },
+    {
+      "weights": [
+        0.2,
+        0.8,
+        0.0
+      ],
+      "spearman": 0.0774,
+      "pairwise": 0.5253
+    },
+    {
+      "weights": [
+        0.25,
+        0.0,
+        0.75
+      ],
+      "spearman": 0.0859,
+      "pairwise": 0.54
+    },
+    {
+      "weights": [
+        0.25,
+        0.05,
+        0.7
+      ],
+      "spearman": 0.0862,
+      "pairwise": 0.5392
+    },
+    {
+      "weights": [
+        0.25,
+        0.1,
+        0.65
+      ],
+      "spearman": 0.0859,
+      "pairwise": 0.5376
+    },
+    {
+      "weights": [
+        0.25,
+        0.15,
+        0.6
+      ],
+      "spearman": 0.0854,
+      "pairwise": 0.5363
+    },
+    {
+      "weights": [
+        0.25,
+        0.2,
+        0.55
+      ],
+      "spearman": 0.085,
+      "pairwise": 0.5353
+    },
+    {
+      "weights": [
+        0.25,
+        0.25,
+        0.5
+      ],
+      "spearman": 0.0852,
+      "pairwise": 0.5347
+    },
+    {
+      "weights": [
+        0.25,
+        0.3,
+        0.45
+      ],
+      "spearman": 0.0851,
+      "pairwise": 0.5342
+    },
+    {
+      "weights": [
+        0.25,
+        0.35,
+        0.4
+      ],
+      "spearman": 0.0843,
+      "pairwise": 0.5319
+    },
+    {
+      "weights": [
+        0.25,
+        0.4,
+        0.35
+      ],
+      "spearman": 0.0837,
+      "pairwise": 0.5297
+    },
+    {
+      "weights": [
+        0.25,
+        0.45,
+        0.3
+      ],
+      "spearman": 0.0829,
+      "pairwise": 0.5293
+    },
+    {
+      "weights": [
+        0.25,
+        0.5,
+        0.25
+      ],
+      "spearman": 0.0822,
+      "pairwise": 0.5275
+    },
+    {
+      "weights": [
+        0.25,
+        0.55,
+        0.2
+      ],
+      "spearman": 0.0817,
+      "pairwise": 0.528
+    },
+    {
+      "weights": [
+        0.25,
+        0.6,
+        0.15
+      ],
+      "spearman": 0.0816,
+      "pairwise": 0.5272
+    },
+    {
+      "weights": [
+        0.25,
+        0.65,
+        0.1
+      ],
+      "spearman": 0.0815,
+      "pairwise": 0.526
+    },
+    {
+      "weights": [
+        0.25,
+        0.7,
+        0.05
+      ],
+      "spearman": 0.0812,
+      "pairwise": 0.5263
+    },
+    {
+      "weights": [
+        0.25,
+        0.75,
+        0.0
+      ],
+      "spearman": 0.0804,
+      "pairwise": 0.5234
+    },
+    {
+      "weights": [
+        0.3,
+        0.0,
+        0.7
+      ],
+      "spearman": 0.0901,
+      "pairwise": 0.5395
+    },
+    {
+      "weights": [
+        0.3,
+        0.05,
+        0.65
+      ],
+      "spearman": 0.0902,
+      "pairwise": 0.5383
+    },
+    {
+      "weights": [
+        0.3,
+        0.1,
+        0.6
+      ],
+      "spearman": 0.0901,
+      "pairwise": 0.538
+    },
+    {
+      "weights": [
+        0.3,
+        0.15,
+        0.55
+      ],
+      "spearman": 0.0898,
+      "pairwise": 0.5368
+    },
+    {
+      "weights": [
+        0.3,
+        0.2,
+        0.5
+      ],
+      "spearman": 0.0896,
+      "pairwise": 0.5352
+    },
+    {
+      "weights": [
+        0.3,
+        0.25,
+        0.45
+      ],
+      "spearman": 0.0897,
+      "pairwise": 0.5335
+    },
+    {
+      "weights": [
+        0.3,
+        0.3,
+        0.4
+      ],
+      "spearman": 0.0894,
+      "pairwise": 0.5328
+    },
+    {
+      "weights": [
+        0.3,
+        0.35,
+        0.35
+      ],
+      "spearman": 0.0885,
+      "pairwise": 0.53
+    },
+    {
+      "weights": [
+        0.3,
+        0.4,
+        0.3
+      ],
+      "spearman": 0.0876,
+      "pairwise": 0.5285
+    },
+    {
+      "weights": [
+        0.3,
+        0.45,
+        0.25
+      ],
+      "spearman": 0.0865,
+      "pairwise": 0.5279
+    },
+    {
+      "weights": [
+        0.3,
+        0.5,
+        0.2
+      ],
+      "spearman": 0.0861,
+      "pairwise": 0.5281
+    },
+    {
+      "weights": [
+        0.3,
+        0.55,
+        0.15
+      ],
+      "spearman": 0.0858,
+      "pairwise": 0.5259
+    },
+    {
+      "weights": [
+        0.3,
+        0.6,
+        0.1
+      ],
+      "spearman": 0.0853,
+      "pairwise": 0.5246
+    },
+    {
+      "weights": [
+        0.3,
+        0.65,
+        0.05
+      ],
+      "spearman": 0.0849,
+      "pairwise": 0.5242
+    },
+    {
+      "weights": [
+        0.3,
+        0.7,
+        0.0
+      ],
+      "spearman": 0.0836,
+      "pairwise": 0.5208
+    },
+    {
+      "weights": [
+        0.35,
+        0.0,
+        0.65
+      ],
+      "spearman": 0.0939,
+      "pairwise": 0.5395
+    },
+    {
+      "weights": [
+        0.35,
+        0.05,
+        0.6
+      ],
+      "spearman": 0.0943,
+      "pairwise": 0.5389
+    },
+    {
+      "weights": [
+        0.35,
+        0.1,
+        0.55
+      ],
+      "spearman": 0.0941,
+      "pairwise": 0.5372
+    },
+    {
+      "weights": [
+        0.35,
+        0.15,
+        0.5
+      ],
+      "spearman": 0.0938,
+      "pairwise": 0.5354
+    },
+    {
+      "weights": [
+        0.35,
+        0.2,
+        0.45
+      ],
+      "spearman": 0.0937,
+      "pairwise": 0.534
+    },
+    {
+      "weights": [
+        0.35,
+        0.25,
+        0.4
+      ],
+      "spearman": 0.0933,
+      "pairwise": 0.5318
+    },
+    {
+      "weights": [
+        0.35,
+        0.3,
+        0.35
+      ],
+      "spearman": 0.0928,
+      "pairwise": 0.5299
+    },
+    {
+      "weights": [
+        0.35,
+        0.35,
+        0.3
+      ],
+      "spearman": 0.0915,
+      "pairwise": 0.5277
+    },
+    {
+      "weights": [
+        0.35,
+        0.4,
+        0.25
+      ],
+      "spearman": 0.0906,
+      "pairwise": 0.5287
+    },
+    {
+      "weights": [
+        0.35,
+        0.45,
+        0.2
+      ],
+      "spearman": 0.0902,
+      "pairwise": 0.5272
+    },
+    {
+      "weights": [
+        0.35,
+        0.5,
+        0.15
+      ],
+      "spearman": 0.0895,
+      "pairwise": 0.5258
+    },
+    {
+      "weights": [
+        0.35,
+        0.55,
+        0.1
+      ],
+      "spearman": 0.0889,
+      "pairwise": 0.5247
+    },
+    {
+      "weights": [
+        0.35,
+        0.6,
+        0.05
+      ],
+      "spearman": 0.0884,
+      "pairwise": 0.5237
+    },
+    {
+      "weights": [
+        0.35,
+        0.65,
+        0.0
+      ],
+      "spearman": 0.0875,
+      "pairwise": 0.5204
+    },
+    {
+      "weights": [
+        0.4,
+        0.0,
+        0.6
+      ],
+      "spearman": 0.0975,
+      "pairwise": 0.5384
+    },
+    {
+      "weights": [
+        0.4,
+        0.05,
+        0.55
+      ],
+      "spearman": 0.0978,
+      "pairwise": 0.5372
+    },
+    {
+      "weights": [
+        0.4,
+        0.1,
+        0.5
+      ],
+      "spearman": 0.0977,
+      "pairwise": 0.5366
+    },
+    {
+      "weights": [
+        0.4,
+        0.15,
+        0.45
+      ],
+      "spearman": 0.0971,
+      "pairwise": 0.5335
+    },
+    {
+      "weights": [
+        0.4,
+        0.2,
+        0.4
+      ],
+      "spearman": 0.0968,
+      "pairwise": 0.5324
+    },
+    {
+      "weights": [
+        0.4,
+        0.25,
+        0.35
+      ],
+      "spearman": 0.0964,
+      "pairwise": 0.5302
+    },
+    {
+      "weights": [
+        0.4,
+        0.3,
+        0.3
+      ],
+      "spearman": 0.0956,
+      "pairwise": 0.5297
+    },
+    {
+      "weights": [
+        0.4,
+        0.35,
+        0.25
+      ],
+      "spearman": 0.0949,
+      "pairwise": 0.5274
+    },
+    {
+      "weights": [
+        0.4,
+        0.4,
+        0.2
+      ],
+      "spearman": 0.0942,
+      "pairwise": 0.5267
+    },
+    {
+      "weights": [
+        0.4,
+        0.45,
+        0.15
+      ],
+      "spearman": 0.0936,
+      "pairwise": 0.525
+    },
+    {
+      "weights": [
+        0.4,
+        0.5,
+        0.1
+      ],
+      "spearman": 0.0931,
+      "pairwise": 0.5235
+    },
+    {
+      "weights": [
+        0.4,
+        0.55,
+        0.05
+      ],
+      "spearman": 0.0925,
+      "pairwise": 0.522
+    },
+    {
+      "weights": [
+        0.4,
+        0.6,
+        0.0
+      ],
+      "spearman": 0.0917,
+      "pairwise": 0.5196
+    },
+    {
+      "weights": [
+        0.45,
+        0.0,
+        0.55
+      ],
+      "spearman": 0.1014,
+      "pairwise": 0.5375
+    },
+    {
+      "weights": [
+        0.45,
+        0.05,
+        0.5
+      ],
+      "spearman": 0.1017,
+      "pairwise": 0.536
+    },
+    {
+      "weights": [
+        0.45,
+        0.1,
+        0.45
+      ],
+      "spearman": 0.1018,
+      "pairwise": 0.5341
+    },
+    {
+      "weights": [
+        0.45,
+        0.15,
+        0.4
+      ],
+      "spearman": 0.1014,
+      "pairwise": 0.532
+    },
+    {
+      "weights": [
+        0.45,
+        0.2,
+        0.35
+      ],
+      "spearman": 0.1011,
+      "pairwise": 0.5313
+    },
+    {
+      "weights": [
+        0.45,
+        0.25,
+        0.3
+      ],
+      "spearman": 0.1006,
+      "pairwise": 0.5299
+    },
+    {
+      "weights": [
+        0.45,
+        0.3,
+        0.25
+      ],
+      "spearman": 0.0999,
+      "pairwise": 0.5277
+    },
+    {
+      "weights": [
+        0.45,
+        0.35,
+        0.2
+      ],
+      "spearman": 0.0994,
+      "pairwise": 0.5254
+    },
+    {
+      "weights": [
+        0.45,
+        0.4,
+        0.15
+      ],
+      "spearman": 0.0988,
+      "pairwise": 0.5239
+    },
+    {
+      "weights": [
+        0.45,
+        0.45,
+        0.1
+      ],
+      "spearman": 0.0983,
+      "pairwise": 0.5216
+    },
+    {
+      "weights": [
+        0.45,
+        0.5,
+        0.05
+      ],
+      "spearman": 0.0976,
+      "pairwise": 0.5205
+    },
+    {
+      "weights": [
+        0.45,
+        0.55,
+        0.0
+      ],
+      "spearman": 0.097,
+      "pairwise": 0.5192
+    },
+    {
+      "weights": [
+        0.5,
+        0.0,
+        0.5
+      ],
+      "spearman": 0.1053,
+      "pairwise": 0.5348
+    },
+    {
+      "weights": [
+        0.5,
+        0.05,
+        0.45
+      ],
+      "spearman": 0.1059,
+      "pairwise": 0.5335
+    },
+    {
+      "weights": [
+        0.5,
+        0.1,
+        0.4
+      ],
+      "spearman": 0.1063,
+      "pairwise": 0.5336
+    },
+    {
+      "weights": [
+        0.5,
+        0.15,
+        0.35
+      ],
+      "spearman": 0.1068,
+      "pairwise": 0.5315
+    },
+    {
+      "weights": [
+        0.5,
+        0.2,
+        0.3
+      ],
+      "spearman": 0.1068,
+      "pairwise": 0.5292
+    },
+    {
+      "weights": [
+        0.5,
+        0.25,
+        0.25
+      ],
+      "spearman": 0.106,
+      "pairwise": 0.5267
+    },
+    {
+      "weights": [
+        0.5,
+        0.3,
+        0.2
+      ],
+      "spearman": 0.1052,
+      "pairwise": 0.5244
+    },
+    {
+      "weights": [
+        0.5,
+        0.35,
+        0.15
+      ],
+      "spearman": 0.1049,
+      "pairwise": 0.5231
+    },
+    {
+      "weights": [
+        0.5,
+        0.4,
+        0.1
+      ],
+      "spearman": 0.1044,
+      "pairwise": 0.5215
+    },
+    {
+      "weights": [
+        0.5,
+        0.45,
+        0.05
+      ],
+      "spearman": 0.1037,
+      "pairwise": 0.5198
+    },
+    {
+      "weights": [
+        0.5,
+        0.5,
+        0.0
+      ],
+      "spearman": 0.103,
+      "pairwise": 0.5173
+    },
+    {
+      "weights": [
+        0.55,
+        0.0,
+        0.45
+      ],
+      "spearman": 0.1091,
+      "pairwise": 0.5324
+    },
+    {
+      "weights": [
+        0.55,
+        0.05,
+        0.4
+      ],
+      "spearman": 0.11,
+      "pairwise": 0.5329
+    },
+    {
+      "weights": [
+        0.55,
+        0.1,
+        0.35
+      ],
+      "spearman": 0.1109,
+      "pairwise": 0.5307
+    },
+    {
+      "weights": [
+        0.55,
+        0.15,
+        0.3
+      ],
+      "spearman": 0.1118,
+      "pairwise": 0.5282
+    },
+    {
+      "weights": [
+        0.55,
+        0.2,
+        0.25
+      ],
+      "spearman": 0.112,
+      "pairwise": 0.5274
+    },
+    {
+      "weights": [
+        0.55,
+        0.25,
+        0.2
+      ],
+      "spearman": 0.1114,
+      "pairwise": 0.525
+    },
+    {
+      "weights": [
+        0.55,
+        0.3,
+        0.15
+      ],
+      "spearman": 0.1105,
+      "pairwise": 0.5233
+    },
+    {
+      "weights": [
+        0.55,
+        0.35,
+        0.1
+      ],
+      "spearman": 0.1096,
+      "pairwise": 0.5223
+    },
+    {
+      "weights": [
+        0.55,
+        0.4,
+        0.05
+      ],
+      "spearman": 0.1084,
+      "pairwise": 0.5189
+    },
+    {
+      "weights": [
+        0.55,
+        0.45,
+        -0.0
+      ],
+      "spearman": 0.1078,
+      "pairwise": 0.5172
+    },
+    {
+      "weights": [
+        0.6,
+        0.0,
+        0.4
+      ],
+      "spearman": 0.1121,
+      "pairwise": 0.5328
+    },
+    {
+      "weights": [
+        0.6,
+        0.05,
+        0.35
+      ],
+      "spearman": 0.1127,
+      "pairwise": 0.5315
+    },
+    {
+      "weights": [
+        0.6,
+        0.1,
+        0.3
+      ],
+      "spearman": 0.1136,
+      "pairwise": 0.5282
+    },
+    {
+      "weights": [
+        0.6,
+        0.15,
+        0.25
+      ],
+      "spearman": 0.1145,
+      "pairwise": 0.5263
+    },
+    {
+      "weights": [
+        0.6,
+        0.2,
+        0.2
+      ],
+      "spearman": 0.1151,
+      "pairwise": 0.525
+    },
+    {
+      "weights": [
+        0.6,
+        0.25,
+        0.15
+      ],
+      "spearman": 0.1145,
+      "pairwise": 0.5232
+    },
+    {
+      "weights": [
+        0.6,
+        0.3,
+        0.1
+      ],
+      "spearman": 0.1137,
+      "pairwise": 0.5221
+    },
+    {
+      "weights": [
+        0.6,
+        0.35,
+        0.05
+      ],
+      "spearman": 0.1124,
+      "pairwise": 0.5188
+    },
+    {
+      "weights": [
+        0.6,
+        0.4,
+        0.0
+      ],
+      "spearman": 0.1116,
+      "pairwise": 0.5165
+    },
+    {
+      "weights": [
+        0.65,
+        0.0,
+        0.35
+      ],
+      "spearman": 0.1134,
+      "pairwise": 0.5295
+    },
+    {
+      "weights": [
+        0.65,
+        0.05,
+        0.3
+      ],
+      "spearman": 0.114,
+      "pairwise": 0.5273
+    },
+    {
+      "weights": [
+        0.65,
+        0.1,
+        0.25
+      ],
+      "spearman": 0.1147,
+      "pairwise": 0.5254
+    },
+    {
+      "weights": [
+        0.65,
+        0.15,
+        0.2
+      ],
+      "spearman": 0.1148,
+      "pairwise": 0.5236
+    },
+    {
+      "weights": [
+        0.65,
+        0.2,
+        0.15
+      ],
+      "spearman": 0.1151,
+      "pairwise": 0.5211
+    },
+    {
+      "weights": [
+        0.65,
+        0.25,
+        0.1
+      ],
+      "spearman": 0.115,
+      "pairwise": 0.5209
+    },
+    {
+      "weights": [
+        0.65,
+        0.3,
+        0.05
+      ],
+      "spearman": 0.1144,
+      "pairwise": 0.5181
+    },
+    {
+      "weights": [
+        0.65,
+        0.35,
+        0.0
+      ],
+      "spearman": 0.1136,
+      "pairwise": 0.5161
+    },
+    {
+      "weights": [
+        0.7,
+        0.0,
+        0.3
+      ],
+      "spearman": 0.1136,
+      "pairwise": 0.5267
+    },
+    {
+      "weights": [
+        0.7,
+        0.05,
+        0.25
+      ],
+      "spearman": 0.1138,
+      "pairwise": 0.5248
+    },
+    {
+      "weights": [
+        0.7,
+        0.1,
+        0.2
+      ],
+      "spearman": 0.1138,
+      "pairwise": 0.5222
+    },
+    {
+      "weights": [
+        0.7,
+        0.15,
+        0.15
+      ],
+      "spearman": 0.1138,
+      "pairwise": 0.5195
+    },
+    {
+      "weights": [
+        0.7,
+        0.2,
+        0.1
+      ],
+      "spearman": 0.1138,
+      "pairwise": 0.519
+    },
+    {
+      "weights": [
+        0.7,
+        0.25,
+        0.05
+      ],
+      "spearman": 0.1141,
+      "pairwise": 0.517
+    },
+    {
+      "weights": [
+        0.7,
+        0.3,
+        0.0
+      ],
+      "spearman": 0.114,
+      "pairwise": 0.5156
+    },
+    {
+      "weights": [
+        0.75,
+        0.0,
+        0.25
+      ],
+      "spearman": 0.1142,
+      "pairwise": 0.5236
+    },
+    {
+      "weights": [
+        0.75,
+        0.05,
+        0.2
+      ],
+      "spearman": 0.1138,
+      "pairwise": 0.522
+    },
+    {
+      "weights": [
+        0.75,
+        0.1,
+        0.15
+      ],
+      "spearman": 0.1133,
+      "pairwise": 0.5191
+    },
+    {
+      "weights": [
+        0.75,
+        0.15,
+        0.1
+      ],
+      "spearman": 0.1128,
+      "pairwise": 0.5183
+    },
+    {
+      "weights": [
+        0.75,
+        0.2,
+        0.05
+      ],
+      "spearman": 0.1128,
+      "pairwise": 0.5174
+    },
+    {
+      "weights": [
+        0.75,
+        0.25,
+        0.0
+      ],
+      "spearman": 0.1128,
+      "pairwise": 0.516
+    },
+    {
+      "weights": [
+        0.8,
+        0.0,
+        0.2
+      ],
+      "spearman": 0.115,
+      "pairwise": 0.5237
+    },
+    {
+      "weights": [
+        0.8,
+        0.05,
+        0.15
+      ],
+      "spearman": 0.1147,
+      "pairwise": 0.5228
+    },
+    {
+      "weights": [
+        0.8,
+        0.1,
+        0.1
+      ],
+      "spearman": 0.1132,
+      "pairwise": 0.5188
+    },
+    {
+      "weights": [
+        0.8,
+        0.15,
+        0.05
+      ],
+      "spearman": 0.1123,
+      "pairwise": 0.5169
+    },
+    {
+      "weights": [
+        0.8,
+        0.2,
+        -0.0
+      ],
+      "spearman": 0.1118,
+      "pairwise": 0.5161
+    },
+    {
+      "weights": [
+        0.85,
+        0.0,
+        0.15
+      ],
+      "spearman": 0.1169,
+      "pairwise": 0.5239
+    },
+    {
+      "weights": [
+        0.85,
+        0.05,
+        0.1
+      ],
+      "spearman": 0.1149,
+      "pairwise": 0.5201
+    },
+    {
+      "weights": [
+        0.85,
+        0.1,
+        0.05
+      ],
+      "spearman": 0.1132,
+      "pairwise": 0.517
+    },
+    {
+      "weights": [
+        0.85,
+        0.15,
+        0.0
+      ],
+      "spearman": 0.1112,
+      "pairwise": 0.5139
+    },
+    {
+      "weights": [
+        0.9,
+        0.0,
+        0.1
+      ],
+      "spearman": 0.1183,
+      "pairwise": 0.5227
+    },
+    {
+      "weights": [
+        0.9,
+        0.05,
+        0.05
+      ],
+      "spearman": 0.1158,
+      "pairwise": 0.5172
+    },
+    {
+      "weights": [
+        0.9,
+        0.1,
+        -0.0
+      ],
+      "spearman": 0.1131,
+      "pairwise": 0.515
+    },
+    {
+      "weights": [
+        0.95,
+        0.0,
+        0.05
+      ],
+      "spearman": 0.1198,
+      "pairwise": 0.5206
+    },
+    {
+      "weights": [
+        0.95,
+        0.05,
+        0.0
+      ],
+      "spearman": 0.1162,
+      "pairwise": 0.5165
+    },
+    {
+      "weights": [
+        1.0,
+        0.0,
+        0.0
+      ],
+      "spearman": 0.1189,
+      "pairwise": 0.5182
+    }
+  ]
+}

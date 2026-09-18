@@ -3,8 +3,7 @@ from services.ats_simulator import (
     _score_contact_info,
     _score_date_consistency,
     _score_education,
-    _score_formatting,
-    _score_keyword_density,
+    _score_format_parseability,
     _score_length,
     _score_section_headers,
     simulate_ats,
@@ -92,10 +91,9 @@ class TestATSSimulatorNormalCases:
         expected_checks = [
             "contact_info",
             "section_headers",
-            "keyword_density",
             "date_consistency",
             "education",
-            "formatting",
+            "format_parseability",
             "length",
             "quantification",
         ]
@@ -112,10 +110,6 @@ class TestATSSimulatorNormalCases:
         headers = _score_section_headers(valid_resume_text)
         assert headers["score"] > 80
         assert len(headers["critical_missing"]) == 0
-
-        keywords = _score_keyword_density(valid_resume_text, valid_jd_text)
-        assert keywords["score"] > 50
-        assert keywords["matched_count"] > 0
 
         dates = _score_date_consistency(valid_resume_text)
         assert dates["score"] >= 75
@@ -137,12 +131,7 @@ class TestATSSimulatorEmptyInput:
         assert isinstance(result, dict)
         assert "overall_ats_score" in result
         assert result["verdict"] == "High ATS Risk"
-        assert len(result["checks"]) == 8
-
-    def test_score_keyword_density_empty(self):
-        kw_empty = _score_keyword_density("", "")
-        assert kw_empty["score"] == 0
-        assert kw_empty["matched_count"] == 0
+        assert len(result["checks"]) == 7
 
     def test_score_contact_info_empty(self):
         contact = _score_contact_info("")
@@ -181,8 +170,12 @@ class TestATSSimulatorEdgeCases:
         Looking for a Quantum Computing Researcher with expertise in Qiskit, Q#, qubit manipulation, and superconduction.
         """
         result = simulate_ats(resume, jd)
-        assert result["checks"]["keyword_density"]["score"] == 0
-        assert result["checks"]["keyword_density"]["matched_count"] == 0
+        # Keyword overlap is no longer an ATS check; coverage is reported once,
+        # by ats_keyword_score. What the simulation still says about this resume
+        # is that it parses cleanly — which is true, and a different question
+        # from whether it fits the job.
+        assert "keyword_density" not in result["checks"]
+        assert result["checks"]["format_parseability"]["score"] > 0
 
     def test_forbidden_formatting_elements(self, valid_jd_text):
         bad_resume = """
@@ -193,7 +186,7 @@ class TestATSSimulatorEdgeCases:
         [photo]
         Special symbol: 😃
         """
-        formatting = _score_formatting(bad_resume)
+        formatting = _score_format_parseability(bad_resume)
         assert formatting["score"] < 70
         assert len(formatting["issues"]) >= 3
 
@@ -276,3 +269,43 @@ class TestSectionHeaderScoring:
         ended up rendered in the UI as something to fix."""
         result = simulate_ats(self.COMPLETE, "Python backend engineer with FastAPI and PostgreSQL")
         assert "All critical sections present." not in result["top_issues"]
+
+
+class TestTheWeightsAfterDroppingKeywordDensity:
+    """Item 5 of the v2 upgrade plan.
+
+    Keyword density carried 0.25 — the largest single weight — and measured
+    what ats_keyword_score already reports. Removing it is a reweighting, not a
+    rename: every overall_ats_score moves.
+    """
+
+    def _weights(self) -> dict:
+        from services.ats_simulator import CHECK_WEIGHTS
+
+        return CHECK_WEIGHTS
+
+    def test_weights_still_sum_to_one(self):
+        assert round(sum(self._weights().values()), 6) == 1.0
+
+    def test_keyword_density_is_gone(self):
+        assert "keyword_density" not in self._weights()
+
+    def test_relative_order_is_preserved(self):
+        """Redistribution was proportional, so nothing overtakes anything."""
+        weights = self._weights()
+        assert weights["format_parseability"] == weights["quantification"] == 0.20
+        assert weights["section_headers"] > weights["contact_info"]
+        assert weights["contact_info"] == weights["date_consistency"]
+        assert weights["education"] == min(weights.values())
+
+    def test_every_check_has_a_weight_and_every_weight_a_check(self):
+        checks = set(simulate_ats("Some resume text", "Some JD")["checks"])
+        assert checks == set(self._weights())
+
+    def test_the_jd_no_longer_changes_the_ats_score(self):
+        """No remaining check reads the job description."""
+        resume = "Jane Doe\njane@example.com\nExperience\n• Shipped 3 services\nEducation\nB.Tech 2021"
+        assert (
+            simulate_ats(resume, "Quantum researcher, Qiskit")["overall_ats_score"]
+            == simulate_ats(resume, "Backend engineer, Python")["overall_ats_score"]
+        )

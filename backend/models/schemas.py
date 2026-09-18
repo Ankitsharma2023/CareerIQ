@@ -144,8 +144,6 @@ class AnalysisResponse(BaseModel):
     skill_gap_analysis: SkillGapAnalysis
     # Writing quality
     signal_noise: SignalNoiseResult
-    # Feedback
-    feedback:              str
     total_skills_detected: int
     # AI-powered
     # The eval-only overall_score is excluded; see LLMEvaluation.

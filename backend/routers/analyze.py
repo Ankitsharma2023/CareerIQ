@@ -27,7 +27,6 @@ from services.experience_detector import detect_experience
 from services.llm_evaluator import llm_master_evaluate
 from services.parser import extract_text_from_docx, extract_text_from_pdf, parse_resume
 from services.recommender import (
-    generate_feedback,
     get_matching_skills,
     get_missing_skills,
 )
@@ -209,7 +208,6 @@ async def analyze_resume(
                     "matching": get_matching_skills(resume_skills, jd_skills),
                     "gap": classify_skill_gaps(absent, jd_skills, jd),
                     "signal": analyze_signal_to_noise(resume_raw),
-                    "feedback": generate_feedback(similarity["final_score"], absent),
                     "ats_sim": simulate_ats(resume_raw, jd),
                 }
 
@@ -221,7 +219,6 @@ async def analyze_resume(
             matching      = scored["matching"]
             gap           = scored["gap"]
             signal        = scored["signal"]
-            feedback      = scored["feedback"]
             ats_sim       = scored["ats_sim"]
 
             # Emit Phase 3 Progress Event (75%)
@@ -293,7 +290,6 @@ async def analyze_resume(
                 top_matches           = [TopMatch(sentence=s, score=sc) for s, sc in sim["top_matches"]],
                 skill_gap_analysis    = gap,
                 signal_noise          = signal,
-                feedback              = feedback,
                 total_skills_detected = len(resume_skills),
                 llm_evaluation        = llm_result.public() if llm_result else None,
                 experience_info       = experience_info,

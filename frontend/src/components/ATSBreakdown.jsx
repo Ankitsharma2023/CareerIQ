@@ -8,15 +8,17 @@ import Card from './ui/Card'
 import Badge from './ui/Badge'
 import ScoreBar from './ui/ScoreBar'
 
+// Weights mirror services/ats_simulator.py. Keyword density (25%) was removed:
+// it measured JD word overlap, which ATS Keyword Coverage already reports. Its
+// weight was shared across these seven in proportion to what each already had.
 const CHECK_META = {
-  contact_info:     { label:'Contact Info',       icon:User,           weight:'8%'  },
-  section_headers:  { label:'Section Headers',    icon:List,           weight:'12%' },
-  keyword_density:  { label:'Keyword Density',    icon:Search,         weight:'25%' },
-  date_consistency: { label:'Date Consistency',   icon:Calendar,       weight:'8%'  },
-  education:        { label:'Education',          icon:GraduationCap,  weight:'7%'  },
-  formatting:       { label:'ATS Formatting',     icon:LayoutTemplate, weight:'15%' },
-  length:           { label:'Resume Length',      icon:AlignLeft,      weight:'10%' },
-  quantification:   { label:'Quantified Impact',  icon:TrendingUp,     weight:'15%' },
+  contact_info:        { label:'Contact Info',          icon:User,           weight:'11%' },
+  section_headers:     { label:'Section Headers',       icon:List,           weight:'16%' },
+  date_consistency:    { label:'Date Consistency',      icon:Calendar,       weight:'11%' },
+  education:           { label:'Education',             icon:GraduationCap,  weight:'9%'  },
+  format_parseability: { label:'Format & Parseability', icon:LayoutTemplate, weight:'20%' },
+  length:              { label:'Resume Length',         icon:AlignLeft,      weight:'13%' },
+  quantification:      { label:'Quantified Impact',     icon:TrendingUp,     weight:'20%' },
 }
 
 function statusFromScore(score) {

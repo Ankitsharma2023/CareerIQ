@@ -1,7 +1,6 @@
 import React from 'react'
 
-import PerformanceRadar from './PerformanceRadar'
-import { CheckCircle, AlertTriangle, FileText, Award, Brain, Info } from 'lucide-react'
+import { CheckCircle, AlertTriangle, FileText, Award, Brain } from 'lucide-react'
 import ScoreRing from '../ScoreRing'
 import Card from '../ui/Card'
 import Badge from '../ui/Badge'
@@ -17,7 +16,6 @@ export function ScoreFitTab({ data }) {
     matching_skills,
     missing_skills,
     top_matches = [],
-    feedback,
     llm_evaluation: llm
   } = data
 
@@ -26,14 +24,6 @@ export function ScoreFitTab({ data }) {
     data.fit?.overall ?? semantic_match_score * 0.4 + ats_keyword_score * 0.35 + clarity * 0.25,
   )
   const overallC = scoreColor(overall)
-
-  const radarData = [
-    { subject:'Semantic', A:semantic_match_score },
-    { subject:'ATS',      A:ats_keyword_score    },
-    { subject:'Clarity',  A:clarity              },
-    { subject:'Verbs',    A:Math.min(100,(signal_noise?.strong_verbs_found?.length??0)*12) },
-    { subject:'Quant',    A:Math.min(100,(signal_noise?.quantified_sentences??0)*20) },
-  ]
 
   const topImprovements = llm?.top_improvements || []
   const matchReasoning  = llm?.job_match_reasoning || ""
@@ -110,12 +100,10 @@ export function ScoreFitTab({ data }) {
         </Card>
       )}
 
-      {/* Charts & Top Matches */}
-      <div style={{ display:'grid', gridTemplateColumns:'1fr 1fr', gap:16 }}>
-        <Card padding={20}>
-          <p style={{ fontSize:'0.75rem', fontWeight:700, color:'#374151', marginBottom:12 }}>Performance Radar</p>
-          <PerformanceRadar data={radarData} />
-        </Card>
+      {/* Top Matches — the radar that sat beside this plotted Semantic, ATS and
+          Clarity, the same three numbers as the rings and bars at the top of
+          this tab, plus two derived from counts already in the metric row. */}
+      <div>
         <Card padding={20}>
           <p style={{ fontSize:'0.75rem', fontWeight:700, color:'#374151', marginBottom:12 }}>Top Matching Segments</p>
           <div style={{ display:'flex', flexDirection:'column', gap:8, maxHeight:200, overflowY:'auto' }}>
@@ -129,18 +117,6 @@ export function ScoreFitTab({ data }) {
         </Card>
       </div>
 
-      {/* Feedback */}
-      {feedback && (
-        <Card padding={20} borderLeft="4px solid #5147E5">
-          <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:10 }}>
-            <div style={{ width:28, height:28, background:'#EEF0FE', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center' }}>
-              <Info size={13} color="#5147E5" />
-            </div>
-            <span style={{ fontWeight:700, fontSize:'0.875rem', color:'#1A1D2E' }}>Analysis Summary</span>
-          </div>
-          <pre style={{ fontSize:'0.8rem', color:'#6B7280', whiteSpace:'pre-wrap', fontFamily:'Inter', lineHeight:1.7 }}>{feedback}</pre>
-        </Card>
-      )}
     </div>
   )
 }

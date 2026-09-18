@@ -218,7 +218,7 @@ async def capabilities():
         ],
         "models": {"embedding": EMBEDDING_MODEL},
         "ats_checks": [
-            "contact_info", "section_headers", "keyword_density",
-            "date_consistency", "education", "formatting", "length", "quantification",
+            "contact_info", "section_headers", "date_consistency", "education",
+            "format_parseability", "length", "quantification",
         ],
     }

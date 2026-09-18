@@ -127,7 +127,6 @@ export interface AnalysisResponse {
   top_matches: TopMatch[]
   skill_gap_analysis: SkillGapAnalysis
   signal_noise: SignalNoiseResult
-  feedback: string
   total_skills_detected: number
   llm_evaluation?: LLMEvaluation | null
   experience_info?: ExperienceInfo | null

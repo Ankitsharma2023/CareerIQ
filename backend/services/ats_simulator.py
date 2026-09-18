@@ -1,7 +1,15 @@
 """
 ats_simulator.py
 Detailed ATS (Applicant Tracking System) simulation.
-Scores the resume on 8 dimensions that real ATS systems evaluate.
+Scores the resume on 7 dimensions that real ATS systems evaluate.
+
+Keyword density used to be the eighth and heaviest of them at 0.25. It counted
+how many significant JD words appear in the resume — which is what
+``ats_keyword_score`` already reports from ``weighted_coverage``, and what the
+Gaps & ATS tab already lists skill by skill. The same measurement appeared
+twice under two names and two numbers, because the two were computed
+differently: this one over raw word overlap, the other over evidence-weighted
+skill matches. Dropping it leaves coverage with one definition.
 """
 import re
 
@@ -35,6 +43,36 @@ FORBIDDEN_ELEMENTS = [
     ("columns",        r"\t{3,}",                   "Multi-column layout may parse incorrectly"),
     ("special_chars",  r"[\u2600-\u27bf]",         "Emoji/special symbols may not parse"),
 ]
+
+
+# Keyword density's 0.25 was redistributed across the remaining seven checks
+# in proportion to what each already carried, so their relative importance
+# is unchanged and only the missing quarter is shared out. Each new weight
+# is old / 0.75, rounded to two places:
+#
+#   check              old     old/0.75    new
+#   contact_info       0.08    0.1067      0.11
+#   section_headers    0.12    0.1600      0.16
+#   date_consistency   0.08    0.1067      0.11
+#   education          0.07    0.0933      0.09
+#   format_parseability 0.15   0.2000      0.20
+#   length             0.10    0.1333      0.13
+#   quantification     0.15    0.2000      0.20
+#                                          ────
+#                                          1.00
+#
+# Every overall_ats_score therefore moves. A resume that scored well on
+# keyword density and badly elsewhere drops; the reverse rises. That is the
+# point: the score no longer counts JD word overlap twice.
+CHECK_WEIGHTS = {
+    "contact_info":        0.11,
+    "section_headers":     0.16,
+    "date_consistency":    0.11,
+    "education":           0.09,
+    "format_parseability": 0.20,
+    "length":              0.13,
+    "quantification":      0.20,
+}
 
 
 # ── Scorer functions ──────────────────────────────────────────────────────────
@@ -101,37 +139,6 @@ def _score_section_headers(text: str) -> dict:
     }
 
 
-def _score_keyword_density(resume_text: str, jd_text: str) -> dict:
-    """How well does resume keyword density match JD?"""
-    stopwords = {"and", "the", "for", "with", "that", "this", "will", "have", "from",
-                 "are", "our", "you", "your", "not", "all", "can", "has", "its"}
-    def significant_words(t):
-        words = re.findall(r"\b[a-z][a-z0-9+#.]{2,}\b", t.lower())
-        return [w for w in words if w not in stopwords]
-
-    jd_words      = set(significant_words(jd_text))
-    resume_words  = set(significant_words(resume_text))
-
-    matched  = jd_words & resume_words
-    unmatched = list(jd_words - resume_words)[:15]
-
-    score = round((len(matched) / max(len(jd_words), 1)) * 100)
-    score = min(score, 100)
-    missing_sample = sorted(unmatched)[:3]
-    return {
-        "score":           score,
-        "matched_count":   len(matched),
-        "jd_total_keywords": len(jd_words),
-        "top_missing":     sorted(unmatched)[:10],
-        "note": f"{len(matched)} of {len(jd_words)} JD keywords found in resume.",
-        "evidence": {
-            "matched_sample": list(matched)[:3],
-            "missing_sample": missing_sample,
-            "examples": [f"Missing key JD keyword: '{k}'" for k in missing_sample] if missing_sample else ["Excellent keyword coverage"]
-        }
-    }
-
-
 def _score_date_consistency(text: str) -> dict:
     dates = re.findall(DATE_PATTERN, text.lower())
     has_dates = len(dates) > 0
@@ -182,7 +189,14 @@ def _score_education(text: str) -> dict:
     }
 
 
-def _score_formatting(text: str) -> dict:
+def _score_format_parseability(text: str) -> dict:
+    """Whether a parser can read the document at all.
+
+    Named for what it measures. "Formatting" invited the reading that this
+    scores how the resume looks; it scores tables, page furniture, embedded
+    images, tab-simulated columns and whether there are bullet points — the
+    things that decide what text an ATS actually extracts.
+    """
     issues    = []
     penalties = 0
     for _key, pattern, msg in FORBIDDEN_ELEMENTS:
@@ -286,33 +300,25 @@ def _score_quantification(text: str) -> dict:
 
 # ── Main entry point ──────────────────────────────────────────────────────────
 
-def simulate_ats(resume_text: str, jd_text: str) -> dict:
-    """Run all 8 ATS checks and return a combined score + breakdown."""
+def simulate_ats(resume_text: str, jd_text: str = "") -> dict:
+    """Run all 7 ATS checks and return a combined score + breakdown.
+
+    ``jd_text`` is accepted but unused: the only check that read it was keyword
+    density, which measured coverage a second time. The parameter is kept
+    because every caller passes it and the required-vs-preferred work will
+    need it again.
+    """
     checks = {
-        "contact_info":     _score_contact_info(resume_text),
-        "section_headers":  _score_section_headers(resume_text),
-        "keyword_density":  _score_keyword_density(resume_text, jd_text),
-        "date_consistency": _score_date_consistency(resume_text),
-        "education":        _score_education(resume_text),
-        "formatting":       _score_formatting(resume_text),
-        "length":           _score_length(resume_text),
-        "quantification":   _score_quantification(resume_text),
+        "contact_info":        _score_contact_info(resume_text),
+        "section_headers":     _score_section_headers(resume_text),
+        "date_consistency":    _score_date_consistency(resume_text),
+        "education":           _score_education(resume_text),
+        "format_parseability": _score_format_parseability(resume_text),
+        "length":              _score_length(resume_text),
+        "quantification":      _score_quantification(resume_text),
     }
 
-    # Weighted overall score
-    weights = {
-        "contact_info":     0.08,
-        "section_headers":  0.12,
-        "keyword_density":  0.25,
-        "date_consistency": 0.08,
-        "education":        0.07,
-        "formatting":       0.15,
-        "length":           0.10,
-        "quantification":   0.15,
-    }
-
-    overall = sum(checks[k]["score"] * weights[k] for k in checks)
-    overall = round(overall, 1)
+    overall = round(sum(checks[k]["score"] * CHECK_WEIGHTS[k] for k in checks), 1)
 
     top_issues = []
     for _key, data in sorted(checks.items(), key=lambda x: x[1]["score"]):

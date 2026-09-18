@@ -170,18 +170,36 @@ def gather_evidence(
 def weighted_coverage(
     evidence: dict[str, SkillEvidence],
     jd_skills: Sequence[str],
+    priorities: dict[str, str] | None = None,
 ) -> float:
     """Percentage of the job's skills that are actually evidenced.
 
     A resume claiming every skill in a list scores roughly a third of one that
     demonstrates the same skills in its experience.
+
+    ``priorities`` marks which of the job's skills it actually requires versus
+    merely prefers (see services/jd_requirements.py). A preferred skill counts
+    for less on both sides of the ratio, so missing one costs less than missing
+    a requirement — and a candidate who has it is still rewarded. With no
+    priorities supplied every skill counts fully, which is exactly the
+    behaviour this had before.
     """
-    required = [s for s in {s.strip().lower() for s in jd_skills} if s]
-    if not required:
+    from services.jd_requirements import REQUIRED, skill_weight
+
+    wanted = [s for s in {s.strip().lower() for s in jd_skills} if s]
+    if not wanted:
         return 0.0
 
-    total = sum(evidence[skill].weight for skill in required if skill in evidence)
-    return round((total / len(required)) * 100, 2)
+    priorities = priorities or {}
+    total = 0.0
+    possible = 0.0
+    for skill in wanted:
+        importance = skill_weight(priorities.get(skill, REQUIRED))
+        possible += importance
+        if skill in evidence:
+            total += importance * evidence[skill].weight
+
+    return round((total / possible) * 100, 2) if possible else 0.0
 
 
 def evidence_ratio(evidence: dict[str, SkillEvidence]) -> float:

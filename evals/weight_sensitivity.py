@@ -45,6 +45,7 @@ from services.evidence import (  # noqa: E402  isort:skip
     weighted_coverage,
 )
 from services.experience_detector import detect_experience  # noqa: E402  isort:skip
+from services.jd_requirements import classify_jd_skills  # noqa: E402  isort:skip
 from services.signal_noise_analyzer import analyze_signal_to_noise  # noqa: E402  isort:skip
 from services.similarity import calculate_similarity  # noqa: E402  isort:skip
 from services.skill_extractor import extract_skills_from_text, load_skills  # noqa: E402  isort:skip
@@ -105,7 +106,9 @@ def stress_components() -> tuple[list[dict], list[dict]]:
                 "semantic_score": calculate_similarity(
                     candidate.resume_text, case.jd_text
                 )["final_score"],
-                "coverage_score": weighted_coverage(evidence, jd_skills),
+                "coverage_score": weighted_coverage(
+                evidence, jd_skills, classify_jd_skills(case.jd_text, skills)
+            ),
                 "clarity_score": analyze_signal_to_noise(
                     candidate.resume_text
                 )["clarity_score"],

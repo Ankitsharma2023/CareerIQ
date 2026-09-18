@@ -26,6 +26,7 @@ from services.evidence import (
     weighted_coverage,
 )
 from services.experience_detector import detect_experience
+from services.jd_requirements import classify_jd_skills
 from services.llm_evaluator import llm_master_evaluate
 from services.parser import extract_text_from_docx, extract_text_from_pdf, parse_resume
 from services.recommender import (
@@ -37,7 +38,7 @@ from services.section_parser import parse_sections, score_sections
 from services.signal_noise_analyzer import analyze_signal_to_noise
 from services.similarity import calculate_similarity
 from services.skill_extractor import extract_skills_from_text, load_skills
-from services.skill_gap_analyzer import classify_skill_gaps
+from services.skill_gap_analyzer import classify_skill_gaps, missing_must_haves
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -201,15 +202,21 @@ async def analyze_resume(
             # one hand-off instead of nine.
             def _score() -> dict:
                 evidence_map = gather_evidence(resume_raw, skills_list)
+                # What the posting requires versus merely prefers. Computed
+                # once and shared by coverage and the gap classifier, so the
+                # score and the advice cannot disagree about which is which.
+                priorities = classify_jd_skills(jd, skills_list)
                 similarity = calculate_similarity(resume_raw, jd)
                 absent = get_missing_skills(resume_skills, jd_skills)
                 return {
                     "evidence": evidence_map,
-                    "keyword_score": weighted_coverage(evidence_map, jd_skills),
+                    "priorities": priorities,
+                    "keyword_score": weighted_coverage(evidence_map, jd_skills, priorities),
                     "sim": similarity,
                     "missing": absent,
                     "matching": get_matching_skills(resume_skills, jd_skills),
-                    "gap": classify_skill_gaps(absent, jd_skills, jd),
+                    "gap": classify_skill_gaps(absent, jd_skills, jd, priorities),
+                    "must_haves": missing_must_haves(absent, priorities),
                     "signal": analyze_signal_to_noise(resume_raw),
                     "ats_sim": simulate_ats(resume_raw, jd),
                 }
@@ -223,6 +230,8 @@ async def analyze_resume(
             gap           = scored["gap"]
             signal        = scored["signal"]
             ats_sim       = scored["ats_sim"]
+            priorities    = scored["priorities"]
+            must_haves    = scored["must_haves"]
 
             # Emit Phase 3 Progress Event (75%)
             yield f"data: {json.dumps({'event': 'progress', 'progress': 75, 'message': 'Similarity calculation complete'})}\n\n"
@@ -292,6 +301,8 @@ async def analyze_resume(
                 missing_skills        = missing,
                 top_matches           = [TopMatch(sentence=s, score=sc) for s, sc in sim["top_matches"]],
                 skill_gap_analysis    = gap,
+                missing_must_haves    = must_haves,
+                jd_skill_priorities   = priorities,
                 signal_noise          = signal,
                 total_skills_detected = len(resume_skills),
                 llm_evaluation        = llm_result.public() if llm_result else None,

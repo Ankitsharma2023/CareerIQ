@@ -1,4 +1,4 @@
-from services.skill_gap_analyzer import classify_skill_gaps
+from services.skill_gap_analyzer import classify_skill_gaps, missing_must_haves
 
 
 class TestSkillGapAnalyzerNormalCases:
@@ -15,17 +15,25 @@ class TestSkillGapAnalyzerNormalCases:
         assert isinstance(result, dict)
         assert set(result.keys()) == {"critical", "important", "optional"}
 
-        # "docker" appears 2 times in jd_text -> critical
+        # A requirement the posting returns to: "docker deployment", then
+        # "Docker containers are essential".
         assert "docker" in result["critical"]
 
-        # "kubernetes" appears 1 time in jd_text -> important
-        assert "kubernetes" in result["important"]
+        # These two changed with item 15, and the change is the point. The
+        # posting says "Kubernetes experience is preferred" and "aws cloud is
+        # nice to have" — it is telling the candidate these are not
+        # requirements. Grading them as gaps of the same kind as docker was
+        # what the old frequency rule did, and it contradicted the posting.
+        assert "kubernetes" in result["optional"]
+        assert "aws" in result["optional"]
 
-        # "aws" appears 1 time in jd_text -> important
-        assert "aws" in result["important"]
-
-        # "graphql" appears 0 times in jd_text -> optional
+        # Never named in the posting, so not a requirement of this job.
         assert "graphql" in result["optional"]
+
+        # And the separate must-have flag names only the real requirement.
+        priorities = {"docker": "required", "kubernetes": "preferred",
+                      "aws": "preferred"}
+        assert missing_must_haves(missing_skills, priorities) == ["docker"]
 
 
 class TestSkillGapAnalyzerEmptyInput:

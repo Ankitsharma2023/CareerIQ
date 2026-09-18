@@ -37,6 +37,7 @@ from services.evidence import (  # noqa: E402  isort:skip
     weighted_coverage,
 )
 from services.experience_detector import detect_experience  # noqa: E402  isort:skip
+from services.jd_requirements import classify_jd_skills  # noqa: E402  isort:skip
 from services.scoring import compute_fit  # noqa: E402  isort:skip
 from services.signal_noise_analyzer import analyze_signal_to_noise  # noqa: E402  isort:skip
 from services.similarity import calculate_similarity  # noqa: E402  isort:skip
@@ -97,7 +98,7 @@ def score_row(resume: str, jd: str, skills: list[str], tfidf: TfidfSpace) -> dic
     similarity = calculate_similarity(resume, jd)["final_score"]
     evidence = gather_evidence(resume, skills)
     jd_skills = extract_skills_from_text(jd, skills)
-    coverage = weighted_coverage(evidence, jd_skills)
+    coverage = weighted_coverage(evidence, jd_skills, classify_jd_skills(jd, skills))
     experience = detect_experience(resume, jd)
 
     fit = compute_fit(

@@ -182,6 +182,11 @@ class AnalysisResponse(BaseModel):
     top_matches:     list[TopMatch]
     # Gap analysis
     skill_gap_analysis: SkillGapAnalysis
+    # Gaps the posting states as requirements, separated from the long tail of
+    # nice-to-haves — this is what a recruiter screens on first.
+    missing_must_haves: list[str] = []
+    # Each JD skill as "required" or "preferred", per services/jd_requirements.
+    jd_skill_priorities: dict[str, str] = {}
     # Writing quality
     signal_noise: SignalNoiseResult
     total_skills_detected: int

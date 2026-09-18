@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { Target, CheckCircle, AlertTriangle, TrendingUp, ShieldCheck, FileSearch } from 'lucide-react'
+import { Target, CheckCircle, AlertTriangle, TrendingUp, ShieldCheck, FileSearch, ShieldAlert } from 'lucide-react'
 import SkillBadge from '../SkillBadge'
 import EvidencePanel from '../EvidencePanel'
 import ATSBreakdown from '../ATSBreakdown'
@@ -10,6 +10,8 @@ import Badge from '../ui/Badge'
 export function GapsATSTab({ data }) {
   const { matching_skills, skill_gap_analysis, signal_noise, ats_simulation } = data
   const evidence = data.skill_evidence || {}
+  const mustHaves = data.missing_must_haves ?? []
+  const priorities = data.jd_skill_priorities || {}
   const [selected, setSelected] = useState(null)
 
   // Clicking the selected skill again closes the panel, so the tab does not
@@ -39,6 +41,34 @@ export function GapsATSTab({ data }) {
 
   return (
     <div style={{ display:'flex', flexDirection:'column', gap:24 }} className="animate-fade-up">
+
+      {/* Missing must-haves — separated because this is the screen a recruiter
+          applies first. Everything else in this tab is the long tail. */}
+      {mustHaves.length > 0 && (
+        <Card padding={18} borderLeft="4px solid #EF4444">
+          <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:10 }}>
+            <div style={{ width:28, height:28, background:'#FEF2F2', border:'1px solid #FECACA', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center' }}>
+              <ShieldAlert size={13} color="#EF4444" aria-hidden="true" />
+            </div>
+            <span style={{ fontWeight:700, fontSize:'0.875rem', color:'#1A1D2E' }}>
+              Missing stated requirements
+            </span>
+            <Badge variant="critical" style={{ marginLeft:'auto' }}>{mustHaves.length}</Badge>
+          </div>
+          <p style={{ fontSize:'0.78rem', color:'#6B7280', margin:'0 0 10px', lineHeight:1.55 }}>
+            The posting lists {mustHaves.length === 1 ? 'this' : 'these'} under its
+            requirements rather than as {mustHaves.length === 1 ? 'a preference' : 'preferences'}.
+            A recruiter screens on {mustHaves.length === 1 ? 'it' : 'them'} before reading the rest.
+          </p>
+          <div style={{ display:'flex', flexWrap:'wrap', gap:5 }}>
+            {mustHaves.map(s => (
+              <SkillBadge key={s} skill={s} variant="critical"
+                onSelect={canExplain ? choose : undefined} selected={selected === s} />
+            ))}
+          </div>
+          {selected && mustHaves.includes(selected) && panel}
+        </Card>
+      )}
 
       {/* Section 1: Skill Match & Gap Classification */}
       <div>
@@ -74,6 +104,12 @@ export function GapsATSTab({ data }) {
                 <div style={{ width:28, height:28, background:'#FFFBEB', border:'1px solid #FDE68A', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center' }}><AlertTriangle size={13} color="#F59E0B" /></div>
                 <span style={{ fontWeight:700, fontSize:'0.875rem' }}>Skill Gap Classification</span>
               </div>
+              {Object.keys(priorities).length > 0 && (
+                <p style={{ fontSize:'0.7rem', color:'#9CA3AF', margin:'0 0 12px', lineHeight:1.5 }}>
+                  Graded against what the posting states, not how often a word appears in it.
+                  Anything it calls preferred is optional here.
+                </p>
+              )}
               {['critical','important','optional'].map(level => {
                 const skills = skill_gap_analysis?.[level] ?? []
                 if (skills.length === 0) return null

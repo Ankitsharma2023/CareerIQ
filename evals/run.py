@@ -26,6 +26,7 @@ from services.evidence import (  # noqa: E402
     weighted_coverage,
 )
 from services.experience_detector import detect_experience  # noqa: E402
+from services.jd_requirements import classify_jd_skills  # noqa: E402
 from services.scoring import compute_fit  # noqa: E402
 from services.signal_noise_analyzer import analyze_signal_to_noise  # noqa: E402
 from services.similarity import calculate_similarity  # noqa: E402
@@ -40,6 +41,9 @@ from evals.parse_recall import DEFAULT_FIXTURES, score_all  # noqa: E402
 def score_candidates(case: EvalCase, skills: list[str]) -> list[dict]:
     """Run the deterministic pipeline for every candidate under one JD."""
     jd_skills = extract_skills_from_text(case.jd_text, skills)
+    # The same required/preferred split the API applies, so the harness keeps
+    # measuring the number the user is shown.
+    priorities = classify_jd_skills(case.jd_text, skills)
     rows = []
 
     for candidate in case.candidates:
@@ -54,7 +58,7 @@ def score_candidates(case: EvalCase, skills: list[str]) -> list[dict]:
         # the user is actually shown.
         fit = compute_fit(
             semantic_score=similarity["final_score"],
-            coverage_score=weighted_coverage(evidence, jd_skills),
+            coverage_score=weighted_coverage(evidence, jd_skills, priorities),
             clarity_score=clarity,
             detected_years=experience["detected_years"],
             required_years=experience["required_years"],

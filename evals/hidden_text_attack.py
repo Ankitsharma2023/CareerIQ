@@ -43,6 +43,7 @@ from services.evidence import (  # noqa: E402  isort:skip
     weighted_coverage,
 )
 from services.experience_detector import detect_experience  # noqa: E402  isort:skip
+from services.jd_requirements import classify_jd_skills  # noqa: E402  isort:skip
 from services.hidden_text import extract_visible_text  # noqa: E402  isort:skip
 from services.scoring import compute_fit  # noqa: E402  isort:skip
 from services.signal_noise_analyzer import analyze_signal_to_noise  # noqa: E402  isort:skip
@@ -58,10 +59,11 @@ def careeriq_score(resume_text: str, jd_text: str, skills: list[str]) -> float:
     """The number the product shows, via the same function the API calls."""
     evidence = gather_evidence(resume_text, skills)
     jd_skills = extract_skills_from_text(jd_text, skills)
+    priorities = classify_jd_skills(jd_text, skills)
     experience = detect_experience(resume_text, jd_text)
     fit = compute_fit(
         semantic_score=calculate_similarity(resume_text, jd_text)["final_score"],
-        coverage_score=weighted_coverage(evidence, jd_skills),
+        coverage_score=weighted_coverage(evidence, jd_skills, priorities),
         clarity_score=analyze_signal_to_noise(resume_text)["clarity_score"],
         detected_years=experience["detected_years"],
         required_years=experience["required_years"],

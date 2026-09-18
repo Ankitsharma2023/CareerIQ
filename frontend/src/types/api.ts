@@ -157,6 +157,10 @@ export interface AnalysisResponse {
   missing_skills: string[]
   top_matches: TopMatch[]
   skill_gap_analysis: SkillGapAnalysis
+  /** Gaps the posting states as requirements — what a recruiter screens on. */
+  missing_must_haves?: string[]
+  /** Each JD skill as 'required' or 'preferred'. */
+  jd_skill_priorities?: Record<string, 'required' | 'preferred' | string>
   signal_noise: SignalNoiseResult
   total_skills_detected: number
   llm_evaluation?: LLMEvaluation | null

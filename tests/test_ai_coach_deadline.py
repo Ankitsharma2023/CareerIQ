@@ -2,14 +2,13 @@
 
 Measured problem: core.llm gives each upstream request a 60s timeout, retries it
 up to three times, and may walk three output-mode rungs — so one slow free-tier
-provider held /ai-coach/course-recommendations for minutes. The browser gives up
-at 45s and (previously) retried, so the user watched a skeleton loader for 100
-seconds and then got an error card, having spent two LLM calls from a ~20/minute
-budget to produce nothing.
+provider could hold a coaching endpoint for minutes. The browser gives up at 45s
+and (previously) retried, so the user watched a skeleton loader for 100 seconds
+and then got an error card, having spent two LLM calls from a ~20/minute budget
+to produce nothing.
 
 These pin the ceiling: whatever happens underneath, the call returns inside
-LLM_DEADLINE_S, and the course path degrades to the deterministic fallback
-rather than failing.
+LLM_DEADLINE_S with a readable message rather than hanging.
 """
 import asyncio
 import time
@@ -17,14 +16,7 @@ import time
 import pytest
 from core.config import settings
 from services import ai_coach, llm_evaluator
-from services.ai_coach import (
-    LLM_DEADLINE_S,
-    UNAVAILABLE,
-    generate_course_recommendations,
-    generate_one,
-)
-
-GAPS = {"critical": ["kubernetes", "terraform"], "important": ["django"], "optional": []}
+from services.ai_coach import LLM_DEADLINE_S, UNAVAILABLE, generate_one
 
 
 @pytest.fixture
@@ -42,16 +34,6 @@ def slow_provider(monkeypatch):
 
 
 class TestTheDeadlineIsEnforced:
-    async def test_course_recommendations_return_before_the_client_gives_up(self, slow_provider):
-        started = time.perf_counter()
-        courses = await generate_course_recommendations(GAPS, "Backend role", "Python engineer")
-        assert time.perf_counter() - started < 5, "the deadline did not fire"
-        assert courses, "a slow provider must degrade to the fallback, not to nothing"
-
-    async def test_the_fallback_covers_the_critical_gaps(self, slow_provider):
-        skills = {c["skill"] for c in await generate_course_recommendations(GAPS, "", "")}
-        assert {"kubernetes", "terraform"} <= skills
-
     @pytest.mark.parametrize("mode", ["bullets", "roadmap"])
     async def test_coaching_modes_give_up_rather_than_hang(self, slow_provider, mode):
         started = time.perf_counter()
@@ -93,17 +75,21 @@ class TestTheCeilingFitsTheClient:
 
 
 class TestFastPathsAreUnaffected:
-    async def test_no_key_still_returns_the_fallback_immediately(self, monkeypatch):
-        monkeypatch.setattr(ai_coach.llm, "is_configured", lambda: False)
-        started = time.perf_counter()
-        courses = await generate_course_recommendations(GAPS, "", "")
-        assert time.perf_counter() - started < 1
-        assert courses
-
-    async def test_no_gaps_returns_nothing_without_calling_the_model(self, monkeypatch):
+    async def test_nothing_to_teach_skips_the_model(self, monkeypatch):
+        """No missing skills means no roadmap to build, and no request spent."""
         def _boom(*_a, **_k):
             raise AssertionError("must not call the model when there is nothing to teach")
         monkeypatch.setattr(ai_coach.llm, "is_configured", lambda: True)
-        monkeypatch.setattr(ai_coach.llm, "complete_json", _boom)
-        assert await generate_course_recommendations(
-            {"critical": [], "important": [], "optional": []}, "", "") == []
+        monkeypatch.setattr(ai_coach.llm, "complete_text", _boom)
+
+        started = time.perf_counter()
+        content = await generate_one("roadmap", missing_skills=[], job_description="Backend role")
+        assert time.perf_counter() - started < 1
+        assert "already match" in content
+
+    async def test_no_weak_phrases_skips_the_model(self, monkeypatch):
+        def _boom(*_a, **_k):
+            raise AssertionError("must not call the model when there is nothing to rewrite")
+        monkeypatch.setattr(ai_coach.llm, "is_configured", lambda: True)
+        monkeypatch.setattr(ai_coach.llm, "complete_text", _boom)
+        assert "strong action language" in await generate_one("bullets", weak_phrases=[])

@@ -181,30 +181,6 @@ export interface CoachingResponse {
   content: string
 }
 
-/* ── Courses ───────────────────────────────────────────────────────────── */
-
-export interface Course {
-  id: string
-  skill: string
-  title: string
-  platform: string
-  provider: string
-  level: 'beginner' | 'intermediate' | 'advanced' | string
-  hours: number
-  free: boolean
-  price: string
-  cert: boolean
-  url: string
-  emoji: string
-  color: [string, string] | string[]
-  desc: string
-  priority: 'critical' | 'important' | 'optional' | string
-  mScore: number
-}
-
-export interface CoursesResponse {
-  courses: Course[]
-}
 
 /** History entries are persisted, so they may predate any field above. */
 export interface HistoryEntry {

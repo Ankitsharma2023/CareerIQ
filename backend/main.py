@@ -212,8 +212,7 @@ async def capabilities():
         "endpoints": [
             {"path": "/api/v1/analyze", "method": "POST", "desc": "Full resume + JD analysis (server-sent events)"},
             {"path": "/api/v1/ai-coach/modes", "method": "GET", "desc": "Coaching modes this server supports"},
-            {"path": "/api/v1/ai-coach/generate", "method": "POST", "desc": "One coaching artefact per call: bullet rewrites or 30-day roadmap"},
-            {"path": "/api/v1/ai-coach/course-recommendations", "method": "POST", "desc": "Personalized course recommendations"},
+            {"path": "/api/v1/ai-coach/generate", "method": "POST", "desc": "One coaching artefact per call: bullet rewrites or the 30-day skill roadmap"},
             {"path": "/api/v1/usage-stats", "method": "GET", "desc": "Daily usage statistics monitor"},
             {"path": "/health", "method": "GET", "desc": "Liveness probe"},
         ],

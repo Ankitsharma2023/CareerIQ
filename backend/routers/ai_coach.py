@@ -4,12 +4,7 @@ from core.config import settings
 from core.limiter import limiter
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, Field
-from services.ai_coach import (
-    COACHING_MODES,
-    MODE_LABELS,
-    generate_course_recommendations,
-    generate_one,
-)
+from services.ai_coach import COACHING_MODES, MODE_LABELS, generate_one
 
 logger = logging.getLogger(__name__)
 router = APIRouter()
@@ -34,15 +29,6 @@ class CoachingResponse(BaseModel):
     mode: str
     label: str
     content: str
-
-
-class CourseRecommendationsRequest(BaseModel):
-    skill_gap_analysis: dict[str, list[str]] | None = None
-    critical: list[str] | None = []
-    important: list[str] | None = []
-    optional: list[str] | None = []
-    job_description: str | None = ""
-    resume_text: str | None = ""
 
 
 @router.get("/ai-coach/modes", tags=["AI Coach"])
@@ -74,25 +60,3 @@ async def generate(request: Request, req: CoachingRequest):
         raise HTTPException(500, detail="Could not generate that right now.") from exc
 
     return CoachingResponse(mode=req.mode, label=MODE_LABELS[req.mode], content=content)
-
-
-@router.post("/ai-coach/course-recommendations")
-@limiter.limit(settings.rate_limit)
-async def course_recommendations_endpoint(request: Request, req: CourseRecommendationsRequest):
-    """Personalized learning resources for the detected skill gaps."""
-    gap_dict = req.skill_gap_analysis or {
-        "critical": req.critical or [],
-        "important": req.important or [],
-        "optional": req.optional or [],
-    }
-
-    try:
-        recommendations = await generate_course_recommendations(
-            gap_dict,
-            req.job_description or "",
-            req.resume_text or "",
-        )
-        return {"courses": recommendations}
-    except Exception as exc:
-        logger.exception("Course recommendations failed")
-        raise HTTPException(500, detail="Could not generate recommendations.") from exc

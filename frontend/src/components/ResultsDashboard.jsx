@@ -1,5 +1,5 @@
 import React, { useState, Suspense } from 'react'
-import { Target, Brain, BarChart3, RefreshCw, BookOpen, ChevronDown, ChevronUp, MessageSquare, Briefcase, Loader2 } from 'lucide-react'
+import { Target, Brain, BarChart3, RefreshCw, ChevronDown, ChevronUp, MessageSquare, Briefcase, Loader2 } from 'lucide-react'
 import ScoreSidebar from './dashboard/ScoreSidebar'
 import ScoreFitTab from './dashboard/OverviewTab'
 import GapsATSTab from './dashboard/SkillsTab'
@@ -9,14 +9,13 @@ import GapsATSTab from './dashboard/SkillsTab'
 // catch it: React unmounts the tree and the tab renders blank with no message.
 // That is exactly what a stale cached index.html produces after a rebuild —
 // the page asks for chunk filenames whose hashes no longer exist, the import
-// rejects, and the AI Coach and Resources tabs go white while the two
+// rejects, and the AI Coach tab goes white while the two
 // statically imported tabs keep working.
 //
-// The saving was never real either: these three add ~34 KB to a ~94 KB gzipped
+// The saving was never real either: these add ~34 KB to a ~94 KB gzipped
 // bundle, they are the only chunks left, and every user who opens the report
 // loads them within seconds anyway. A tab that cannot go blank is worth more
 // than a slightly smaller first paint.
-import CourseRecommendations from './CourseRecommendations'
 import InterviewPrep from './InterviewPrep'
 import AICoach from './AICoach'
 
@@ -24,7 +23,6 @@ const TABS = [
   { id:'score_fit',  label:'Score & Fit', icon:BarChart3, ariaLabel:'Score and fit analysis tab' },
   { id:'gaps_ats',   label:'Gaps & ATS',  icon:Target,    ariaLabel:'Skill gaps and ATS simulation tab' },
   { id:'ai_coach',   label:'AI Coach',    icon:Brain,     ariaLabel:'AI bullet rewriter and interview coach tab' },
-  { id:'resources',  label:'Resources',   icon:BookOpen,  ariaLabel:'Learning resources tab' },
 ]
 
 const scoreColor = v => v >= 75 ? '#22C55E' : v >= 50 ? '#F59E0B' : '#EF4444'
@@ -83,26 +81,10 @@ function AICoachTab({ data }) {
   )
 }
 
-/* ── Merged Resources Tab ── */
-function ResourcesTab({ data }) {
-  return (
-    <div style={{ display:'flex', flexDirection:'column', gap:24 }} className="animate-fade-up">
-      <div>
-        <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:14 }}>
-          <div style={{ width:28, height:28, background:'#F0FDF4', borderRadius:8, display:'flex', alignItems:'center', justifyContent:'center' }}>
-            <BookOpen size={14} color="#16A34A" aria-hidden="true" />
-          </div>
-          <h3 style={{ fontWeight:700, fontSize:'1rem', color:'#1A1D2E', margin:0 }}>Personalized Learning & Courses</h3>
-        </div>
-        <CourseRecommendations
-          skillGaps={data.skill_gap_analysis}
-          jobDescription={data.job_description}
-          resumeText={data.resume_text}
-        />
-      </div>
-    </div>
-  )
-}
+/* The Resources tab lived here. It restated the skill gaps the Gaps & ATS tab
+   already lists, then spent a second LLM call turning them into course cards.
+   The 30-day roadmap in AI Coach covers the same ground — what to learn, in
+   what order — from one call the user asks for. */
 
 /* ── Thin Container Dashboard ── */
 export default function ResultsDashboard({ data, onReset, onSelectAnalysis }) {
@@ -164,10 +146,10 @@ export default function ResultsDashboard({ data, onReset, onSelectAnalysis }) {
                 >
                   <tab.icon size={13} color={activeTab === tab.id ? '#5147E5' : '#6B7280'} aria-hidden="true" />
                   {tab.label}
-                  {tab.id === 'resources' && totalGaps > 0 && (
+                  {tab.id === 'gaps_ats' && totalGaps > 0 && (
                     <span
-                      aria-label={`${totalGaps} gap recommendations`}
-                      style={{ fontSize:'0.62rem', fontWeight:700, background: activeTab==='resources'?'#5147E5':'#EEF0FE', color: activeTab==='resources'?'#fff':'#5147E5', borderRadius:99, padding:'1px 6px' }}
+                      aria-label={`${totalGaps} skill gaps`}
+                      style={{ fontSize:'0.62rem', fontWeight:700, background: activeTab==='gaps_ats'?'#5147E5':'#EEF0FE', color: activeTab==='gaps_ats'?'#fff':'#5147E5', borderRadius:99, padding:'1px 6px' }}
                     >
                       {totalGaps}
                     </span>
@@ -207,7 +189,6 @@ export default function ResultsDashboard({ data, onReset, onSelectAnalysis }) {
               {activeTab === 'score_fit' && <ScoreFitTab data={data} />}
               {activeTab === 'gaps_ats'   && <GapsATSTab data={data} />}
               {activeTab === 'ai_coach'   && <AICoachTab data={data} />}
-              {activeTab === 'resources'  && <ResourcesTab data={data} />}
             </div>
           </Suspense>
         </div>

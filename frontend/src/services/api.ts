@@ -4,8 +4,6 @@ import type {
   CoachingMode,
   CoachingPayload,
   CoachingResponse,
-  CoursesResponse,
-  SkillGapAnalysis,
 } from '../types/api'
 
 interface StreamHandlers {
@@ -223,20 +221,3 @@ export async function getCoachingModes(): Promise<Array<{ id: CoachingMode; labe
   return data.modes
 }
 
-export async function getCourseRecommendations(
-  skillGapAnalysis: SkillGapAnalysis | null | undefined,
-  jobDescription = '',
-  resumeText = '',
-  { signal }: RequestOptions = {},
-): Promise<CoursesResponse> {
-  return requestJson<CoursesResponse>(`${BASE_URL}/ai-coach/course-recommendations`, {
-    method: 'POST',
-    body: {
-      skill_gap_analysis: skillGapAnalysis,
-      job_description: jobDescription,
-      resume_text: resumeText,
-    },
-    timeoutMs: 45000,
-    signal,
-  })
-}

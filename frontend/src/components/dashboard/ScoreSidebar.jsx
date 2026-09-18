@@ -127,15 +127,15 @@ export default function ScoreSidebar({ data, activeTab, onTabChange, onSelectAna
         </>
       )}
 
-      {/* Courses teaser */}
+      {/* Roadmap teaser */}
       <div style={{ padding:'14px 20px' }}>
         <div style={{ background:'#EEF0FE', border:'1px solid #D8DCFC', borderRadius:10, padding:'12px 14px', cursor:'pointer' }}
-          onClick={() => onTabChange('resources')}>
+          onClick={() => onTabChange('ai_coach')}>
           <div style={{ display:'flex', alignItems:'center', gap:8, marginBottom:4 }}>
             <BookOpen size={14} color="#5147E5" />
-            <span style={{ fontSize:'0.72rem', fontWeight:700, color:'#3D34C4' }}>Recommended Resources</span>
+            <span style={{ fontSize:'0.72rem', fontWeight:700, color:'#3D34C4' }}>30-Day Skill Roadmap</span>
           </div>
-          <p style={{ fontSize:'0.68rem', color:'#6B7280' }}>{totalGaps} courses curated for your gaps</p>
+          <p style={{ fontSize:'0.68rem', color:'#6B7280' }}>A four-week plan for your {totalGaps} gaps</p>
         </div>
         <AnalysisHistory onSelectAnalysis={onSelectAnalysis} />
       </div>

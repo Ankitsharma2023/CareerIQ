@@ -62,3 +62,6 @@ _local_removed/
 .idea/
 .DS_Store
 Thumbs.db
+# Generated grading packets (evals/grading_study.py prepare). Contain dataset
+# text and the answer key; regenerate rather than commit.
+study/

@@ -13,6 +13,22 @@
 
 </div>
 
+<div align="center">
+
+### 🌐 Live Demo: **[career-iq-gamma.vercel.app](https://career-iq-gamma.vercel.app/)**
+
+</div>
+
+---
+
+## 👤 My Role
+
+I'm **Ankit Kumar** ([@Ankitsharma2023](https://github.com/Ankitsharma2023)), a collaborator on CareerIQ (original repository: [Ayush0915/CareerIQ](https://github.com/Ayush0915/CareerIQ)). I worked on:
+
+- **Backend (FastAPI):** resume parsing and text extraction, the 8-point ATS simulation, and the Server-Sent Events streaming analysis endpoint.
+- **Frontend (React + Vite + Tailwind):** the upload flow, the live progress UI, the report views, and persisted analysis history.
+- **AI / LLM pipeline:** schema-constrained evaluation via OpenRouter, embedding-based semantic scoring, AI career coaching, and interview prep generation.
+
 ---
 
 ## 🚀 Overview
